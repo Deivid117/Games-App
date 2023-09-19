@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Games App</string>
+    <string name="login_btn_login">LOGIN</string>
+    <string name="login_btn_sign_up">Sign up</string>
+</resources>
