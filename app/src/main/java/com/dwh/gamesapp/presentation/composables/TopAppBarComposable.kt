@@ -27,6 +27,7 @@ fun TopAppBarComposable(
     topBarColor: Color = Color.Transparent,
     showTopBarColor: Boolean = false,
     title: String = "",
+    titleColor: Color = MaterialTheme.colorScheme.background,
     onClickNav: () -> Unit
 ) {
     val toolbarBottom by remember {
@@ -62,7 +63,7 @@ fun TopAppBarComposable(
                 }
             },
             title = {
-                Text(text = title, style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.background)
+                Text(text = title, style = MaterialTheme.typography.titleLarge, color = titleColor)
             },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = topBarColor),
         )

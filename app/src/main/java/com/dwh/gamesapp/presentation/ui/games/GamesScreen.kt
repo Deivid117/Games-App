@@ -36,7 +36,7 @@ import com.dwh.gamesapp.domain.model.game.GamesResults
 import com.dwh.gamesapp.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.presentation.composables.CustomScaffold
 import com.dwh.gamesapp.presentation.composables.EmptyData
-import com.dwh.gamesapp.presentation.composables.LoadingAnimation
+import com.dwh.gamesapp.presentation.composables.ShimmerLoadingAnimation
 import com.dwh.gamesapp.presentation.ui.theme.Dark_Green
 import com.dwh.gamesapp.presentation.ui.theme.Light_Green
 import com.dwh.gamesapp.presentation.view_model.games.GamesViewModel
@@ -65,7 +65,7 @@ private fun ValidationResponse(
     val gamesResults = viewModel.gamesState.collectAsLazyPagingItems()
 
     if (gamesResults.loadState.refresh is LoadState.Loading) {
-        LoadingAnimation()
+        /*LoadingAnimation()*/ ShimmerLazyVerticalGrid()
     } else {
         GamesContent(gamesResults, navController)
     }
@@ -144,7 +144,9 @@ private fun GameItem(
     ) {
         Column() {
             AsyncImage(
-                modifier = Modifier.background(Color.LightGray).fillMaxSize(),
+                modifier = Modifier
+                    .background(Color.LightGray)
+                    .fillMaxSize(),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(gamesResults.backgroundImage)
                     .build(),
@@ -232,6 +234,48 @@ private fun ErrorItem(message: String) {
                         .padding(start = 12.dp)
                         .align(CenterVertically)
                 )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ShimmerLazyVerticalGrid() {
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(all = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+        verticalItemSpacing = 8.dp
+    ){
+        items(count = 10) {
+
+            val heightRandom = (80..150).random()
+
+            ShimmerItem(heightRandom)
+        }
+    }
+}
+
+@Composable
+private fun ShimmerItem(heightRandom: Int) {
+    Card(colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background.copy(
+                .8f
+            )
+        )) {
+        Column() {
+            ShimmerLoadingAnimation(modifier = Modifier.fillMaxSize().height(heightRandom.dp))
+
+            Column(Modifier.padding(horizontal = 10.dp, vertical = 8.dp)) {
+
+                ShimmerLoadingAnimation(modifier = Modifier.fillMaxWidth().height(12.dp))
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                ShimmerLoadingAnimation(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(16.dp))
             }
         }
     }
