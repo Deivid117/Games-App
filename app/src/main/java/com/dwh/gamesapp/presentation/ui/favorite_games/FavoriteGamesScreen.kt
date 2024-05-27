@@ -38,7 +38,7 @@ import com.dwh.gamesapp.presentation.ui.theme.Dark_Green
 import com.dwh.gamesapp.presentation.ui.theme.Light_Green
 import com.dwh.gamesapp.presentation.view_model.favorite_games.FavoriteGamesUiState
 import com.dwh.gamesapp.presentation.view_model.favorite_games.FavoriteGamesViewModel
-import mx.com.satoritech.creditaco.navigation.Screens
+import com.dwh.gamesapp.presentation.navigation.Screens
 
 @Composable
 fun FavoriteGamesScreen(

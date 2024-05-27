@@ -1,4 +1,4 @@
-package mx.com.satoritech.creditaco.navigation
+package com.dwh.gamesapp.presentation.navigation
 
 object Screens {
     const val WELCOME = "WELCOME"

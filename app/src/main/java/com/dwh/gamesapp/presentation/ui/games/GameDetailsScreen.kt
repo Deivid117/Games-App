@@ -67,6 +67,10 @@ private fun DetailsValidationResponse(
         is GameDetailsUiState.Error -> {
             val erroMsg = (uiState as GameDetailsUiState.Error).errorMessage
             Log.e("GameDetailsScreenError", erroMsg)
+            EmptyData(
+                title = "Sin información disponible",
+                description = "No se ha encontrado información del juego por el momento, inténtelo más tarde"
+            )
         }
         GameDetailsUiState.Loading -> {
             LoadingAnimation()
@@ -123,7 +127,7 @@ private fun GameBody(
     gameDetails: GameDetails,
     viewModel: GameDetailsViewModel
 ) {
-    val metacriticColor = if(isSystemInDarkTheme()) Light_Green else Dark_Green
+    val metacriticColor = if(isSystemInDarkTheme()) Dark_Green else Light_Green
     val context = LocalContext.current
     val isMyFavoriteGame by viewModel.favoriteGame.collectAsStateWithLifecycle()
     var isSelected by remember { mutableStateOf(isMyFavoriteGame) }
@@ -360,7 +364,8 @@ private fun BodyItemGrid(text: String) {
     Text(
         modifier = Modifier.fillMaxWidth(.45f),
         text = text,
-        style = MaterialTheme.typography.bodyMedium
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.scrim
     )
 }
 

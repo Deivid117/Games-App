@@ -208,7 +208,8 @@ fun DetailsDescription(description: String, showTitle: Boolean = false) {
     if(showTitle) {
         Text(
             text = "About",
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.scrim
         )
     }
     Text(

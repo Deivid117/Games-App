@@ -57,6 +57,10 @@ private fun PlatformDetailsValidateResponse(
         is PlatformDetailsUiState.Error -> {
             val erroMsg = (uiState as PlatformDetailsUiState.Error).errorMessage
             Log.e("GameDetailsScreenError", erroMsg)
+            EmptyData(
+                title = "Sin información disponible",
+                description = "No se han encontrado detalles de la plataforma por el momento, inténtelo más tarde"
+            )
         }
         PlatformDetailsUiState.Loading -> {
             LoadingAnimation()

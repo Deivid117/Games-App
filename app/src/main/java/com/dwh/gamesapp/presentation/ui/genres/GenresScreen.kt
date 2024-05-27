@@ -15,7 +15,7 @@ import com.dwh.gamesapp.domain.model.genres.GenresResults
 import com.dwh.gamesapp.presentation.composables.*
 import com.dwh.gamesapp.presentation.view_model.genres.GenresUiState
 import com.dwh.gamesapp.presentation.view_model.genres.GenresViewModel
-import mx.com.satoritech.creditaco.navigation.Screens
+import com.dwh.gamesapp.presentation.navigation.Screens
 
 @Composable
 fun GenresScreen(
@@ -50,6 +50,10 @@ fun GenresValidationResponse(
         is GenresUiState.Error -> {
             val erroMsg = (uiState as GenresUiState.Error).errorMessage
             Log.e("GameDetailsScreenError", erroMsg)
+            EmptyData(
+                title = "Sin información disponible",
+                description = "No se han encontrado géneros por el momento, inténtelo más tarde"
+            )
         }
         GenresUiState.Loading -> {
             LoadingAnimation()

@@ -1,7 +1,6 @@
 package com.dwh.gamesapp.presentation.navigation
 
 import com.dwh.gamesapp.R
-import mx.com.satoritech.creditaco.navigation.Screens
 
 sealed class BottomScreens(
     val route: String,

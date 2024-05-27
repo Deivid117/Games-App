@@ -1,14 +1,12 @@
-package mx.com.satoritech.creditaco.navigation
+package com.dwh.gamesapp.presentation.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.dwh.gamesapp.domain.model.genres.GenreGames
 import com.dwh.gamesapp.domain.model.plattform.PlattformGames
 import com.dwh.gamesapp.presentation.ui.HomeScreen
@@ -20,7 +18,6 @@ import com.dwh.gamesapp.presentation.ui.genres.GenresScreen
 import com.dwh.gamesapp.presentation.ui.login.LoginScreen
 import com.dwh.gamesapp.presentation.ui.platforms.PlatformDetailsScreen
 import com.dwh.gamesapp.presentation.ui.platforms.PlatformsScreen
-import com.dwh.gamesapp.presentation.ui.profile.EditProfileContent
 import com.dwh.gamesapp.presentation.ui.profile.EditProfileScreen
 import com.dwh.gamesapp.presentation.ui.profile.ProfileScreen
 import com.dwh.gamesapp.presentation.ui.registration.RegistrationScreen

@@ -108,7 +108,12 @@ private fun EditProfileForm(
     onPasswordChanged: (String) -> Unit,
     onPasswordConfirmationChanged: (String) -> Unit
 ) {
-    Text(text = "User Name", style = MaterialTheme.typography.bodyMedium)
+    Text(
+        text = "User Name",
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.secondaryContainer
+    )
+
     CustomTextField(
         modifier = Modifier.fillMaxWidth(),
         value = userName,
@@ -119,7 +124,12 @@ private fun EditProfileForm(
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    Text(text = "Password", style = MaterialTheme.typography.bodyMedium)
+    Text(
+        text = "Password",
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.secondaryContainer
+    )
+
     CustomTextField(
         modifier = Modifier.fillMaxWidth(),
         value = password,
@@ -131,7 +141,12 @@ private fun EditProfileForm(
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    Text(text = "Password Confirmation", style = MaterialTheme.typography.bodyMedium)
+    Text(
+        text = "Password Confirmation",
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.secondaryContainer
+    )
+
     CustomTextField(
         modifier = Modifier.fillMaxWidth(),
         value = passwordConfirmation,

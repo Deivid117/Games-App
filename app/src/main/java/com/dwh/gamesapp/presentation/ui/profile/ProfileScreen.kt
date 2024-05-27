@@ -29,7 +29,7 @@ import com.dwh.gamesapp.presentation.composables.CustomScaffold
 import com.dwh.gamesapp.presentation.view_model.logout.LogoutViewModel
 import com.dwh.gamesapp.presentation.view_model.profile.ProfileUiState
 import com.dwh.gamesapp.presentation.view_model.profile.ProfileViewModel
-import mx.com.satoritech.creditaco.navigation.Screens
+import com.dwh.gamesapp.presentation.navigation.Screens
 
 @Composable
 fun ProfileScreen(

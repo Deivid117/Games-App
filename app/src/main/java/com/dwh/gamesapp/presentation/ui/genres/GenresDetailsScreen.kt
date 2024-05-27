@@ -57,6 +57,10 @@ fun GenreDetailsValidateResponse(
         is GenreDetailsUiState.Error -> {
             val erroMsg = (uiState as GenreDetailsUiState.Error).errorMessage
             Log.e("GameDetailsScreenError", erroMsg)
+            EmptyData(
+                title = "Sin información disponible",
+                description = "No se han encontrado detalles del género por el momento, inténtelo más tarde"
+            )
         }
         GenreDetailsUiState.Loading -> {
             LoadingAnimation()

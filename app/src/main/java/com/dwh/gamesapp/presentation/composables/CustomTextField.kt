@@ -51,6 +51,8 @@ fun CustomTextField(
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,
+            focusedTextColor = MaterialTheme.colorScheme.secondaryContainer,
+            unfocusedTextColor = MaterialTheme.colorScheme.secondaryContainer
         ),
         trailingIcon = {
             if(isPasswordTextField) {

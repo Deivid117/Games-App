@@ -9,8 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dwh.gamesapp.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.presentation.view_model.welcome.WelcomeViewModel
-import kotlinx.coroutines.delay
-import mx.com.satoritech.creditaco.navigation.Screens
+import com.dwh.gamesapp.presentation.navigation.Screens
 
 @Composable
 fun WelcomeScreen(

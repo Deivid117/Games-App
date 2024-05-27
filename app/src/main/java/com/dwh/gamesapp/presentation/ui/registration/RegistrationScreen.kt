@@ -68,7 +68,8 @@ fun RegistrationContent(viewModel: RegistrationViewModel, navController: NavCont
                     modifier = Modifier.fillMaxWidth(),
                     text = "REGISTRO",
                     style = MaterialTheme.typography.titleLarge.copy(fontFamily = Dogica),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.secondaryContainer
                 )
                 
                 Spacer(modifier = Modifier.height(30.dp))

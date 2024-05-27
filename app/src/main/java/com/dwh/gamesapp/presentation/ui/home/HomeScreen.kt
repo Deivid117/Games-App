@@ -37,7 +37,7 @@ import com.dwh.gamesapp.utils.LocalGameUiInfo
 import com.dwh.gamesapp.utils.vertical
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
-import mx.com.satoritech.creditaco.navigation.Screens
+import com.dwh.gamesapp.presentation.navigation.Screens
 import java.lang.Math.abs
 
 
@@ -139,7 +139,7 @@ private fun NextGamesReleasesHorizontalList(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(MaterialTheme.colorScheme.onBackground.copy(0.5f))
+            .background(MaterialTheme.colorScheme.background.copy(0.5f))
             .padding(vertical = 6.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -213,7 +213,7 @@ private fun GameItem(
                 .height(200.dp)
                 .width(150.dp)
                 .onGloballyPositioned { itemX = it.positionInWindow().x }
-                .clickable { navController.navigate(Screens.GAME_DETAILS_SCREEN) },
+                .clickable { /*navController.navigate(Screens.GAME_DETAILS_SCREEN)*/ },
             shape = RectangleShape
         ) {
             Image(
@@ -227,7 +227,6 @@ private fun GameItem(
         Text(
             text = game.title,
             style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.background,
             textAlign = TextAlign.Center,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

@@ -19,7 +19,7 @@ import com.dwh.gamesapp.domain.model.plattform.PlattformResults
 import com.dwh.gamesapp.presentation.composables.*
 import com.dwh.gamesapp.presentation.view_model.platforms.PlatformsUiState
 import com.dwh.gamesapp.presentation.view_model.platforms.PlatformsViewModel
-import mx.com.satoritech.creditaco.navigation.Screens
+import com.dwh.gamesapp.presentation.navigation.Screens
 
 @Composable
 fun PlatformsScreen(

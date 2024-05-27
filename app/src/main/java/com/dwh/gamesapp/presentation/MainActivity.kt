@@ -10,11 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.dwh.gamesapp.presentation.ui.theme.MarvelAppTheme
 import dagger.hilt.android.AndroidEntryPoint
-import mx.com.satoritech.creditaco.navigation.Navigation
+import com.dwh.gamesapp.presentation.navigation.Navigation
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

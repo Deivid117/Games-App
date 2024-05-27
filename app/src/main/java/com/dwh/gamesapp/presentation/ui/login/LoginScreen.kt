@@ -9,7 +9,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -23,7 +22,7 @@ import com.dwh.gamesapp.presentation.composables.CustomButton
 import com.dwh.gamesapp.presentation.composables.CustomTextField
 import com.dwh.gamesapp.presentation.view_model.login.LoginViewModel
 import com.dwh.gamesapp.utils.WavyShape
-import mx.com.satoritech.creditaco.navigation.Screens
+import com.dwh.gamesapp.presentation.navigation.Screens
 
 @Composable
 fun LoginScreen(
@@ -110,7 +109,8 @@ private fun LoginCardContent(
                     modifier = Modifier.fillMaxWidth(),
                     text = "Todos los derechos reservados 2023",
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.secondaryContainer
                 )
             }
         }

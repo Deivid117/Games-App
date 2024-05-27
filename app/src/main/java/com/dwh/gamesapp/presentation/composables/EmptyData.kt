@@ -34,7 +34,8 @@ fun EmptyData(
                     modifier = Modifier.fillMaxWidth(),
                     text = title,
                     style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
 
                 Spacer(modifier = Modifier.height(15.dp))
@@ -43,7 +44,8 @@ fun EmptyData(
                     modifier = Modifier.fillMaxWidth(),
                     text = description,
                     style = MaterialTheme.typography.titleMedium,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
