@@ -3,6 +3,7 @@ package com.dwh.gamesapp.data.api
 import com.dwh.gamesapp.data.model.response.platform_details.PlatformDetailsResponse
 import com.dwh.gamesapp.data.model.response.games.GamesBodyResponse
 import com.dwh.gamesapp.data.model.response.game_details.GameDetailsResponse
+import com.dwh.gamesapp.data.model.response.games.NextWeekGamesResponse
 import com.dwh.gamesapp.data.model.response.genre_details.GenreDetailsResponse
 import com.dwh.gamesapp.data.model.response.genres.GenresBodyResponse
 import com.dwh.gamesapp.data.model.response.plattforms.PlatformsBodyResponse
@@ -22,6 +23,12 @@ interface ApiService {
 
     @GET("games/{id}")
     suspend fun getGameDetails(@Path("id") id: Int): Response<GameDetailsResponse>
+
+    @GET("games")
+    suspend fun getNextWeekGames(
+        @Query("dates") dates: String,
+        @Query("platforms") platforms: String
+    ): Response<NextWeekGamesResponse>
 
     // GENRES
     @GET("genres")

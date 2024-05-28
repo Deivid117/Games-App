@@ -1,5 +1,6 @@
 package com.dwh.gamesapp.presentation.ui.games
 
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.*
@@ -29,7 +30,10 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
+import coil.disk.DiskCache
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.domain.model.game.GamesResults
@@ -41,6 +45,7 @@ import com.dwh.gamesapp.presentation.ui.theme.Dark_Green
 import com.dwh.gamesapp.presentation.ui.theme.Light_Green
 import com.dwh.gamesapp.presentation.view_model.games.GamesViewModel
 import com.dwh.gamesapp.presentation.navigation.Screens
+import java.io.File
 
 @Composable
 fun GamesScreen(
@@ -138,6 +143,8 @@ private fun GameItem(
     metacriticColor: Color,
     onClick: () -> Unit
 ) {
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier.clickable { onClick() },
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background.copy(.8f))
@@ -265,11 +272,15 @@ private fun ShimmerItem(heightRandom: Int) {
             )
         )) {
         Column() {
-            ShimmerLoadingAnimation(modifier = Modifier.fillMaxSize().height(heightRandom.dp))
+            ShimmerLoadingAnimation(modifier = Modifier
+                .fillMaxSize()
+                .height(heightRandom.dp))
 
             Column(Modifier.padding(horizontal = 10.dp, vertical = 8.dp)) {
 
-                ShimmerLoadingAnimation(modifier = Modifier.fillMaxWidth().height(12.dp))
+                ShimmerLoadingAnimation(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(12.dp))
 
                 Spacer(modifier = Modifier.height(10.dp))
 

@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.dwh.gamesapp.domain.model.genres.GenreGames
 import com.dwh.gamesapp.domain.model.plattform.PlattformGames
-import com.dwh.gamesapp.presentation.ui.HomeScreen
+import com.dwh.gamesapp.presentation.ui.home.HomeScreen
 import com.dwh.gamesapp.presentation.ui.favorite_games.FavoriteGamesScreen
 import com.dwh.gamesapp.presentation.ui.games.GameDetailsScreen
 import com.dwh.gamesapp.presentation.ui.games.GamesScreen

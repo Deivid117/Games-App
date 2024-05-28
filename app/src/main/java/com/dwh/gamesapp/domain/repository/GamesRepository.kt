@@ -1,10 +1,9 @@
 package com.dwh.gamesapp.domain.repository
 
-import com.dwh.gamesapp.data.database.entities.FavoriteGameEntity
 import com.dwh.gamesapp.data.database.entities.GameEntity
 import com.dwh.gamesapp.domain.model.favorite_game.FavoritGame
-import com.dwh.gamesapp.domain.model.game.Games
 import com.dwh.gamesapp.domain.model.game.GamesResults
+import com.dwh.gamesapp.domain.model.game.NextWeekGamesResults
 import com.dwh.gamesapp.domain.model.game_details.GameDetails
 import kotlinx.coroutines.flow.Flow
 
@@ -16,6 +15,8 @@ interface GamesRepository {
     suspend fun getGamesFromDatabase(): Flow<List<GamesResults>>
 
     suspend fun getAllGames(page: Int, pageSize: Int): Flow<List<GamesResults>>
+
+    suspend fun getNextWeekGames(dates: String): Flow<List<NextWeekGamesResults>>
 
     // INSERT GAMES ROOM
     suspend fun insertGames(gameEntity: List<GameEntity>)

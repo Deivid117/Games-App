@@ -1,5 +1,8 @@
-package com.dwh.gamesapp.presentation.ui
+package com.dwh.gamesapp.presentation.ui.home
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.SpaceEvenly
@@ -23,34 +26,84 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.dwh.gamesapp.R
+import com.dwh.gamesapp.domain.model.game.NextWeekGamesResults
 import com.dwh.gamesapp.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.presentation.composables.CustomScaffold
+import com.dwh.gamesapp.presentation.composables.EmptyData
+import com.dwh.gamesapp.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.utils.GameUiInfo
 import com.dwh.gamesapp.utils.LocalGameUiInfo
 import com.dwh.gamesapp.utils.vertical
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 import com.dwh.gamesapp.presentation.navigation.Screens
+import com.dwh.gamesapp.presentation.view_model.UIState
+import com.dwh.gamesapp.presentation.view_model.home.HomeViewModel
 import java.lang.Math.abs
+import java.time.LocalDate
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    navController: NavController,
+    homeViewModel: HomeViewModel = hiltViewModel()
+) {
+
+    LaunchedEffect(homeViewModel) {
+        homeViewModel.getNextWeekGames(getDates())
+    }
+
     CustomScaffold(navController = navController) {
         BackgroundGradient()
-        HomeContent(navController)
+        NextWeekGamesValidationResponse(navController, homeViewModel)
+
     }
 }
 
 @Composable
-private fun HomeContent(navController: NavController) {
+fun NextWeekGamesValidationResponse(
+    navController: NavController,
+    viewModel: HomeViewModel
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when(uiState) {
+        is UIState.Error -> {
+            val erroMsg = (uiState as UIState.Error).errorMessage
+            Log.e("GameDetailsScreenError", erroMsg)
+            EmptyData(
+                title = "Sin información disponible",
+                description = "No se han encontrado géneros por el momento, inténtelo más tarde"
+            )
+        }
+
+        UIState.Loading -> LoadingAnimation()
+
+        is UIState.Success -> {
+            val nextWeekGames = (uiState as UIState.Success).data
+            HomeContent(navController, nextWeekGames)
+        }
+    }
+}
+
+@Composable
+private fun HomeContent(
+    navController: NavController,
+    nextWeekGames: List<NextWeekGamesResults>?
+) {
     val list = mutableListOf(
         GameData(painterResource(id = R.drawable.game_cover_image), "Big bang theory"),
         GameData(painterResource(id = R.drawable.game_cover_image), "Star wars"),
@@ -79,25 +132,26 @@ private fun HomeContent(navController: NavController) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        CompositionLocalProvider(LocalGameUiInfo provides gameUiInfo) {
-            NextGamesReleasesHorizontalList(gamesList = list, navController, "Best of the year")
+
+
+        if(nextWeekGames?.isNotEmpty() == true) {
+            CompositionLocalProvider(LocalGameUiInfo provides gameUiInfo) {
+                NextGamesReleasesHorizontalList(nextWeekGames, navController, "Best of the year")
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            CompositionLocalProvider(LocalGameUiInfo provides gameUiInfo) {
+                NextGamesReleasesHorizontalList(nextWeekGames, navController, "New releases")
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            CompositionLocalProvider(LocalGameUiInfo provides gameUiInfo) {
+                NextGamesReleasesHorizontalList(nextWeekGames = nextWeekGames, navController, "Next releases")
+            }
         }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        CompositionLocalProvider(LocalGameUiInfo provides gameUiInfo) {
-            NextGamesReleasesHorizontalList(gamesList = list, navController, "New releases")
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        CompositionLocalProvider(LocalGameUiInfo provides gameUiInfo) {
-            NextGamesReleasesHorizontalList(gamesList = list, navController, "Next releases")
-        }
-
-
     }
-
 }
 
 @Composable
@@ -129,7 +183,7 @@ private fun NewGamesReleseaseHorizontalList() {
 @OptIn(ExperimentalSnapperApi::class)
 @Composable
 private fun NextGamesReleasesHorizontalList(
-    gamesList: List<GameData>,
+    nextWeekGames: List<NextWeekGamesResults>,
     navController: NavController,
     title: String
 ) {
@@ -153,7 +207,7 @@ private fun NextGamesReleasesHorizontalList(
             item {
                 GamesScrollBuffer(title)
             }
-            items(gamesList) { game ->
+            items(nextWeekGames) { game ->
                 GameItem(game, navController)
             }
             item {
@@ -194,7 +248,7 @@ fun GamesScrollBuffer(title: String) {
 
 @Composable
 private fun GameItem(
-    game: GameData,
+    game: NextWeekGamesResults,
     navController: NavController
 ) {
     val gameUiInfo = LocalGameUiInfo.current
@@ -213,19 +267,31 @@ private fun GameItem(
                 .height(200.dp)
                 .width(150.dp)
                 .onGloballyPositioned { itemX = it.positionInWindow().x }
-                .clickable { /*navController.navigate(Screens.GAME_DETAILS_SCREEN)*/ },
+                .clickable { navController.navigate(Screens.GAME_DETAILS_SCREEN + "/" + game.id) },
             shape = RectangleShape
         ) {
-            Image(
+            AsyncImage(
+                modifier = Modifier
+                    .background(Color.LightGray)
+                    .fillMaxSize(),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(game.backgroundImage)
+                    .build(),
+                contentDescription = "game cover",
+                placeholder = painterResource(id = R.drawable.image_controller),
+                error = painterResource(id = R.drawable.image_unavailable),
+                contentScale = ContentScale.Crop,
+            )
+            /*Image(
                 modifier = Modifier.fillMaxSize(),
-                painter = game.image,
+                painter = game.backgroundImage,
                 contentDescription = "",
                 contentScale = ContentScale.Crop
-            )
+            )*/
         }
 
         Text(
-            text = game.title,
+            text = game.name,
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center,
             maxLines = 1,
@@ -241,6 +307,14 @@ private fun GameItem(
                 .alpha(alpha = alpha),
         )
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun getDates(): String {
+    val dateNow = LocalDate.now()
+    val dateNextWeek = dateNow.plusDays(7)
+
+    return "$dateNow,$dateNextWeek"
 }
 
 data class GameData(

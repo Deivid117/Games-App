@@ -11,6 +11,7 @@ import com.dwh.gamesapp.data.model.response.game_details.GameDetailsResponse
 import com.dwh.gamesapp.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.domain.model.favorite_game.toDomain
 import com.dwh.gamesapp.domain.model.game.GamesResults
+import com.dwh.gamesapp.domain.model.game.NextWeekGamesResults
 import com.dwh.gamesapp.domain.model.game.toDomain
 import com.dwh.gamesapp.domain.model.game_details.GameDetails
 import com.dwh.gamesapp.domain.model.game_details.toDomain
@@ -86,6 +87,10 @@ class GamesRepositoryImp @Inject constructor(
                 //emit(gamesFromDataBase) //Retorna la lista vacía o no
             }
         }.flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getNextWeekGames(dates: String): Flow<List<NextWeekGamesResults>> {
+        return flowOf(apiService.getNextWeekGames(dates, "4,187,186,7,21").body()!!.results.map { it.toDomain() })
     }
 
     /** INSERT GAMES ROOM */
