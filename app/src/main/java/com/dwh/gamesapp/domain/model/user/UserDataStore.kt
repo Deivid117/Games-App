@@ -6,5 +6,6 @@ data class UserDataStore(
     val email: String = "",
     val password: String = "",
     val passwordConfirmation: String? = null,
-    val isLogged: Boolean = false
+    val isLogged: Boolean = false,
+    val imageId: Int = 0
 )

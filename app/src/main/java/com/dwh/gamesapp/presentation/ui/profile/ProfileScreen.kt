@@ -3,18 +3,14 @@ package com.dwh.gamesapp.presentation.ui.profile
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -22,10 +18,12 @@ import androidx.navigation.NavController
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.domain.model.user.User
 import com.dwh.gamesapp.domain.model.user.UserDataStore
+import com.dwh.gamesapp.presentation.composables.Avatars
 import com.dwh.gamesapp.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.presentation.composables.CustomButton
 import com.dwh.gamesapp.presentation.composables.CustomDialog
 import com.dwh.gamesapp.presentation.composables.CustomScaffold
+import com.dwh.gamesapp.presentation.composables.UserImage
 import com.dwh.gamesapp.presentation.view_model.logout.LogoutViewModel
 import com.dwh.gamesapp.presentation.view_model.profile.ProfileUiState
 import com.dwh.gamesapp.presentation.view_model.profile.ProfileViewModel
@@ -64,11 +62,11 @@ fun ValidationResponse(
                 data.name,
                 data.email,
                 data.password,
-                isLogged = data.isLogged ?: false
+                isLogged = data.isLogged ?: false,
+                imageId = (data.image_id).toInt()
             ))
 
-            CurvedBox(navController, viewModel, data, profileViewModel)
-            UserImage()
+            ProfileContent(navController, viewModel, data)
         }
         is ProfileUiState.Error -> {
             val errorMessage = (uiState as ProfileUiState.Error).errorMessage
@@ -78,40 +76,22 @@ fun ValidationResponse(
 }
 
 @Composable
-fun UserImage() {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .padding(top = 60.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            Modifier
-                .size(180.dp)
-                .background(MaterialTheme.colorScheme.primary, CircleShape)
-                .clip(CircleShape)
-                .padding(10.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Box(Modifier.fillMaxSize()
-                .background(Color.White, CircleShape)
-                .clip(
-                    CircleShape
-                )
-                .padding(30.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(id = R.drawable.user),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop
-                )
-            }
+private fun ProfileContent(navController: NavController, viewModel: LogoutViewModel, user: User) {
+    CurvedBox(navController, viewModel, user)
 
+    var userAvatar by remember { mutableIntStateOf(R.drawable.user) }
+    val avatars = listOf(
+        Avatars.Avatar1,
+        Avatars.Avatar2,
+        Avatars.Avatar3,
+    )
+
+    for (i in avatars.indices) {
+        if(avatars[i].id == user.image_id) {
+            userAvatar = avatars[i].image
         }
     }
+    UserImage(image = userAvatar)
 }
 
 @Composable
@@ -119,7 +99,6 @@ private fun CurvedBox(
     navController: NavController,
     viewModel: LogoutViewModel,
     user: User,
-    profileViewModel: ProfileViewModel
 ) {
     Box(
         modifier = Modifier
@@ -148,15 +127,14 @@ private fun CurvedBox(
                 }
             }
             .background(MaterialTheme.colorScheme.onSecondary)
-    ) { ProfileContent(navController, viewModel, user, profileViewModel) }
+    ) { ProfileDetails(navController, viewModel, user) }
 }
 
 @Composable
-fun ProfileContent(
+fun ProfileDetails(
     navController: NavController,
     viewModel: LogoutViewModel,
     user: User,
-    profileViewModel: ProfileViewModel
 ) {
     var showLogoutDialog by remember { mutableStateOf(false) }
 

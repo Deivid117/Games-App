@@ -58,7 +58,8 @@ fun CustomDialog(
                     modifier = Modifier.fillMaxWidth(),
                     text = if(!isLoggingOut) "1up" else "GAME OVER",
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge.copy(fontFamily = Dogica)
+                    style = MaterialTheme.typography.titleLarge.copy(fontFamily = Dogica),
+                    color = MaterialTheme.colorScheme.outlineVariant
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))
@@ -67,7 +68,8 @@ fun CustomDialog(
                     modifier = Modifier.fillMaxWidth(),
                     text = title,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.outlineVariant
                 )
 
                 if(isLoggingOut) {

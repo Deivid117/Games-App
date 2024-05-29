@@ -1,5 +1,6 @@
 package com.dwh.gamesapp.presentation.ui.registration
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,10 +15,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.domain.model.user.User
+import com.dwh.gamesapp.presentation.composables.AvatarsDialog
 import com.dwh.gamesapp.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.presentation.composables.CustomButton
 import com.dwh.gamesapp.presentation.composables.CustomDialog
 import com.dwh.gamesapp.presentation.composables.CustomTextField
+import com.dwh.gamesapp.presentation.composables.UserImage
 import com.dwh.gamesapp.presentation.ui.theme.Dogica
 import com.dwh.gamesapp.presentation.view_model.registration.RegistrationViewModel
 
@@ -40,11 +43,26 @@ fun RegistrationContent(viewModel: RegistrationViewModel, navController: NavCont
     var passwordConfirmation by remember { mutableStateOf("") }
 
     var showSuccessDialog by remember { mutableStateOf(false) }
+    var showAvatarsDialog by remember { mutableStateOf(false) }
 
     ShowSuccessDialog(showSuccessDialog) {
         showSuccessDialog = false
         navController.popBackStack()
     }
+
+    var avatarImage by remember { mutableStateOf(R.drawable.user) }
+    var avatarId by remember { mutableStateOf(0L) }
+
+    ShowAvatarDialog(
+        showAvatarsDialog,
+        onDissmiss = {
+            showAvatarsDialog = false
+        },
+        onSelectedAvatar = { avatar, id ->
+            avatarImage = avatar
+            avatarId = id
+        }
+    )
 
     Column(
         Modifier
@@ -55,14 +73,15 @@ fun RegistrationContent(viewModel: RegistrationViewModel, navController: NavCont
             )
     ) {
         Card(
-            Modifier.fillMaxSize(),
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSecondary))
         {
             Column(
                 Modifier
                     .padding(15.dp)
                     .padding(bottom = 30.dp)
-                    .verticalScroll(rememberScrollState())
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -72,6 +91,15 @@ fun RegistrationContent(viewModel: RegistrationViewModel, navController: NavCont
                     color = MaterialTheme.colorScheme.secondaryContainer
                 )
                 
+                Spacer(modifier = Modifier.height(30.dp))
+
+                UserImage(
+                    modifier = Modifier.clickable {
+                        showAvatarsDialog = true
+                    },
+                    image = avatarImage
+                )
+
                 Spacer(modifier = Modifier.height(30.dp))
 
                 RegistrationForm(
@@ -93,7 +121,8 @@ fun RegistrationContent(viewModel: RegistrationViewModel, navController: NavCont
                     email = email,
                     password = password,
                     passwordConfirmation = passwordConfirmation,
-                    isLogged = false
+                    isLogged = false,
+                    image_id = avatarId
                 )
                 ) { succes ->
                     if(succes) {
@@ -191,5 +220,22 @@ private fun ShowSuccessDialog(
             onDissmiss = { onDissmiss() },
             title = "Te haz registrado con éxito",
         ) {}
+    }
+}
+
+
+@Composable
+private fun ShowAvatarDialog(
+    showSuccessDialog: Boolean,
+    onDissmiss: () -> Unit,
+    onSelectedAvatar: (Int, Long) -> Unit
+) {
+    if(showSuccessDialog) {
+        AvatarsDialog(
+            onDismiss = { onDissmiss() },
+            onSelectedAvatar = { image, id ->
+                onSelectedAvatar(image, id)
+            }
+        )
     }
 }

@@ -15,7 +15,7 @@ data class GameDetails(
     var developers : ArrayList<Developers> = arrayListOf(),
     var genres : ArrayList<Genres> = arrayListOf(),
     var publishers : ArrayList<Publishers> = arrayListOf(),
-    var esrbRatingResponse : EsrbRating = EsrbRating(),
+    var esrbRatingResponse : EsrbRating? = EsrbRating(),
     var descriptionRaw : String
 )
 
@@ -32,6 +32,6 @@ fun GameDetailsResponse.toDomain() = GameDetails(
     developers = developers.map { it.toDomain() } as ArrayList<Developers>,
     genres = genres.map { it.toDomain() } as ArrayList<Genres>,
     publishers = publishers.map { it.toDomain() } as ArrayList<Publishers>,
-    esrbRatingResponse = esrbRatingResponse.toDomain(),
+    esrbRatingResponse = esrbRatingResponse?.toDomain(),
     descriptionRaw
 )

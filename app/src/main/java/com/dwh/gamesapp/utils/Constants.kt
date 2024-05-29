@@ -8,6 +8,7 @@ object Constants {
     const val USER_EMAIL = "email"
     const val USER_PASSWORD = "password"
     const val USER_IS_LOGGED = "isLogged"
+    const val USER_IMAGE_ID = "imageId"
     const val DATA_STORE_NAME = "GamesApp"
 
     val headerHeight = 300.dp

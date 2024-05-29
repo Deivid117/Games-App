@@ -318,7 +318,7 @@ private fun GameDetailsVerticalGrid(
         Spacer(modifier = Modifier.height(10.dp))
 
         DetailHeaderGrid("Age rating", "")
-        BodyItemGrid(text = gameDetails.esrbRatingResponse.name)
+        BodyItemGrid(text = gameDetails.esrbRatingResponse?.name ?: "N/A")
     }
 }
 

@@ -26,6 +26,7 @@ class DataStoreRepositoryImp(
         var userEmail = stringPreferencesKey(Constants.USER_EMAIL)
         var userId = intPreferencesKey(Constants.USER_ID)
         var userPassword = stringPreferencesKey(Constants.USER_PASSWORD)
+        var userImageId = intPreferencesKey(Constants.USER_IMAGE_ID)
         var userIsLogged = booleanPreferencesKey(Constants.USER_IS_LOGGED)
     }
 
@@ -35,6 +36,7 @@ class DataStoreRepositoryImp(
             preferences[userEmail] = user.email
             preferences[userName] = user.userName
             preferences[userPassword] = user.password
+            preferences[userImageId] = user.imageId
             preferences[userIsLogged] = user.isLogged
         }
     }
@@ -45,6 +47,7 @@ class DataStoreRepositoryImp(
             userName = preferences[userName].orEmpty(),
             email = preferences[userEmail].orEmpty(),
             password = preferences[userPassword].orEmpty(),
+            imageId = preferences[userImageId] ?: 0,
             isLogged = preferences[userIsLogged] ?: false
         )
     }

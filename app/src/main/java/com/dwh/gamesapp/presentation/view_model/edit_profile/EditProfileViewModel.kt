@@ -64,9 +64,9 @@ class EditProfileViewModel @Inject constructor(
             if(fieldsValidation(user.name, user.password, user.passwordConfirmation ?: "")) {
                 if(userLogged != null) {
                     val userEdited: User = if(user.password.isNotEmpty()) {
-                        userLogged.copy(name = user.name, password = user.password, isLogged = _userData.value.isLogged)
+                        userLogged.copy(name = user.name, password = user.password, isLogged = _userData.value.isLogged, image_id = user.image_id)
                     } else {
-                        userLogged.copy(name = user.name, isLogged = _userData.value.isLogged)
+                        userLogged.copy(name = user.name, isLogged = _userData.value.isLogged, image_id = user.image_id)
                     }
                     updateUserUseCase(
                         userEdited

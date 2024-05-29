@@ -1,13 +1,11 @@
 package com.dwh.gamesapp.presentation.composables
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.GenericShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -27,7 +25,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.R
-import com.dwh.gamesapp.presentation.ui.theme.md_theme_light_onTertiary
 
 @Composable
 fun CustomArcShape(
@@ -35,6 +32,8 @@ fun CustomArcShape(
     elevation: Dp = 4.dp,
     cardColor: Color = MaterialTheme.colorScheme.onSecondary,
     contentColor: Color = contentColorFor(cardColor),
+    image: Int = R.drawable.ic_user_unfilled,
+    onShowAvatarDialog: () -> Unit,
     content: @Composable () -> Unit
 ) {
     val color = MaterialTheme.colorScheme.onTertiaryContainer
@@ -79,14 +78,16 @@ fun CustomArcShape(
                     )
                 }
                 .align(Alignment.TopCenter),
-            onClick = {  }
+            onClick = {
+                onShowAvatarDialog()
+            }
         ) {
             Image(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.White, CircleShape)
                     .clip(CircleShape),
-                painter = painterResource(id = R.drawable.ic_user_unfilled),
+                painter = painterResource(id = image),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
             )

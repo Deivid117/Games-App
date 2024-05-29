@@ -44,20 +44,53 @@ fun EditProfileContent(
     viewModel: EditProfileViewModel,
     navController: NavController
 ) {
-    val userNameData by viewModel.userData.collectAsStateWithLifecycle()
-    var userName by remember { mutableStateOf(userNameData.userName) }
-    LaunchedEffect(userNameData.userName) {
-        userName = userNameData.userName
+    val userData by viewModel.userData.collectAsStateWithLifecycle()
+
+    var userName by remember { mutableStateOf("") }
+    var userAvatarId by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(userData) {
+        userName = userData.userName
+        userAvatarId = userData.imageId
     }
+
+
+
     var password by remember { mutableStateOf("") }
     var passwordConfirmation by remember { mutableStateOf("") }
 
+    val avatars = listOf(
+        Avatars.Avatar1,
+        Avatars.Avatar2,
+        Avatars.Avatar3,
+    )
+
+    var avatarImage by remember { mutableStateOf(R.drawable.ic_user_unfilled) }
+
+    for (i in avatars.indices) {
+        if(avatars[i].id == userAvatarId.toLong()) {
+            avatarImage = avatars[i].image
+        }
+    }
+
     var showSuccessDialog by remember { mutableStateOf(false) }
+    var showAvatarsDialog by remember { mutableStateOf(false) }
 
     ShowEditProfileSuccessDialog(showSuccessDialog) {
         showSuccessDialog = false
         navController.popBackStack()
     }
+
+    ShowAvatarDialog(
+        showAvatarsDialog,
+        onDismiss = {
+            showAvatarsDialog = false
+        },
+        onSelectedAvatar = { avatar, id ->
+            avatarImage = avatar
+            userAvatarId = id.toInt()
+        }
+    )
 
     Column(
         Modifier
@@ -67,7 +100,9 @@ fun EditProfileContent(
         CustomArcShape(
             modifier = Modifier
                 .padding(10.dp)
-                .fillMaxSize()
+                .fillMaxSize(),
+            image = avatarImage,
+            onShowAvatarDialog = { showAvatarsDialog = true }
         ) {
             Column(
                 modifier = Modifier
@@ -87,7 +122,8 @@ fun EditProfileContent(
                 viewModel.updateUser(User(
                     name = userName,
                     password = password,
-                    passwordConfirmation = passwordConfirmation
+                    passwordConfirmation = passwordConfirmation,
+                    image_id = userAvatarId.toLong()
                 )) { success ->
                     if(success) {
                         password = ""
@@ -186,5 +222,21 @@ private fun ShowEditProfileSuccessDialog(
             onDissmiss = { onDissmiss() },
             title = "Se ha modificado tu perfil",
         ) {}
+    }
+}
+
+@Composable
+private fun ShowAvatarDialog(
+    showSuccessDialog: Boolean,
+    onDismiss: () -> Unit,
+    onSelectedAvatar: (Int, Long) -> Unit
+) {
+    if(showSuccessDialog) {
+        AvatarsDialog(
+            onDismiss = { onDismiss() },
+            onSelectedAvatar = { image, id ->
+                onSelectedAvatar(image, id)
+            }
+        )
     }
 }

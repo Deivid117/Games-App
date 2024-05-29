@@ -15,6 +15,6 @@ data class GameDetailsResponse(
     @SerializedName("developers"                  ) var developers                : ArrayList<DevelopersResponse> = arrayListOf(),
     @SerializedName("genres"                      ) var genres                    : ArrayList<GenresResponse> = arrayListOf(),
     @SerializedName("publishers"                  ) var publishers                : ArrayList<PublishersResponse> = arrayListOf(),
-    @SerializedName("esrb_rating"                 ) var esrbRatingResponse        : EsrbRatingResponse = EsrbRatingResponse(),
+    @SerializedName("esrb_rating"                 ) var esrbRatingResponse        : EsrbRatingResponse? = EsrbRatingResponse(),
     @SerializedName("description_raw"             ) var descriptionRaw            : String
 )

@@ -8,8 +8,9 @@ data class User(
     val email: String = "",
     val password: String = "",
     val passwordConfirmation: String? = null,
-    val isLogged: Boolean? = false
+    val isLogged: Boolean? = false,
+    val image_id: Long = 0
 )
 
-fun UserEntity.toDomain() = User(id = id, name = name, email = email, password = password, isLogged = isLogged)
+fun UserEntity.toDomain() = User(id = id, name = name, email = email, password = password, isLogged = isLogged, image_id = imageId)
 

@@ -14,6 +14,7 @@ data class UserEntity(
     @ColumnInfo(name = "password") val password: String,
     @ColumnInfo(name = "password_confirmation") val passwordConfirmation: String? = null,
     @ColumnInfo(name = "is_logged") val isLogged: Boolean?,
+    @ColumnInfo(name = "image_id") val imageId: Long = 0L,
 )
 
-fun User.toDatabase() = UserEntity(id = id, name = name, email = email, password = password, isLogged = isLogged)
+fun User.toDatabase() = UserEntity(id = id, name = name, email = email, password = password, isLogged = isLogged, imageId = image_id)
