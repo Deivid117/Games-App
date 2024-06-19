@@ -1,0 +1,8 @@
+package com.dwh.gamesapp.a.data.model.response.game_details
+
+import com.google.gson.annotations.SerializedName
+
+data class PublishersResponse(
+    @SerializedName("id"               ) var id              : Int,
+    @SerializedName("name"             ) var name            : String,
+)

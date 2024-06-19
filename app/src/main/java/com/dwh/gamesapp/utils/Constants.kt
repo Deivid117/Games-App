@@ -11,6 +11,9 @@ object Constants {
     const val USER_IMAGE_ID = "imageId"
     const val DATA_STORE_NAME = "GamesApp"
 
+    const val PLATFORMS = "4,187,186,7,21"
+    const val ORDERING = "-added"
+
     val headerHeight = 300.dp
     val toolbarHeight = 56.dp
 
