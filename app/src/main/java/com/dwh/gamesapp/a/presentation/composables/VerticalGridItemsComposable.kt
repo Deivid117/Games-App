@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -24,7 +25,7 @@ import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 
 @Composable
-fun VerticalGridItem(
+fun VerticalGridItemComposable(
     onClick: () -> Unit,
     imageBackground: String,
     name: String,
@@ -42,14 +43,14 @@ fun VerticalGridItem(
                     .background(Color.LightGray)
                     .fillMaxSize()
                     .drawWithCache {
-                        val gradient = Brush.verticalGradient(
+                        val verticalGradient = Brush.verticalGradient(
                             colors = listOf(Color.Transparent, Color.Black),
                             startY = size.height / 3,
                             endY = size.height
                         )
                         onDrawWithContent {
                             drawContent()
-                            drawRect(gradient, blendMode = BlendMode.Multiply)
+                            drawRect(verticalGradient, blendMode = BlendMode.Multiply)
                         }
                     },
                 model = ImageRequest.Builder(LocalContext.current)
@@ -64,29 +65,14 @@ fun VerticalGridItem(
                 Modifier.padding(horizontal = 8.dp, vertical = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box() {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = name,
-                        style = MaterialTheme.typography.titleLarge,
-                        textAlign = TextAlign.Center,
-                        textDecoration = TextDecoration.Underline,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = name,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.background,
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            drawStyle = Stroke(
-                                miter = 10f,
-                                width = 2f,
-                                join = StrokeJoin.Round
-                            )
-                        )
-                    )
-                }
+                OutlinedText(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = name,
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                    textDecoration = TextDecoration.Underline,
+                    strokeWidth = 2f
+                )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -97,42 +83,52 @@ fun VerticalGridItem(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                VerticalGridDetailsItem(title = "Popular items", data = gamesCount.toString())
-
+                VerticalGridDetailsPopularGames(gameCount = gamesCount.toString())
             }
         }
     }
 }
 
 @Composable
-private fun VerticalGridDetailsItem(
-    title: String,
-    data: String
+private fun VerticalGridDetailsPopularGames(
+    gameCount: String
 ) {
     Row(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        TextBox(title)
-        TextBox(data)
+        OutlinedText(text = "Popular items")
+        OutlinedText(text = gameCount)
     }
 }
 
 @Composable
-private fun TextBox(text: String) {
+private fun OutlinedText(
+    modifier: Modifier = Modifier,
+    text: String,
+    style: TextStyle = MaterialTheme.typography.labelLarge,
+    strokeWidth: Float = 1f,
+    textAlign: TextAlign = TextAlign.Left,
+    textDecoration: TextDecoration = TextDecoration.None
+) {
     Box() {
         Text(
+            modifier = modifier,
             text = text,
-            style = MaterialTheme.typography.labelLarge,
+            style = style,
+            textAlign = textAlign,
+            textDecoration = textDecoration,
             color = MaterialTheme.colorScheme.onBackground
         )
         Text(
+            modifier = modifier,
             text = text,
+            textAlign = textAlign,
             color = MaterialTheme.colorScheme.background,
-            style = MaterialTheme.typography.labelLarge.copy(
+            style = style.copy(
                 drawStyle = Stroke(
                     miter = 10f,
-                    width = 1f,
+                    width = strokeWidth,
                     join = StrokeJoin.Round
                 )
             )

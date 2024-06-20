@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.platform_details.PlatformDetails
-import com.dwh.gamesapp.a.domain.model.plattform.PlattformGames
+import com.dwh.gamesapp.platforms.domain.model.PlattformGames
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.DetailsDescription
 import com.dwh.gamesapp.a.presentation.composables.DetailsHeader
@@ -165,7 +165,7 @@ private fun PlatformGamesItem(plattformGames: PlattformGames) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = plattformGames.name,
+            text = plattformGames.name ?: "",
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onBackground
         )

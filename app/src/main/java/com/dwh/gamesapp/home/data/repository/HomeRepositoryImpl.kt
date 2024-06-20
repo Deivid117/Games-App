@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.home.data.repository
 
-import com.dwh.gamesapp.a.data.api.ApiService
+import com.dwh.gamesapp.core.data.remote.api.ApiService
 import com.dwh.gamesapp.home.domain.model.BestOfTheYearResults
 import com.dwh.gamesapp.home.domain.model.toDomain
 import com.dwh.gamesapp.home.domain.repository.HomeRepository

@@ -1,7 +1,7 @@
 package com.dwh.gamesapp.a.data.repository
 
 import android.util.Log
-import com.dwh.gamesapp.a.data.api.ApiService
+import com.dwh.gamesapp.core.data.remote.api.ApiService
 import com.dwh.gamesapp.a.data.database.dao.FavoriteGamesDao
 import com.dwh.gamesapp.a.data.database.dao.GameDao
 import com.dwh.gamesapp.a.data.database.entities.FavoriteGameEntity

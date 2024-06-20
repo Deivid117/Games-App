@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.a.presentation.view_model.genres
 
-import com.dwh.gamesapp.a.domain.model.genres.GenresResults
+import com.dwh.gamesapp.genres.domain.model.GenresResults
 
 sealed class GenresUiState {
     object Loading: GenresUiState()

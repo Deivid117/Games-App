@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.core.di
 
-import com.dwh.gamesapp.a.data.api.ApiService
+import com.dwh.gamesapp.core.data.remote.api.ApiService
 import com.dwh.gamesapp.core.data.remote.api.ApiConstants
 import com.dwh.gamesapp.core.data.remote.api.HeaderInterceptor
 import dagger.Module

@@ -7,17 +7,17 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.dwh.gamesapp.a.domain.model.genres.GenreGames
-import com.dwh.gamesapp.a.domain.model.plattform.PlattformGames
-import com.dwh.gamesapp.home.home.HomeScreen
+import com.dwh.gamesapp.genres.domain.model.GamesGenre
+import com.dwh.gamesapp.platforms.domain.model.PlattformGames
+import com.dwh.gamesapp.home.presentation.HomeScreen
 import com.dwh.gamesapp.a.presentation.ui.favorite_games.FavoriteGamesScreen
 import com.dwh.gamesapp.a.presentation.ui.games.GameDetailsScreen
 import com.dwh.gamesapp.a.presentation.ui.games.GamesScreen
 import com.dwh.gamesapp.a.presentation.ui.genres.GenreDetailsScreen
-import com.dwh.gamesapp.a.presentation.ui.genres.GenresScreen
+import com.dwh.gamesapp.genres.presentation.GenresScreen
 import com.dwh.gamesapp.a.presentation.ui.login.LoginScreen
 import com.dwh.gamesapp.a.presentation.ui.platforms.PlatformDetailsScreen
-import com.dwh.gamesapp.a.presentation.ui.platforms.PlatformsScreen
+import com.dwh.gamesapp.platforms.presentation.PlatformsScreen
 import com.dwh.gamesapp.a.presentation.ui.profile.EditProfileScreen
 import com.dwh.gamesapp.a.presentation.ui.profile.ProfileScreen
 import com.dwh.gamesapp.a.presentation.ui.registration.RegistrationScreen
@@ -68,7 +68,7 @@ fun Navigation(navController: NavController) {
         }
         composable(Screens.GENRES_DETAILS_SCREEN + "/{id}") {
             val games =
-                navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<GenreGames>>("games")
+                navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<GamesGenre>>("games")
             if (!games.isNullOrEmpty()) {
                 it.arguments?.getString("id")?.let { id ->
                     GenreDetailsScreen(navController, id.toInt(), games)

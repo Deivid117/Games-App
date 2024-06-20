@@ -1,7 +1,7 @@
 package com.dwh.gamesapp.a.domain.use_cases.genre_details
 
 import com.dwh.gamesapp.a.domain.model.genre_details.GenreDetails
-import com.dwh.gamesapp.a.domain.repository.GenresRepository
+import com.dwh.gamesapp.genres.domain.repository.GenresRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

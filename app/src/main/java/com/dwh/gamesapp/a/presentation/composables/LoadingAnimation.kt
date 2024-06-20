@@ -47,5 +47,9 @@ fun CompositionAnimation(
     lottieAnimation: Float,
     size: Int
 ){
-    LottieAnimation(composition = composition, progress = { lottieAnimation }, Modifier.size(size.dp))
+    LottieAnimation(
+        composition = composition,
+        progress = { lottieAnimation },
+        Modifier.size(size.dp)
+    )
 }

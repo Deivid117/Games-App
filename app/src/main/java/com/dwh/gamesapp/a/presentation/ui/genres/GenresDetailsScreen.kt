@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.genre_details.GenreDetails
-import com.dwh.gamesapp.a.domain.model.genres.GenreGames
+import com.dwh.gamesapp.genres.domain.model.GamesGenre
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.DetailsDescription
 import com.dwh.gamesapp.a.presentation.composables.DetailsHeader
@@ -38,7 +38,7 @@ import com.dwh.gamesapp.utils.Constants.toolbarHeight
 fun GenreDetailsScreen(
     navController: NavController,
     genredId: Int,
-    games: ArrayList<GenreGames>,
+    games: ArrayList<GamesGenre>,
     viewModel: GenreDetailsViewModel = hiltViewModel()
 ) {
     LaunchedEffect(viewModel) {
@@ -56,7 +56,7 @@ fun GenreDetailsScreen(
 fun GenreDetailsValidateResponse(
     viewModel: GenreDetailsViewModel,
     navController: NavController,
-    games: ArrayList<GenreGames>
+    games: ArrayList<GamesGenre>
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -83,7 +83,7 @@ fun GenreDetailsValidateResponse(
 fun GenreDetailsContent(
     navController: NavController,
     genreDetails: GenreDetails,
-    games: ArrayList<GenreGames>
+    games: ArrayList<GamesGenre>
 ) {
     val scrollState = rememberScrollState()
     val headerHeightPx = with(LocalDensity.current) { headerHeight.toPx() }
@@ -117,7 +117,7 @@ fun GenreDetailsContent(
 }
 
 @Composable
-fun GenreBody(scrollState: ScrollState, genreDetails: GenreDetails, games: ArrayList<GenreGames>) {
+fun GenreBody(scrollState: ScrollState, genreDetails: GenreDetails, games: ArrayList<GamesGenre>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -137,7 +137,7 @@ fun GenreBody(scrollState: ScrollState, genreDetails: GenreDetails, games: Array
 }
 
 @Composable
-private fun PopularGamesGenre(games: ArrayList<GenreGames>) {
+private fun PopularGamesGenre(games: ArrayList<GamesGenre>) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "Popular Games",
@@ -156,13 +156,13 @@ private fun PopularGamesGenre(games: ArrayList<GenreGames>) {
 }
 
 @Composable
-private fun GenreGamesItem(genreGames: GenreGames) {
+private fun GenreGamesItem(gamesGenre: GamesGenre) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = genreGames.name,
+            text = gamesGenre.name ?: "",
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -172,7 +172,7 @@ private fun GenreGamesItem(genreGames: GenreGames) {
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             Text(
-                text = "${genreGames.added}",
+                text = "${gamesGenre.added}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
