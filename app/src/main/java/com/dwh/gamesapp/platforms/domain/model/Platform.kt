@@ -8,7 +8,7 @@ data class Platform(
     var slug: String?,
     var gamesCount: Int?,
     var imageBackground: String?,
-    var games: ArrayList<PlattformGames> = arrayListOf()
+    var games: ArrayList<PlatformGames> = arrayListOf()
 )
 
-fun PlatformDTO.toDomain() = Platform(id, name, slug, gamesCount, imageBackground, games.map { it.toDomain() } as ArrayList<PlattformGames>)
+fun PlatformDTO.toDomain() = Platform(id, name, slug, gamesCount, imageBackground, games.map { it.toDomain() } as ArrayList<PlatformGames>)

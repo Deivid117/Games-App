@@ -1,35 +1,30 @@
-package com.dwh.gamesapp.a.presentation.ui.platforms
+package com.dwh.gamesapp.platforms_details.presentation
 
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.dwh.gamesapp.R
-import com.dwh.gamesapp.a.domain.model.platform_details.PlatformDetails
-import com.dwh.gamesapp.platforms.domain.model.PlattformGames
+import com.dwh.gamesapp.platforms_details.domain.model.PlatformDetails
+import com.dwh.gamesapp.platforms.domain.model.PlatformGames
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
 import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
-import com.dwh.gamesapp.a.presentation.composables.TopAppBarComposable
-import com.dwh.gamesapp.a.presentation.view_model.platform_details.PlatformDetailsUiState
-import com.dwh.gamesapp.a.presentation.view_model.platform_details.PlatformDetailsViewModel
+import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
+import com.dwh.gamesapp.core.presentation.state.UIState
 import com.dwh.gamesapp.utils.Constants.headerHeight
 import com.dwh.gamesapp.utils.Constants.toolbarHeight
 import com.dwh.gamesapp.utils.LifecycleOwnerListener
@@ -38,7 +33,7 @@ import com.dwh.gamesapp.utils.LifecycleOwnerListener
 fun PlatformDetailsScreen(
     navController: NavController,
     platformId: Int,
-    games: ArrayList<PlattformGames>,
+    platformGames: ArrayList<PlatformGames>,
     viewModel: PlatformDetailsViewModel = hiltViewModel()
 ) {
     LaunchedEffect(viewModel) {
@@ -47,43 +42,55 @@ fun PlatformDetailsScreen(
 
     Surface(Modifier.fillMaxSize()) {
         BackgroundGradient()
-        PlatformDetailsValidateResponse(viewModel, navController, games)
+        PlatformDetailsContent(viewModel, navController, platformGames)
     }
+}
 
+@Composable
+private fun PlatformDetailsContent(
+    viewModel: PlatformDetailsViewModel,
+    navController: NavController,
+    platformGames: ArrayList<PlatformGames>
+) {
+    PlatformDetailsValidateResponse(
+        viewModel,
+        navController,
+        platformGames
+    )
 }
 
 @Composable
 private fun PlatformDetailsValidateResponse(
     viewModel: PlatformDetailsViewModel,
     navController: NavController,
-    games: ArrayList<PlattformGames>
+    platformGames: ArrayList<PlatformGames>
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when(uiState) {
-        is PlatformDetailsUiState.Error -> {
-            val erroMsg = (uiState as PlatformDetailsUiState.Error).errorMessage
-            Log.e("GameDetailsScreenError", erroMsg)
+        is UIState.Error -> {
+            val errorMsg = (uiState as UIState.Error).errorMessage
+            Log.e("ERROR: PlatformDetailsScreen", errorMsg)
             EmptyData(
-                title = "Sin información disponible",
-                description = "No se han encontrado detalles de la plataforma por el momento, inténtelo más tarde"
+                modifier = Modifier.fillMaxSize(),
+                title = "Ocurrió un error",
+                description = errorMsg
             )
         }
-        PlatformDetailsUiState.Loading -> {
-            LoadingAnimation()
-        }
-        is PlatformDetailsUiState.Success -> {
-            val data = (uiState as PlatformDetailsUiState.Success).data
-            PlatformDetailsContent(navController, data, games)
+        UIState.Loading -> LoadingAnimation(Modifier.fillMaxSize())
+
+        is UIState.Success -> {
+            val platformDetails = (uiState as UIState.Success).data
+            PlatformDetailsContentWithParallaxEffect(navController, platformDetails, platformGames)
         }
     }
 }
 
 @Composable
-private fun PlatformDetailsContent(
+fun PlatformDetailsContentWithParallaxEffect(
     navController: NavController,
-    genreDetails: PlatformDetails,
-    games: ArrayList<PlattformGames>
+    platformDetails: PlatformDetails?,
+    platformGames: java.util.ArrayList<PlatformGames>
 ) {
     val scrollState = rememberScrollState()
     val headerHeightPx = with(LocalDensity.current) { headerHeight.toPx() }
@@ -96,32 +103,37 @@ private fun PlatformDetailsContent(
     ) {
         CoverImageWithBackIconParallaxEffect(
             scrollState = scrollState,
-            imageUrl = genreDetails.imageBackground,
+            imageUrl = platformDetails?.imageBackground ?: "",
             modifier = Modifier
                 .fillMaxWidth()
                 .height(headerHeight)
         ) { navController.popBackStack() }
 
+        ScrollingTitleComposable(
+            scrollState = scrollState,
+            platformDetails?.name ?: "N/A"
+        )
+
         Box(Modifier.padding(top = 60.dp)) {
-            PlatformBody(scrollState, genreDetails, games)
+            PlatformGameInformation(scrollState, platformDetails, platformGames)
         }
 
-        TopAppBarComposable(
+        /*TopAppBarComposable(
             scrollState = scrollState,
             headerHeightPx = headerHeightPx,
             toolbarHeightPx = toolbarHeightPx,
-        ) { navController.popBackStack() }
-
-        ScrollingTitleComposable(scrollState = scrollState, genreDetails.name)
+        ) { navController.popBackStack() }*/
     }
 }
 
 @Composable
-private fun PlatformBody(
+private fun PlatformGameInformation(
     scrollState: ScrollState,
-    genreDetails: PlatformDetails,
-    games: ArrayList<PlattformGames>
+    platformDetails: PlatformDetails?,
+    platformGames: ArrayList<PlatformGames>
 ) {
+    val description = if(platformDetails?.description.isNullOrEmpty()) "N/A" else platformDetails?.description
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -131,16 +143,16 @@ private fun PlatformBody(
     ) {
         Spacer(Modifier.height(headerHeight - 50.dp))
 
-        DescriptionComposable(genreDetails.description)
+        DescriptionComposable(description)
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        PopularGamesPlatform(games)
+        PopularGamesPlatform(platformGames)
     }
 }
 
 @Composable
-private fun PopularGamesPlatform(games: ArrayList<PlattformGames>) {
+private fun PopularGamesPlatform(platformGames: ArrayList<PlatformGames>) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "Popular Games",
@@ -151,40 +163,16 @@ private fun PopularGamesPlatform(games: ArrayList<PlattformGames>) {
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    games.forEach {
-        PlatformGamesItem(it)
-        Spacer(modifier = Modifier.height(5.dp))
-    }
-
+    ListPopularGames(platformGames)
 }
 
 @Composable
-private fun PlatformGamesItem(plattformGames: PlattformGames) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(0.6f),
-            text = plattformGames.name ?: "",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onBackground
+private fun ListPopularGames(platformGames: ArrayList<PlatformGames>) {
+    platformGames.forEach { game ->
+        PopularGameItemComposable(
+            gameName = game.name ?: "N/A",
+            added = "${(game.added ?: 0)}"
         )
-        Row(
-            modifier = Modifier.fillMaxWidth(0.4f),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            Text(
-                text = "${plattformGames.added}",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Icon(
-                modifier = Modifier.size(15.dp),
-                painter = painterResource(id = R.drawable.ic_user_unfilled),
-                contentDescription = "population icon"
-            )
-        }
+        Spacer(modifier = Modifier.height(15.dp))
     }
 }

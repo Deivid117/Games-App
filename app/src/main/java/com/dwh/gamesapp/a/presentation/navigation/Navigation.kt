@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.dwh.gamesapp.genres.domain.model.GameGenre
-import com.dwh.gamesapp.platforms.domain.model.PlattformGames
+import com.dwh.gamesapp.platforms.domain.model.PlatformGames
 import com.dwh.gamesapp.home.presentation.HomeScreen
 import com.dwh.gamesapp.a.presentation.ui.favorite_games.FavoriteGamesScreen
 import com.dwh.gamesapp.a.presentation.ui.games.GameDetailsScreen
@@ -16,7 +16,7 @@ import com.dwh.gamesapp.a.presentation.ui.games.GamesScreen
 import com.dwh.gamesapp.genres_details.presentation.GenreDetailsScreen
 import com.dwh.gamesapp.genres.presentation.GenresScreen
 import com.dwh.gamesapp.a.presentation.ui.login.LoginScreen
-import com.dwh.gamesapp.a.presentation.ui.platforms.PlatformDetailsScreen
+import com.dwh.gamesapp.platforms_details.presentation.PlatformDetailsScreen
 import com.dwh.gamesapp.platforms.presentation.PlatformsScreen
 import com.dwh.gamesapp.a.presentation.ui.profile.EditProfileScreen
 import com.dwh.gamesapp.a.presentation.ui.profile.ProfileScreen
@@ -81,7 +81,7 @@ fun Navigation(navController: NavController) {
         }
         composable(Screens.PLATFORMS_DETAILS_SCREEN + "/{id}") {
             val games =
-                navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<PlattformGames>>("games")
+                navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<PlatformGames>>("games")
             if (!games.isNullOrEmpty()) {
                 it.arguments?.getString("id")?.let { id ->
                     PlatformDetailsScreen(navController, id.toInt(), games)

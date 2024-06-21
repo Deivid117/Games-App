@@ -23,7 +23,6 @@ import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconPara
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
-import com.dwh.gamesapp.a.presentation.composables.TopAppBarComposable
 import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
 import com.dwh.gamesapp.core.presentation.state.UIState
 import com.dwh.gamesapp.utils.Constants.headerHeight
@@ -71,8 +70,9 @@ private fun GenreDetailsValidateResponse(
     when (uiState) {
         is UIState.Error -> {
             val errorMsg = (uiState as UIState.Error).errorMessage
-            Log.e("GameDetailsScreenError", errorMsg)
+            Log.e("ERROR: GenreDetailsScreen", errorMsg)
             EmptyData(
+                modifier = Modifier.fillMaxSize(),
                 title = "Ocurrió un error",
                 description = errorMsg
             )
@@ -112,6 +112,11 @@ private fun GenreDetailsContentWithParallaxEffect(
                 .height(headerHeight)
         ) { navController.popBackStack() }
 
+        ScrollingTitleComposable(
+            scrollState = scrollState,
+            genreDetails?.name ?: "N/A"
+        )
+
         Box(Modifier.padding(top = 60.dp)) {
             GameGenreInformation(scrollState, genreDetails, gamesGenre)
         }
@@ -124,11 +129,6 @@ private fun GenreDetailsContentWithParallaxEffect(
             headerHeightPx = headerHeightPx,
             toolbarHeightPx = toolbarHeightPx,
         ) { navController.popBackStack() }*/
-
-        ScrollingTitleComposable(
-            scrollState = scrollState,
-            genreDetails?.name ?: "N/A"
-        )
     }
 }
 
@@ -138,6 +138,8 @@ private fun GameGenreInformation(
     genreDetails: GenreDetails?,
     gamesGenre: ArrayList<GameGenre>
 ) {
+    val description = if(genreDetails?.description.isNullOrEmpty()) "N/A" else genreDetails?.description
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -147,7 +149,7 @@ private fun GameGenreInformation(
     ) {
         Spacer(Modifier.height(headerHeight - 50.dp))
 
-        DescriptionComposable(genreDetails?.description ?: "N/A")
+        DescriptionComposable(description)
 
         Spacer(modifier = Modifier.height(15.dp))
 
@@ -182,4 +184,3 @@ private fun ListPopularGames(
         Spacer(modifier = Modifier.height(15.dp))
     }
 }
-

@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.a.presentation.view_model.platform_details
 
-import com.dwh.gamesapp.a.domain.model.platform_details.PlatformDetails
+import com.dwh.gamesapp.platforms_details.domain.model.PlatformDetails
 
 sealed class PlatformDetailsUiState {
     object Loading: PlatformDetailsUiState()

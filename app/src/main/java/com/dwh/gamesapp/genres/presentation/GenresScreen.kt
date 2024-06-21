@@ -65,6 +65,7 @@ private fun GenresValidationResponse(
             val errorMsg = (uiState as UIState.Error).errorMessage
             Log.e("ERROR: GenresScreen", errorMsg)
             EmptyData(
+                modifier = Modifier.fillMaxSize(),
                 title = "Ocurrió un error",
                 description = errorMsg
             )
@@ -90,6 +91,7 @@ private fun GenresListContent(
         GenresVerticalGrid(genres, navController)
     } else {
         EmptyData(
+            modifier = Modifier.fillMaxSize(),
             title = "Sin información disponible",
             description = "No se han encontrado géneros por el momento, inténtelo más tarde"
         )

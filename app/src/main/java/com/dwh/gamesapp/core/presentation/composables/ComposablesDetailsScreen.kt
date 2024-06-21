@@ -158,7 +158,7 @@ fun ScrollingTitleComposable(
 
 @Composable
 fun DescriptionComposable(
-    description: String,
+    description: String?,
     isHeaderDisplayed: Boolean = false
 ) {
     val formattedDescription = Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY).toString()

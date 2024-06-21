@@ -70,6 +70,7 @@ private fun PlatformsValidationResponse(
             val errorMsg = (uiState as UIState.Error).errorMessage
             Log.e("ERROR: PlatformsScreen", errorMsg)
             EmptyData(
+                modifier = Modifier.fillMaxSize(),
                 title = "Ocurrió un error",
                 description = errorMsg
             )
@@ -95,6 +96,7 @@ private fun PlatformsListContent(
         PlatformsVerticalGrid(navController, platforms)
     } else {
         EmptyData(
+            modifier = Modifier.fillMaxSize(),
             title = "Sin información disponible",
             description = "No se han encontrado plataformas por el momento, inténtelo más tarde"
         )
