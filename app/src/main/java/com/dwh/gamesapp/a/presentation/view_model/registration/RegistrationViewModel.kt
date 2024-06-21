@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.a.domain.model.user.User
 import com.dwh.gamesapp.a.domain.use_cases.user.AddUserUseCase
 import com.dwh.gamesapp.a.domain.use_cases.user.EmailAlreadyExistsUseCase
-import com.dwh.gamesapp.utils.Extensions.isEmail
+import com.dwh.gamesapp.core.presentation.utils.Extensions.isEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

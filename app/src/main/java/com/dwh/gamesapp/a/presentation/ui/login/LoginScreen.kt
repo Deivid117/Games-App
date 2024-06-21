@@ -21,7 +21,7 @@ import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.CustomButton
 import com.dwh.gamesapp.a.presentation.composables.CustomTextField
 import com.dwh.gamesapp.utils.WavyShape
-import com.dwh.gamesapp.a.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.a.presentation.view_model.login.LoginViewModel
 
 @Composable

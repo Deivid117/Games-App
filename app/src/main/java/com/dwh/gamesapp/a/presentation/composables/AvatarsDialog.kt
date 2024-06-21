@@ -35,7 +35,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.dwh.gamesapp.a.presentation.ui.theme.Dark_Green
+import com.dwh.gamesapp.core.presentation.theme.Dark_Green
 
 @Composable
 fun AvatarsDialog(

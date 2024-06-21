@@ -3,7 +3,7 @@ package com.dwh.gamesapp.a.domain.repository
 import com.dwh.gamesapp.a.data.database.entities.GameEntity
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.a.domain.model.game.GamesResults
-import com.dwh.gamesapp.a.domain.model.game_details.GameDetails
+import com.dwh.gamesapp.games_details.domain.model.GameDetails
 import kotlinx.coroutines.flow.Flow
 
 interface GamesRepository {

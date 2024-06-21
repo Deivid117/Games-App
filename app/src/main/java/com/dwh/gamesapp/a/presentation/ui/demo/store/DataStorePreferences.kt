@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.dwh.gamesapp.utils.Constants.DATA_STORE_NAME
+import com.dwh.gamesapp.core.presentation.utils.Constants.DATA_STORE_NAME
 import kotlinx.coroutines.flow.map
 
 class DataStorePreferences(context: Context) {

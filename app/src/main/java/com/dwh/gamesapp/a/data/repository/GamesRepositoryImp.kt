@@ -7,13 +7,13 @@ import com.dwh.gamesapp.a.data.database.dao.GameDao
 import com.dwh.gamesapp.a.data.database.entities.FavoriteGameEntity
 import com.dwh.gamesapp.a.data.database.entities.GameEntity
 import com.dwh.gamesapp.a.data.database.entities.toDatabase
-import com.dwh.gamesapp.a.data.model.response.game_details.GameDetailsResponse
+import com.dwh.gamesapp.games_details.data.remote.model.response.GameDetailsDTO
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.a.domain.model.favorite_game.toDomain
 import com.dwh.gamesapp.a.domain.model.game.GamesResults
 import com.dwh.gamesapp.a.domain.model.game.toDomain
-import com.dwh.gamesapp.a.domain.model.game_details.GameDetails
-import com.dwh.gamesapp.a.domain.model.game_details.toDomain
+import com.dwh.gamesapp.games_details.domain.model.GameDetails
+import com.dwh.gamesapp.games_details.domain.model.toDomain
 import com.dwh.gamesapp.a.domain.repository.GamesRepository
 import com.dwh.gamesapp.core.data.remote.api.BaseResponse
 import kotlinx.coroutines.Dispatchers
@@ -102,7 +102,7 @@ class GamesRepositoryImp @Inject constructor(
 
     /** GET GAME DETAILS */
     override suspend fun getGameDetailsFromApi(id: Int): Flow<GameDetails> {
-        val response: Response<GameDetailsResponse> = apiService.getGameDetails(id)
+        val response: Response<GameDetailsDTO> = apiService.getGameDetails(id)
         if (response.isSuccessful) {
             return flowOf(
                 apiService.getGameDetails(id).body()!!

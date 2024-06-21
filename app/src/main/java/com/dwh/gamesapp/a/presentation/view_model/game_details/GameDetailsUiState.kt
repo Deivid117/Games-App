@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.a.presentation.view_model.game_details
 
-import com.dwh.gamesapp.a.domain.model.game_details.GameDetails
+import com.dwh.gamesapp.games_details.domain.model.GameDetails
 
 sealed class GameDetailsUiState {
     object Loading: GameDetailsUiState()

@@ -21,7 +21,7 @@ import com.dwh.gamesapp.a.presentation.composables.CustomButton
 import com.dwh.gamesapp.a.presentation.composables.CustomDialog
 import com.dwh.gamesapp.a.presentation.composables.CustomTextField
 import com.dwh.gamesapp.a.presentation.composables.UserImage
-import com.dwh.gamesapp.a.presentation.ui.theme.Dogica
+import com.dwh.gamesapp.core.presentation.theme.Dogica
 import com.dwh.gamesapp.a.presentation.view_model.registration.RegistrationViewModel
 
 @Composable

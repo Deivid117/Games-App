@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.dwh.gamesapp.a.presentation.ui.theme.Dogica
+import com.dwh.gamesapp.core.presentation.theme.Dogica
 
 @Composable
 fun CustomButton(

@@ -10,7 +10,7 @@ import com.dwh.gamesapp.core.presentation.state.UIState
 import com.dwh.gamesapp.core.data.Resource
 import com.dwh.gamesapp.home.domain.model.BestOfTheYearResults
 import com.dwh.gamesapp.home.domain.model.NextWeekGamesResults
-import com.dwh.gamesapp.utils.Constants
+import com.dwh.gamesapp.core.presentation.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

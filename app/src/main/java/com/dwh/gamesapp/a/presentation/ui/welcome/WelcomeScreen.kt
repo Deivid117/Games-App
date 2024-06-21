@@ -9,7 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.view_model.welcome.WelcomeViewModel
-import com.dwh.gamesapp.a.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens
 
 @Composable
 fun WelcomeScreen(

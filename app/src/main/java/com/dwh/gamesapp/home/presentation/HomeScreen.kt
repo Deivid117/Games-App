@@ -41,12 +41,12 @@ import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
-import com.dwh.gamesapp.utils.GameUiInfo
-import com.dwh.gamesapp.utils.LocalGameUiInfo
+import com.dwh.gamesapp.home.presentation.utils.GameUiInfo
+import com.dwh.gamesapp.home.presentation.utils.LocalGameUiInfo
 import com.dwh.gamesapp.utils.vertical
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
-import com.dwh.gamesapp.a.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.state.UIState
 import com.dwh.gamesapp.home.domain.model.BestOfTheYearResults
 import com.dwh.gamesapp.home.domain.model.GameItem

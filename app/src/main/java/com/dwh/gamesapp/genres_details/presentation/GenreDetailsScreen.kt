@@ -25,9 +25,9 @@ import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
 import com.dwh.gamesapp.core.presentation.state.UIState
-import com.dwh.gamesapp.utils.Constants.headerHeight
-import com.dwh.gamesapp.utils.Constants.toolbarHeight
-import com.dwh.gamesapp.utils.LifecycleOwnerListener
+import com.dwh.gamesapp.core.presentation.utils.Constants.headerHeight
+import com.dwh.gamesapp.core.presentation.utils.Constants.toolbarHeight
+import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
 
 @Composable
 fun GenreDetailsScreen(

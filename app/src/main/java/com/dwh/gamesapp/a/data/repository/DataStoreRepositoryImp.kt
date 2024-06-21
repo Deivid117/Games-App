@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.dwh.gamesapp.a.domain.model.user.UserDataStore
 import com.dwh.gamesapp.a.domain.repository.DataStoreRepository
-import com.dwh.gamesapp.utils.Constants
+import com.dwh.gamesapp.core.presentation.utils.Constants
 import kotlinx.coroutines.flow.map
 
 private val Context.dataStore by preferencesDataStore(name = Constants.DATA_STORE_NAME)

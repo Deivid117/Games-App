@@ -22,7 +22,7 @@ import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
-import com.dwh.gamesapp.a.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.state.UIState
 import com.dwh.gamesapp.platforms.domain.model.Platform
 

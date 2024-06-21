@@ -34,9 +34,9 @@ import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
-import com.dwh.gamesapp.a.presentation.ui.theme.Dark_Green
-import com.dwh.gamesapp.a.presentation.ui.theme.Light_Green
-import com.dwh.gamesapp.a.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.theme.Dark_Green
+import com.dwh.gamesapp.core.presentation.theme.Light_Green
+import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesUiState
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesViewModel
 

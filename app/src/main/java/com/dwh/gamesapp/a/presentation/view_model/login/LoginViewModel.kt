@@ -1,7 +1,6 @@
 package com.dwh.gamesapp.a.presentation.view_model.login
 
 import android.app.Application
-import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -9,12 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.a.domain.model.user.User
 import com.dwh.gamesapp.a.domain.use_cases.user.FindUserByEmailUseCase
 import com.dwh.gamesapp.a.domain.use_cases.user.UpdateUserLoggedUseCase
-import com.dwh.gamesapp.utils.Extensions.isEmail
+import com.dwh.gamesapp.core.presentation.utils.Extensions.isEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.sql.SQLException
 import javax.inject.Inject
 
 @HiltViewModel

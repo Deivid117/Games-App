@@ -6,9 +6,6 @@ import com.dwh.gamesapp.a.domain.model.game.GamesResults
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-/** Crea casos de uso dependiendo de todas las acciones que vayas a realizar */
-/** Puedes usar cualquiera de las 2 funciones, cada una es una manera de
- * llamar a la fun del caso de uso, ambas válidas */
 class GetGamesUseCase @Inject constructor(
     private val gamesDataSource: GamesDataSource
 ) {

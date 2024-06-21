@@ -19,7 +19,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.dwh.gamesapp.a.presentation.navigation.BottomScreens
+import com.dwh.gamesapp.core.presentation.navigation.BottomScreens
 
 @Composable
 fun NavigationBarComposable(navController: NavController) {

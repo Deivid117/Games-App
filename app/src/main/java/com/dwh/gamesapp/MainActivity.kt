@@ -11,9 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.dwh.gamesapp.a.presentation.ui.theme.MarvelAppTheme
+import com.dwh.gamesapp.core.presentation.theme.MarvelAppTheme
 import dagger.hilt.android.AndroidEntryPoint
-import com.dwh.gamesapp.a.presentation.navigation.Navigation
+import com.dwh.gamesapp.core.presentation.navigation.Navigation
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

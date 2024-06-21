@@ -27,7 +27,7 @@ import com.dwh.gamesapp.a.presentation.composables.UserImage
 import com.dwh.gamesapp.a.presentation.view_model.logout.LogoutViewModel
 import com.dwh.gamesapp.a.presentation.view_model.profile.ProfileUiState
 import com.dwh.gamesapp.a.presentation.view_model.profile.ProfileViewModel
-import com.dwh.gamesapp.a.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens
 
 @Composable
 fun ProfileScreen(
