@@ -1,6 +1,5 @@
 package com.dwh.gamesapp.genres.domain.model
 
-import com.dwh.gamesapp.genres.data.remote.model.response.GamesGenreDTO
 import com.dwh.gamesapp.genres.data.remote.model.response.GenreDTO
 
 data class Genre(
@@ -8,7 +7,7 @@ data class Genre(
     var name: String?,
     var gamesCount: Int?,
     var imageBackground: String?,
-    var games: ArrayList<GamesGenreDTO> = arrayListOf()
+    var games: ArrayList<GameGenre> = arrayListOf()
 )
 
-fun GenreDTO.toDomain() = Genre(id, name, gamesCount, imageBackground, games)
+fun GenreDTO.toDomain() = Genre(id, name, gamesCount, imageBackground, games.map { it.toDomain() } as ArrayList<GameGenre>)

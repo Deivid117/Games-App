@@ -1,6 +1,5 @@
 package com.dwh.gamesapp.a.presentation.ui.games
 
-import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.*
@@ -30,10 +29,7 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.ImageLoader
 import coil.compose.AsyncImage
-import coil.compose.rememberImagePainter
-import coil.disk.DiskCache
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.game.GamesResults
@@ -41,12 +37,10 @@ import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.ShimmerLoadingAnimation
-import com.dwh.gamesapp.a.presentation.composables.shimmerAnimation
 import com.dwh.gamesapp.a.presentation.ui.theme.Dark_Green
 import com.dwh.gamesapp.a.presentation.ui.theme.Light_Green
 import com.dwh.gamesapp.a.presentation.navigation.Screens
 import com.dwh.gamesapp.a.presentation.view_model.games.GamesViewModel
-import java.io.File
 
 @Composable
 fun GamesScreen(
@@ -159,8 +153,8 @@ private fun GameItem(
                     .data(gamesResults.backgroundImage)
                     .build(),
                 contentDescription = "game cover",
-                placeholder = painterResource(id = R.drawable.image_controller),
-                error = painterResource(id = R.drawable.image_unavailable),
+                placeholder = painterResource(id = R.drawable.image_controller_placeholder),
+                error = painterResource(id = R.drawable.image_unavailable_error),
                 contentScale = ContentScale.Crop,
             )
             Column(Modifier.padding(horizontal = 10.dp, vertical = 8.dp)) {

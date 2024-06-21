@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -322,8 +321,8 @@ private fun GameItem(
                     .data(game.backgroundImage)
                     .build(),
                 contentDescription = "game cover",
-                placeholder = painterResource(id = R.drawable.image_controller),
-                error = painterResource(id = R.drawable.image_unavailable),
+                placeholder = painterResource(id = R.drawable.image_controller_placeholder),
+                error = painterResource(id = R.drawable.image_unavailable_error),
                 contentScale = ContentScale.Crop,
             )
         }

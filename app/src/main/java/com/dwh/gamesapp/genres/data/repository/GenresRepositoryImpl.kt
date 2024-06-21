@@ -2,9 +2,8 @@ package com.dwh.gamesapp.genres.data.repository
 
 import android.util.Log
 import com.dwh.gamesapp.core.data.remote.api.ApiService
-import com.dwh.gamesapp.genres.data.remote.model.response.GenresResultsDTO
-import com.dwh.gamesapp.a.domain.model.genre_details.GenreDetails
-import com.dwh.gamesapp.a.domain.model.genre_details.toDomain
+import com.dwh.gamesapp.genres_details.domain.model.GenreDetails
+import com.dwh.gamesapp.genres_details.domain.model.toDomain
 import com.dwh.gamesapp.core.data.Resource
 import com.dwh.gamesapp.core.data.map
 import com.dwh.gamesapp.core.data.remote.api.BaseResponse
@@ -13,7 +12,6 @@ import com.dwh.gamesapp.genres.domain.model.toDomain
 import com.dwh.gamesapp.genres.domain.repository.GenresRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import retrofit2.Response
 import javax.inject.Inject
 
 class GenresRepositoryImpl @Inject constructor(

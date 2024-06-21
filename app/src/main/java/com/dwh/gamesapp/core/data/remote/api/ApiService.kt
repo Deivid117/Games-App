@@ -3,7 +3,7 @@ package com.dwh.gamesapp.core.data.remote.api
 import com.dwh.gamesapp.a.data.model.response.game_details.GameDetailsResponse
 import com.dwh.gamesapp.a.data.model.response.games.GamesBodyResponse
 import com.dwh.gamesapp.a.data.model.response.games.NextWeekGamesResultsDTO
-import com.dwh.gamesapp.a.data.model.response.genre_details.GenreDetailsResponse
+import com.dwh.gamesapp.genres_details.data.remote.model.response.GenreDetailsDTO
 import com.dwh.gamesapp.genres.data.remote.model.response.GenresResultsDTO
 import com.dwh.gamesapp.a.data.model.response.platform_details.PlatformDetailsResponse
 import com.dwh.gamesapp.platforms.data.remote.model.response.PlatformsResultsDTO
@@ -41,12 +41,12 @@ interface ApiService {
     ): Response<BestOfTheYearResultsDTO>
 
     /** WS GENRES */
-    // FALTA
+    // ARREGLADO
     @GET("genres")
     suspend fun getGenres(): Response<GenresResultsDTO>
 
     @GET("genres/{id}")
-    suspend fun getGenreDetails(@Path("id") id: Int): Response<GenreDetailsResponse>
+    suspend fun getGenreDetails(@Path("id") id: Int): Response<GenreDetailsDTO>
 
     /** WS PLATFORMS */
     // ARREGLADO

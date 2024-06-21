@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.presentation.composables
+package com.dwh.gamesapp.core.presentation.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,12 +11,9 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -25,7 +22,7 @@ import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 
 @Composable
-fun VerticalGridItemComposable(
+fun CardItemComposable(
     onClick: () -> Unit,
     imageBackground: String,
     name: String,
@@ -57,15 +54,15 @@ fun VerticalGridItemComposable(
                     .data(imageBackground)
                     .build(),
                 contentDescription = "game cover",
-                placeholder = painterResource(id = R.drawable.image_controller),
-                error = painterResource(id = R.drawable.image_unavailable),
+                placeholder = painterResource(id = R.drawable.image_controller_placeholder),
+                error = painterResource(id = R.drawable.image_unavailable_error),
                 contentScale = ContentScale.Crop,
             )
             Column(
                 Modifier.padding(horizontal = 8.dp, vertical = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                OutlinedText(
+                OutlinedTextComposable(
                     modifier = Modifier.fillMaxWidth(),
                     text = name,
                     style = MaterialTheme.typography.titleLarge,
@@ -83,55 +80,21 @@ fun VerticalGridItemComposable(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                VerticalGridDetailsPopularGames(gameCount = gamesCount.toString())
+                PopularGamesRow(gameCount = gamesCount.toString())
             }
         }
     }
 }
 
 @Composable
-private fun VerticalGridDetailsPopularGames(
+private fun PopularGamesRow(
     gameCount: String
 ) {
     Row(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        OutlinedText(text = "Popular items")
-        OutlinedText(text = gameCount)
-    }
-}
-
-@Composable
-private fun OutlinedText(
-    modifier: Modifier = Modifier,
-    text: String,
-    style: TextStyle = MaterialTheme.typography.labelLarge,
-    strokeWidth: Float = 1f,
-    textAlign: TextAlign = TextAlign.Left,
-    textDecoration: TextDecoration = TextDecoration.None
-) {
-    Box() {
-        Text(
-            modifier = modifier,
-            text = text,
-            style = style,
-            textAlign = textAlign,
-            textDecoration = textDecoration,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-        Text(
-            modifier = modifier,
-            text = text,
-            textAlign = textAlign,
-            color = MaterialTheme.colorScheme.background,
-            style = style.copy(
-                drawStyle = Stroke(
-                    miter = 10f,
-                    width = strokeWidth,
-                    join = StrokeJoin.Round
-                )
-            )
-        )
+        OutlinedTextComposable(text = "Popular items")
+        OutlinedTextComposable(text = gameCount)
     }
 }

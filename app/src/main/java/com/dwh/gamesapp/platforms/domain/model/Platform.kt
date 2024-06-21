@@ -1,7 +1,6 @@
 package com.dwh.gamesapp.platforms.domain.model
 
 import com.dwh.gamesapp.platforms.data.remote.model.response.PlatformDTO
-import com.dwh.gamesapp.platforms.data.remote.model.response.PlatformGamesDTO
 
 data class Platform(
     var id: Int?,
@@ -9,7 +8,7 @@ data class Platform(
     var slug: String?,
     var gamesCount: Int?,
     var imageBackground: String?,
-    var games: ArrayList<PlatformGamesDTO> = arrayListOf()
+    var games: ArrayList<PlattformGames> = arrayListOf()
 )
 
-fun PlatformDTO.toDomain() = Platform(id, name, slug, gamesCount, imageBackground, games)
+fun PlatformDTO.toDomain() = Platform(id, name, slug, gamesCount, imageBackground, games.map { it.toDomain() } as ArrayList<PlattformGames>)

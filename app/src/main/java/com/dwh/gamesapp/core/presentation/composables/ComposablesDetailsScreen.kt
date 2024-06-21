@@ -1,10 +1,9 @@
-package com.dwh.gamesapp.a.presentation.composables
+package com.dwh.gamesapp.core.presentation.composables
 
 import android.text.Html
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -15,18 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -39,20 +34,18 @@ import com.dwh.gamesapp.utils.Constants.titlePaddingEnd
 import com.dwh.gamesapp.utils.Constants.titlePaddingStart
 import com.dwh.gamesapp.utils.Constants.toolbarHeight
 import com.dwh.gamesapp.utils.computeDominantTopSectionColor
-import com.dwh.gamesapp.utils.rememberCoilTarget
-import com.dwh.gamesapp.utils.rememberDefaultImageRequest
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 import kotlin.math.min
 
 @Composable
-fun DetailsHeader(
+fun CoverImageWithBackIconParallaxEffect(
     scrollState: ScrollState,
-    url: String,
+    imageUrl: String,
     modifier: Modifier = Modifier,
-    onClickNav: () -> Unit
+    onNavigateBack: () -> Unit
 ) {
-
+    SetStatusBarColor(imageUrl)
 
     Box() {
         AsyncImage(
@@ -66,11 +59,11 @@ fun DetailsHeader(
                     translationY = -scrollState.value.toFloat() / 2f
                 },
             model = ImageRequest.Builder(LocalContext.current)
-                .data(url,)
+                .data(imageUrl)
                 .build(),
-            contentDescription = "genre background",
-            placeholder = painterResource(id = R.drawable.image_controller),
-            error = painterResource(id = R.drawable.image_unavailable),
+            contentDescription = "game genre background image",
+            placeholder = painterResource(id = R.drawable.image_controller_placeholder),
+            error = painterResource(id = R.drawable.image_unavailable_error),
             contentScale = ContentScale.Crop,
         )
         Row(
@@ -81,14 +74,13 @@ fun DetailsHeader(
         ) {
             Icon(
                 modifier = Modifier
-                    .clickable { onClickNav() }
+                    .clickable { onNavigateBack() }
                     .background(MaterialTheme.colorScheme.background, CircleShape)
                     .padding(5.dp)
                     .size(24.dp)
-                    .clip(CircleShape)
-                ,
+                    .clip(CircleShape),
                 painter = painterResource(id = R.drawable.ic_back),
-                contentDescription = "back left icon",
+                contentDescription = "left back icon",
                 tint = MaterialTheme.colorScheme.onBackground
             )
         }
@@ -96,12 +88,12 @@ fun DetailsHeader(
 }
 
 @Composable
-fun DetailsTitle(
+fun ScrollingTitleComposable(
     scrollState: ScrollState,
-    name: String,
+    title: String,
 ) {
-    var titleHeightPx by remember { mutableStateOf(0f) }
-    var titleWidthPx by remember { mutableStateOf(0f) }
+    var titleHeightPx by remember { mutableFloatStateOf(0f) }
+    var titleWidthPx by remember { mutableFloatStateOf(0f) }
 
     Box(
         modifier = Modifier
@@ -109,45 +101,37 @@ fun DetailsTitle(
             .graphicsLayer {
                 val collapseRange: Float = (headerHeight.toPx() - toolbarHeight.toPx())
                 val collapseFraction: Float = (scrollState.value / collapseRange).coerceIn(0f, 1f)
-
                 val scaleXY = androidx.compose.ui.unit.lerp(
                     titleFontScaleStart.dp,
                     titleFontScaleEnd.dp,
                     collapseFraction
                 )
-
                 val titleExtraStartPadding = titleWidthPx.toDp() * (1 - scaleXY.value) / 2f
-
                 val titleYFirstInterpolatedPoint = androidx.compose.ui.unit.lerp(
                     headerHeight - titleHeightPx.toDp() - paddingMedium,
                     headerHeight / 2,
                     collapseFraction
                 )
-
                 val titleXFirstInterpolatedPoint = androidx.compose.ui.unit.lerp(
                     titlePaddingStart,
                     (titlePaddingEnd - titleExtraStartPadding) * 5 / 4,
                     collapseFraction
                 )
-
                 val titleYSecondInterpolatedPoint = androidx.compose.ui.unit.lerp(
                     headerHeight / 2,
                     toolbarHeight / 2 - titleHeightPx.toDp() / 2,
                     collapseFraction
                 )
-
                 val titleXSecondInterpolatedPoint = androidx.compose.ui.unit.lerp(
                     (titlePaddingEnd - titleExtraStartPadding) * 5 / 4,
                     titlePaddingEnd - titleExtraStartPadding,
                     collapseFraction
                 )
-
                 val titleY = androidx.compose.ui.unit.lerp(
                     titleYFirstInterpolatedPoint,
                     titleYSecondInterpolatedPoint,
                     collapseFraction
                 )
-
                 val titleX = androidx.compose.ui.unit.lerp(
                     titleXFirstInterpolatedPoint,
                     titleXSecondInterpolatedPoint,
@@ -164,31 +148,22 @@ fun DetailsTitle(
                 titleWidthPx = it.size.width.toFloat()
             }
     ) {
-        Text(
-            text = name,
-            color = MaterialTheme.colorScheme.onBackground,
+        OutlinedTextComposable(
+            text = title,
             style = MaterialTheme.typography.titleLarge.copy(fontSize = 35.sp),
-        )
-        Text(
-            text = name,
-            color = MaterialTheme.colorScheme.background,
-            style = MaterialTheme.typography.titleLarge.copy(
-                fontSize = 35.sp,
-                drawStyle = Stroke(
-                    miter = 10f,
-                    width = 3f,
-                    join = StrokeJoin.Round
-                )
-            )
+            strokeWidth = 3f
         )
     }
 }
 
 @Composable
-fun DetailsDescription(description: String, showTitle: Boolean = false) {
-    val descriptionFormated = Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY).toString()
+fun DescriptionComposable(
+    description: String,
+    isHeaderDisplayed: Boolean = false
+) {
+    val formattedDescription = Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY).toString()
 
-    if(showTitle) {
+    if (isHeaderDisplayed) {
         Text(
             text = "About",
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
@@ -197,7 +172,7 @@ fun DetailsDescription(description: String, showTitle: Boolean = false) {
     }
     Text(
         modifier = Modifier.fillMaxWidth(),
-        text = descriptionFormated,
+        text = formattedDescription,
         textAlign = TextAlign.Justify,
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onBackground
@@ -205,32 +180,23 @@ fun DetailsDescription(description: String, showTitle: Boolean = false) {
 }
 
 @Composable
-fun LifecycleOwnerListener() {
-    val lifecycleOwner = LocalLifecycleOwner.current
+private fun SetStatusBarColor(imageUrl: String) {
+    /** Utilizado para obtener el tono/color de la imagen y
+     * usarlo para el status bar */
     val coroutineScope = rememberCoroutineScope()
-    val systemUi = rememberSystemUiController()
-    val isSystemDarkTheme = isSystemInDarkTheme()
-    val colorStatusBar = MaterialTheme.colorScheme.primary
-
-    DisposableEffect(Unit) {
-        val observer = LifecycleEventObserver { _, event ->
-            when (event) {
-                Lifecycle.Event.ON_STOP -> {
-                    coroutineScope.launch {
-                        systemUi.setStatusBarColor(colorStatusBar, isSystemDarkTheme)
-                    }
-                }
-                Lifecycle.Event.ON_DESTROY -> {
-                    coroutineScope.launch {
-                        systemUi.setStatusBarColor(colorStatusBar, isSystemDarkTheme)
-                    }
-                }
-                else -> {}
-            }
+    val systemUiController = rememberSystemUiController()
+    var imageBitmap by remember { mutableStateOf(ImageBitmap(1,1)) }
+    val imageLoader = ImageLoader(LocalContext.current)
+    val target = rememberCoilTarget {bitmap ->
+        imageBitmap = bitmap.asImageBitmap()
+        coroutineScope.launch {
+            val (color, isLight) = bitmap
+                .computeDominantTopSectionColor()
+            systemUiController.setStatusBarColor(color, isLight)
         }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
+    }
+    val imageRequest = rememberDefaultImageRequest(imageUrl = imageUrl, target = target)
+    LaunchedEffect(imageUrl) {
+        imageLoader.execute(imageRequest)
     }
 }

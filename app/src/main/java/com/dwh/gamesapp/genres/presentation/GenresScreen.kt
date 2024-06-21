@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,7 +16,7 @@ import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
-import com.dwh.gamesapp.a.presentation.composables.VerticalGridItemComposable
+import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
 import com.dwh.gamesapp.a.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.state.UIState
 import com.dwh.gamesapp.genres.domain.model.Genre
@@ -59,7 +58,7 @@ private fun GenresValidationResponse(
     navController: NavController,
     viewModel: GenresViewModel
 ) {
-    val uiState by viewModel.uiStateG.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (uiState) {
         is UIState.Error -> {
@@ -132,7 +131,7 @@ private fun GenreItem(
     gamesCount: Int,
     onClick: () -> Unit
 ) {
-    VerticalGridItemComposable(
+    CardItemComposable(
         onClick,
         imageBackground,
         name,

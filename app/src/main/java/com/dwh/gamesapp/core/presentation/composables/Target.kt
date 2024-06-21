@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.utils
+package com.dwh.gamesapp.core.presentation.composables
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -18,7 +18,7 @@ fun rememberCoilTarget(onBitmapReady: (Bitmap) -> Unit): Target = remember {
 }
 
 object DefaultRequest {
-    operator fun invoke(context: Context, url: String, target: coil.target.Target) =
+    operator fun invoke(context: Context, url: String, target: Target) =
         ImageRequest.Builder(context)
             .data(url)
             .target(target)
@@ -27,7 +27,7 @@ object DefaultRequest {
 }
 
 @Composable
-fun rememberDefaultImageRequest(url: String, target: coil.target.Target): ImageRequest {
+fun rememberDefaultImageRequest(imageUrl: String, target: Target): ImageRequest {
     val context = LocalContext.current
-    return remember(url) { DefaultRequest(context, url, target) }
+    return remember(imageUrl) { DefaultRequest(context, imageUrl, target) }
 }

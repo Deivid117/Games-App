@@ -122,8 +122,8 @@ private fun FavoriteGameItem(
                     .data(gamesResults.background_image)
                     .build(),
                 contentDescription = "game cover",
-                placeholder = painterResource(id = R.drawable.image_controller),
-                error = painterResource(id = R.drawable.image_unavailable),
+                placeholder = painterResource(id = R.drawable.image_controller_placeholder),
+                error = painterResource(id = R.drawable.image_unavailable_error),
                 contentScale = ContentScale.Crop,
             )
             Column(Modifier.padding(horizontal = 10.dp, vertical = 8.dp)) {

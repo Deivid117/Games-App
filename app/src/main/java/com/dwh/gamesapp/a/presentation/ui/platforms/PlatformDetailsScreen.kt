@@ -22,17 +22,17 @@ import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.platform_details.PlatformDetails
 import com.dwh.gamesapp.platforms.domain.model.PlattformGames
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
-import com.dwh.gamesapp.a.presentation.composables.DetailsDescription
-import com.dwh.gamesapp.a.presentation.composables.DetailsHeader
-import com.dwh.gamesapp.a.presentation.composables.DetailsTitle
+import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
+import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
+import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
-import com.dwh.gamesapp.a.presentation.composables.LifecycleOwnerListener
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.a.presentation.composables.TopAppBarComposable
 import com.dwh.gamesapp.a.presentation.view_model.platform_details.PlatformDetailsUiState
 import com.dwh.gamesapp.a.presentation.view_model.platform_details.PlatformDetailsViewModel
 import com.dwh.gamesapp.utils.Constants.headerHeight
 import com.dwh.gamesapp.utils.Constants.toolbarHeight
+import com.dwh.gamesapp.utils.LifecycleOwnerListener
 
 @Composable
 fun PlatformDetailsScreen(
@@ -94,9 +94,9 @@ private fun PlatformDetailsContent(
     Box(
         Modifier.background(MaterialTheme.colorScheme.background.copy(.8f))
     ) {
-        DetailsHeader(
+        CoverImageWithBackIconParallaxEffect(
             scrollState = scrollState,
-            url = genreDetails.imageBackground,
+            imageUrl = genreDetails.imageBackground,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(headerHeight)
@@ -112,7 +112,7 @@ private fun PlatformDetailsContent(
             toolbarHeightPx = toolbarHeightPx,
         ) { navController.popBackStack() }
 
-        DetailsTitle(scrollState = scrollState, genreDetails.name)
+        ScrollingTitleComposable(scrollState = scrollState, genreDetails.name)
     }
 }
 
@@ -131,7 +131,7 @@ private fun PlatformBody(
     ) {
         Spacer(Modifier.height(headerHeight - 50.dp))
 
-        DetailsDescription(genreDetails.description)
+        DescriptionComposable(genreDetails.description)
 
         Spacer(modifier = Modifier.height(15.dp))
 
@@ -165,11 +165,13 @@ private fun PlatformGamesItem(plattformGames: PlattformGames) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
+            modifier = Modifier.fillMaxWidth(0.6f),
             text = plattformGames.name ?: "",
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onBackground
         )
         Row(
+            modifier = Modifier.fillMaxWidth(0.4f),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {

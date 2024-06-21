@@ -25,11 +25,10 @@ import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.a.domain.model.game_details.GameDetails
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
-import com.dwh.gamesapp.a.presentation.composables.DetailsDescription
-import com.dwh.gamesapp.a.presentation.composables.DetailsHeader
-import com.dwh.gamesapp.a.presentation.composables.DetailsTitle
+import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
+import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
+import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
-import com.dwh.gamesapp.a.presentation.composables.LifecycleOwnerListener
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.a.presentation.composables.TopAppBarComposable
 import com.dwh.gamesapp.a.presentation.ui.theme.Dark_Green
@@ -38,6 +37,7 @@ import com.dwh.gamesapp.a.presentation.view_model.game_details.GameDetailsUiStat
 import com.dwh.gamesapp.a.presentation.view_model.game_details.GameDetailsViewModel
 import com.dwh.gamesapp.utils.Constants.headerHeight
 import com.dwh.gamesapp.utils.Constants.toolbarHeight
+import com.dwh.gamesapp.utils.LifecycleOwnerListener
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -104,9 +104,9 @@ private fun GameDetailsContent(
     Box(
         Modifier.background(MaterialTheme.colorScheme.background.copy(.8f))
     ) {
-        DetailsHeader(
+        CoverImageWithBackIconParallaxEffect(
             scrollState = scrollState,
-            url = gameDetails.backgroundImageAdditional,
+            imageUrl = gameDetails.backgroundImageAdditional,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(headerHeight)
@@ -122,7 +122,7 @@ private fun GameDetailsContent(
             toolbarHeightPx = toolbarHeightPx,
         ) { navController.popBackStack() }
 
-        DetailsTitle(scrollState = scrollState, gameDetails.nameOriginal)
+        ScrollingTitleComposable(scrollState = scrollState, gameDetails.nameOriginal)
     }
 }
 
@@ -182,7 +182,7 @@ private fun GameBody(
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        DetailsDescription(gameDetails.descriptionRaw, showTitle = true)
+        DescriptionComposable(gameDetails.descriptionRaw, isHeaderDisplayed = true)
 
         Spacer(modifier = Modifier.height(20.dp))
 
