@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.home.domain.model
 
-import com.dwh.gamesapp.a.data.model.response.games.NextWeekGamesDTO
+import com.dwh.gamesapp.home.data.remote.model.response.NextWeekGamesDTO
 
 data class NextWeekGames(
     override var name: String?,

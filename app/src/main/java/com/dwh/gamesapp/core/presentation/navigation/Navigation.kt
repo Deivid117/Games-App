@@ -12,7 +12,7 @@ import com.dwh.gamesapp.platforms.domain.model.PlatformGames
 import com.dwh.gamesapp.home.presentation.HomeScreen
 import com.dwh.gamesapp.a.presentation.ui.favorite_games.FavoriteGamesScreen
 import com.dwh.gamesapp.games_details.presentation.GameDetailsScreen
-import com.dwh.gamesapp.a.presentation.ui.games.GamesScreen
+import com.dwh.gamesapp.games.presentation.GamesScreen
 import com.dwh.gamesapp.genres_details.presentation.GenreDetailsScreen
 import com.dwh.gamesapp.genres.presentation.GenresScreen
 import com.dwh.gamesapp.a.presentation.ui.login.LoginScreen

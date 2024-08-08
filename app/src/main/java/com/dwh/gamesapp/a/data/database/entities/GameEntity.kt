@@ -3,7 +3,7 @@ package com.dwh.gamesapp.a.data.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.dwh.gamesapp.a.domain.model.game.GamesResults
+import com.dwh.gamesapp.games.domain.model.Game
 
 @Entity(tableName = "game_table")
 data class GameEntity(
@@ -16,4 +16,4 @@ data class GameEntity(
     @ColumnInfo("metacritic") var metacritic : Int,
 )
 
-fun GamesResults.toDatabase() = GameEntity(id = id, slug = slug, name = name, released = released, backgroundImage = backgroundImage, metacritic = metacritic)
+fun Game.toDatabase() = GameEntity(id = id!!, slug = slug!!, name = name!!, released = released!!, backgroundImage = backgroundImage!!, metacritic = metacritic!!)

@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.data.model.response.games
+package com.dwh.gamesapp.home.data.remote.model.response
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,8 +1,8 @@
 package com.dwh.gamesapp.core.data.remote.api
 
 import com.dwh.gamesapp.games_details.data.remote.model.response.GameDetailsDTO
-import com.dwh.gamesapp.a.data.model.response.games.GamesBodyResponse
-import com.dwh.gamesapp.a.data.model.response.games.NextWeekGamesResultsDTO
+import com.dwh.gamesapp.games.data.model.GamesResultDTO
+import com.dwh.gamesapp.home.data.remote.model.response.NextWeekGamesResultsDTO
 import com.dwh.gamesapp.genres_details.data.remote.model.response.GenreDetailsDTO
 import com.dwh.gamesapp.genres.data.remote.model.response.GenresResultsDTO
 import com.dwh.gamesapp.platforms_details.data.remote.mode.response.PlatformDetailsDTO
@@ -21,7 +21,7 @@ interface ApiService {
     suspend fun getGames(
         @Query("page") page: Int,
         @Query("page_size") pageSize: Int
-    ): Response<GamesBodyResponse>
+    ): Response<GamesResultDTO>
 
     @GET("games/{id}")
     suspend fun getGameDetails(@Path("id") id: Int): Response<GameDetailsDTO>

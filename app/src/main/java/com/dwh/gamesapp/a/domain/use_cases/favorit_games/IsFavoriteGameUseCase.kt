@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.a.domain.use_cases.favorit_games
 
-import com.dwh.gamesapp.a.domain.repository.GamesRepository
+import com.dwh.gamesapp.games.domain.repository.GamesRepository
 import javax.inject.Inject
 
 class IsFavoriteGameUseCase @Inject constructor(

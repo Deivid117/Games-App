@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.home.domain.model
 
-import com.dwh.gamesapp.a.data.model.response.games.NextWeekGamesResultsDTO
+import com.dwh.gamesapp.home.data.remote.model.response.NextWeekGamesResultsDTO
 
 data class NextWeekGamesResults(
     var results: ArrayList<NextWeekGames> = arrayListOf()

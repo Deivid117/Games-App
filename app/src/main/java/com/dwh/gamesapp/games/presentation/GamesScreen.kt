@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.presentation.ui.games
+package com.dwh.gamesapp.games.presentation
 
 import android.util.Log
 import android.widget.Toast
@@ -32,7 +32,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
-import com.dwh.gamesapp.a.domain.model.game.GamesResults
+import com.dwh.gamesapp.games.domain.model.Game
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
@@ -40,7 +40,6 @@ import com.dwh.gamesapp.a.presentation.composables.ShimmerLoadingAnimation
 import com.dwh.gamesapp.core.presentation.theme.Dark_Green
 import com.dwh.gamesapp.core.presentation.theme.Light_Green
 import com.dwh.gamesapp.core.presentation.navigation.Screens
-import com.dwh.gamesapp.a.presentation.view_model.games.GamesViewModel
 
 @Composable
 fun GamesScreen(
@@ -48,7 +47,7 @@ fun GamesScreen(
     viewModel: GamesViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = viewModel) {
-        viewModel.getAllGamesPaged()
+        viewModel.getGames()
     }
 
     CustomScaffold(navController) {
@@ -62,7 +61,7 @@ private fun ValidationResponse(
     viewModel: GamesViewModel,
     navController: NavController
 ) {
-    val gamesResults = viewModel.gamesState.collectAsLazyPagingItems()
+    val gamesResults = viewModel.uiState.collectAsLazyPagingItems()
 
     if (gamesResults.loadState.refresh is LoadState.Loading) {
         /*LoadingAnimation()*/ ShimmerLazyVerticalGrid()
@@ -72,9 +71,9 @@ private fun ValidationResponse(
 }
 
 @Composable
-fun GamesContent(gamesResults: LazyPagingItems<GamesResults>, navController: NavController) {
-    if(gamesResults.itemSnapshotList.isNotEmpty()) {
-        GamesList(gamesResults, navController)
+fun GamesContent(game: LazyPagingItems<Game>, navController: NavController) {
+    if(game.itemSnapshotList.isNotEmpty()) {
+        GamesList(game, navController)
     } else {
         EmptyData(
             title = "Sin información disponible",
@@ -84,7 +83,7 @@ fun GamesContent(gamesResults: LazyPagingItems<GamesResults>, navController: Nav
 }
 
 @Composable
-private fun GamesList(gamesResults: LazyPagingItems<GamesResults>, navController: NavController) {
+private fun GamesList(game: LazyPagingItems<Game>, navController: NavController) {
     val context = LocalContext.current
     val metacriticColor = if(isSystemInDarkTheme()) Light_Green else Dark_Green
 
@@ -95,14 +94,14 @@ private fun GamesList(gamesResults: LazyPagingItems<GamesResults>, navController
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
         verticalItemSpacing = 8.dp
     ){
-        itemsIndexed(gamesResults.itemSnapshotList) {index, item ->
+        itemsIndexed(game.itemSnapshotList) { index, item ->
             if (item != null) {
-                GameItem(gamesResults = item, index, metacriticColor) {
+                GameItem(game = item, index, metacriticColor) {
                     navController.navigate(Screens.GAME_DETAILS_SCREEN + "/" + item.id)
                 }
             }
         }
-        gamesResults.apply {
+        game.apply {
             when {
                 loadState.append is LoadState.Loading -> {
                     item {
@@ -112,18 +111,18 @@ private fun GamesList(gamesResults: LazyPagingItems<GamesResults>, navController
                 loadState.refresh is LoadState.Error -> {
                     Log.e(
                         "LoadStateError",
-                        (gamesResults.loadState.refresh as LoadState.Error).error.message.toString()
+                        (game.loadState.refresh as LoadState.Error).error.message.toString()
                     )
                     Toast.makeText(
                         context,
-                        (gamesResults.loadState.refresh as LoadState.Error).error.message.toString(),
+                        (game.loadState.refresh as LoadState.Error).error.message.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
                 loadState.append is LoadState.Error -> {
                     // Muestra un mensaje de error en la parte inferior de la lista
                     item {
-                        ErrorItem((gamesResults.loadState.append as LoadState.Error).error.message.toString())
+                        ErrorItem((game.loadState.append as LoadState.Error).error.message.toString())
                     }
                 }
             }
@@ -133,7 +132,7 @@ private fun GamesList(gamesResults: LazyPagingItems<GamesResults>, navController
 
 @Composable
 private fun GameItem(
-    gamesResults: GamesResults,
+    game: Game,
     index: Int,
     metacriticColor: Color,
     onClick: () -> Unit
@@ -150,7 +149,7 @@ private fun GameItem(
                     .background(Color.LightGray)
                     .fillMaxSize(),
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(gamesResults.backgroundImage)
+                    .data(game.backgroundImage)
                     .build(),
                 contentDescription = "game cover",
                 placeholder = painterResource(id = R.drawable.image_controller_placeholder),
@@ -164,14 +163,14 @@ private fun GameItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = gamesResults.released,
+                        text = game.released ?: "",
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(
                         modifier = Modifier
                             .border(1.dp, metacriticColor, shape = RoundedCornerShape(5.dp))
                             .padding(3.dp),
-                        text = "${gamesResults.metacritic}",
+                        text = "${game.metacritic}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = metacriticColor
                     )
@@ -179,7 +178,7 @@ private fun GameItem(
                 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(text = gamesResults.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = game.name ?: "", style = MaterialTheme.typography.titleMedium)
             }
         }
     }

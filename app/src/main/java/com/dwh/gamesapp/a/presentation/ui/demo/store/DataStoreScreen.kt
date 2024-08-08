@@ -8,7 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.dwh.gamesapp.a.presentation.view_model.games.GamesViewModel
+import com.dwh.gamesapp.games.presentation.GamesViewModel
 
 @Composable
 fun DataStoreScreen(
