@@ -33,8 +33,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.games.domain.model.Game
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
-import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
+import com.dwh.gamesapp.a.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.ShimmerLoadingAnimation
 import com.dwh.gamesapp.core.presentation.theme.Dark_Green
@@ -50,8 +49,7 @@ fun GamesScreen(
         viewModel.getGames()
     }
 
-    CustomScaffold(navController) {
-        BackgroundGradient()
+    GameScaffold(navController) {
         ValidationResponse(viewModel, navController)
     }
 }

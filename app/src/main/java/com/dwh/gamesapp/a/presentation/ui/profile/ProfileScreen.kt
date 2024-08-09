@@ -19,10 +19,9 @@ import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.user.User
 import com.dwh.gamesapp.a.domain.model.user.UserDataStore
 import com.dwh.gamesapp.a.presentation.composables.Avatars
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.CustomButton
 import com.dwh.gamesapp.a.presentation.composables.CustomDialog
-import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
+import com.dwh.gamesapp.a.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.UserImage
 import com.dwh.gamesapp.a.presentation.view_model.logout.LogoutViewModel
 import com.dwh.gamesapp.a.presentation.view_model.profile.ProfileUiState
@@ -39,8 +38,7 @@ fun ProfileScreen(
         profileViewModel.getUserInfo()
     }
 
-    CustomScaffold(navController = navController) {
-        BackgroundGradient()
+    GameScaffold(navController = navController) {
         ValidationResponse(profileViewModel, viewModel, navController)
     }
 

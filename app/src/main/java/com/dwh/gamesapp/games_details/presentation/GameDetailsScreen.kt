@@ -28,7 +28,7 @@ import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.theme.Dark_Green
 import com.dwh.gamesapp.core.presentation.theme.Light_Green
-import com.dwh.gamesapp.core.presentation.state.UIState
+import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.games_details.presentation.utils.DateFormatter.formattedDate
 import com.dwh.gamesapp.games_details.presentation.utils.generateStringFromList
 import com.dwh.gamesapp.core.presentation.utils.Constants.headerHeight
@@ -70,8 +70,8 @@ private fun GameDetailsValidateResponse(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (uiState) {
-        is UIState.Error -> {
-            val errorMsg = (uiState as UIState.Error).errorMessage
+        is DataState.Error -> {
+            val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: GameDetailsScreenError", errorMsg)
             EmptyData(
                 modifier = Modifier.fillMaxSize(),
@@ -80,10 +80,10 @@ private fun GameDetailsValidateResponse(
             )
         }
 
-        UIState.Loading -> LoadingAnimation()
+        DataState.Loading -> LoadingAnimation()
 
-        is UIState.Success -> {
-            val gameDetails = (uiState as UIState.Success).data
+        is DataState.Success -> {
+            val gameDetails = (uiState as DataState.Success).data
             GameDetailsContentWithParallaxEffect(navController, gameDetails, viewModel)
         }
     }

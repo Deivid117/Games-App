@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.home.domain.use_cases.GetNextWeekGamesUseCase
 import com.dwh.gamesapp.home.domain.use_cases.GetBestOfTheYearUseCase
-import com.dwh.gamesapp.core.presentation.state.UIState
+import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.core.data.Resource
 import com.dwh.gamesapp.home.domain.model.BestOfTheYearResults
 import com.dwh.gamesapp.home.domain.model.NextWeekGamesResults
@@ -29,9 +29,9 @@ class HomeViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private var _uiStateNWG: MutableStateFlow<UIState<NextWeekGamesResults?>> =
-        MutableStateFlow(UIState.Loading)
-    val uiStateNWG: MutableStateFlow<UIState<NextWeekGamesResults?>> get() = _uiStateNWG
+    private var _uiStateNWG: MutableStateFlow<DataState<NextWeekGamesResults?>> =
+        MutableStateFlow(DataState.Loading)
+    val uiStateNWG: MutableStateFlow<DataState<NextWeekGamesResults?>> get() = _uiStateNWG
 
     fun getNextWeekGames() = viewModelScope.launch(Dispatchers.IO) {
         getNextWeekGamesUseCase(getDateRange(), Constants.PLATFORMS).collect { resource ->
@@ -41,32 +41,32 @@ class HomeViewModel @Inject constructor(
                         "ERROR: NEXT_WEEK_GAMES",
                         "Error code: ${resource.code} - Message: ${resource.message}"
                     )
-                    UIState.Error(resource.message ?: "Error desconocido")
+                    DataState.Error(resource.message ?: "Error desconocido")
                 }
-                is Resource.Loading -> UIState.Loading
-                is Resource.Success -> UIState.Success(resource.data)
+                is Resource.Loading -> DataState.Loading
+                is Resource.Success -> DataState.Success(resource.data)
             }
         }
     }
 
-    private var _uiStateBOTY: MutableStateFlow<UIState<BestOfTheYearResults?>> =
-        MutableStateFlow(UIState.Loading)
-    val uiStateBOTY: MutableStateFlow<UIState<BestOfTheYearResults?>> get() = _uiStateBOTY
+    private var _uiStateBOTY: MutableStateFlow<DataState<BestOfTheYearResults?>> =
+        MutableStateFlow(DataState.Loading)
+    val uiStateBOTY: MutableStateFlow<DataState<BestOfTheYearResults?>> get() = _uiStateBOTY
 
     fun getBestOfTheYear() = viewModelScope.launch(Dispatchers.IO) {
         val dateNow = Clock.System.todayIn(TimeZone.currentSystemDefault())
 
         getBestOfTheYearUseCase("${dateNow.year}-01-01,${dateNow.year}-12-31", Constants.ORDERING).collect { resource ->
             _uiStateBOTY.value = when (resource) {
-                is Resource.Loading -> UIState.Loading
+                is Resource.Loading -> DataState.Loading
                 is Resource.Error -> {
                     Log.e(
                         "ERROR: BEST_OF_THE_YEAR",
                         "Error code: ${resource.code} - Message: ${resource.message}"
                     )
-                    UIState.Error(resource.message ?: "Error desconocido")
+                    DataState.Error(resource.message ?: "Error desconocido")
                 }
-                is Resource.Success -> UIState.Success(resource.data)
+                is Resource.Success -> DataState.Success(resource.data)
             }
         }
     }

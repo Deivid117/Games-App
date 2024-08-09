@@ -1,19 +1,15 @@
 package com.dwh.gamesapp.a.presentation.composables
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 
 @Composable
-fun CustomScaffold(
+fun GameScaffold(
     navController: NavController,
-    showBottomBar: Boolean = true,
-    showTopBar: Boolean = false,
+    isBottomBarVisible: Boolean = true,
+    isTopBarVisible: Boolean = false,
     showTopBarColor: Boolean = false,
     title: String = "",
     onBackClick: () -> Unit = {},
@@ -21,7 +17,7 @@ fun CustomScaffold(
 ) {
     Scaffold(
         topBar = {
-            if(showTopBar) {
+            if(isTopBarVisible) {
                 TopAppBarComposable(
                     iconColor = MaterialTheme.colorScheme.outlineVariant,
                     showTopBarColor = showTopBarColor,
@@ -31,14 +27,16 @@ fun CustomScaffold(
             ) }
         },
         bottomBar = {
-            if(showBottomBar) NavigationBarComposable(navController)
+            if(isBottomBarVisible) NavigationBarComposable(navController)
         },
-        content = {
-                innerPadding ->
-            // Apply the padding globally to the whole BottomNavScreensController
-            Box(modifier = Modifier.padding(innerPadding)) {
+        content = { innerPadding ->
+            BackgroundGradient(paddingValues = innerPadding) {
                 content()
             }
+            /*Box(modifier = Modifier.padding(innerPadding)) {
+                BackgroundGradient()
+                content()
+            }*/
         }
     )
 }

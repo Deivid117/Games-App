@@ -31,8 +31,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
-import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
+import com.dwh.gamesapp.a.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.core.presentation.theme.Dark_Green
 import com.dwh.gamesapp.core.presentation.theme.Light_Green
@@ -49,8 +48,7 @@ fun FavoriteGamesScreen(
         viewModel.getAllFavoriteGames()
     }
 
-    CustomScaffold(navController) {
-        BackgroundGradient()
+    GameScaffold(navController) {
         ValidationFavoriteGamesResponse(viewModel, navController)
     }
 }

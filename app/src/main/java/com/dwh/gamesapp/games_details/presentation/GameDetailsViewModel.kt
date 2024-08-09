@@ -7,9 +7,8 @@ import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.a.domain.use_cases.favorit_games.IsFavoriteGameUseCase
 import com.dwh.gamesapp.a.domain.use_cases.favorit_games.RemoveFavoriteGameUseCase
 import com.dwh.gamesapp.a.domain.use_cases.game_details.AddFavoriteGameUseCase
-import com.dwh.gamesapp.a.presentation.view_model.game_details.GameDetailsUiState
 import com.dwh.gamesapp.core.data.Resource
-import com.dwh.gamesapp.core.presentation.state.UIState
+import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.games_details.domain.model.GameDetails
 import com.dwh.gamesapp.games_details.domain.use_cases.GetGameDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +25,8 @@ class GameDetailsViewModel @Inject constructor(
     private val removeFavoriteGameUseCase: RemoveFavoriteGameUseCase
 ): ViewModel() {
 
-    private var _uiState: MutableStateFlow<UIState<GameDetails?>> = MutableStateFlow(UIState.Loading)
-    val uiState: MutableStateFlow<UIState<GameDetails?>> get() = _uiState
+    private var _uiState: MutableStateFlow<DataState<GameDetails?>> = MutableStateFlow(DataState.Loading)
+    val uiState: MutableStateFlow<DataState<GameDetails?>> get() = _uiState
 
     fun getGameDetails(id: Int) = viewModelScope.launch {
         getGameDetailsUseCase(id).collect { resource ->
@@ -37,10 +36,10 @@ class GameDetailsViewModel @Inject constructor(
                         "ERROR: GAME_DETAILS",
                         "Error code: ${resource.code} - Message: ${resource.message}"
                     )
-                    UIState.Error(resource.message ?: "Error desconocido")
+                    DataState.Error(resource.message ?: "Error desconocido")
                 }
-                is Resource.Loading -> UIState.Loading
-                is Resource.Success -> UIState.Success(resource.data)
+                is Resource.Loading -> DataState.Loading
+                is Resource.Success -> DataState.Success(resource.data)
             }
         }
     }

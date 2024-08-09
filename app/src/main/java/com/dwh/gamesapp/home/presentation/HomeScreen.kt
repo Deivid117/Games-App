@@ -37,8 +37,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
-import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
+import com.dwh.gamesapp.a.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.home.presentation.utils.GameUiInfo
@@ -47,7 +46,7 @@ import com.dwh.gamesapp.utils.vertical
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 import com.dwh.gamesapp.core.presentation.navigation.Screens
-import com.dwh.gamesapp.core.presentation.state.UIState
+import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.home.domain.model.BestOfTheYearResults
 import com.dwh.gamesapp.home.domain.model.GameItem
 import com.dwh.gamesapp.home.domain.model.NextWeekGamesResults
@@ -65,8 +64,7 @@ fun HomeScreen(
         homeViewModel.getBestOfTheYear()
     }
 
-    CustomScaffold(navController = navController) {
-        BackgroundGradient()
+    GameScaffold(navController = navController) {
         HomeContent(navController, homeViewModel)
     }
 }
@@ -142,8 +140,8 @@ fun BestOfTheYearValidationResponse(
     val uiState by homeViewModel.uiStateBOTY.collectAsStateWithLifecycle()
 
     when (uiState) {
-        is UIState.Error -> {
-            val errorMsg = (uiState as UIState.Error).errorMessage
+        is DataState.Error -> {
+            val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: HomeScreenError", errorMsg)
             EmptyData(
                 title = "Ocurrió un error",
@@ -151,10 +149,10 @@ fun BestOfTheYearValidationResponse(
             )
         }
 
-        UIState.Loading -> LoadingAnimation()
+        DataState.Loading -> LoadingAnimation()
 
-        is UIState.Success -> {
-            val bestOfTheYearResults = (uiState as UIState.Success).data
+        is DataState.Success -> {
+            val bestOfTheYearResults = (uiState as DataState.Success).data
             BestOfTheYearContent(navController, bestOfTheYearResults, gameUiInfo)
         }
     }
@@ -169,8 +167,8 @@ fun NextWeekGamesValidationResponse(
     val uiState by homeViewModel.uiStateNWG.collectAsStateWithLifecycle()
 
     when (uiState) {
-        is UIState.Error -> {
-            val errorMsg = (uiState as UIState.Error).errorMessage
+        is DataState.Error -> {
+            val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: HomeScreenError", errorMsg)
             EmptyData(
                 title = "Ocurrió un error",
@@ -178,10 +176,10 @@ fun NextWeekGamesValidationResponse(
             )
         }
 
-        UIState.Loading -> LoadingAnimation()
+        DataState.Loading -> LoadingAnimation()
 
-        is UIState.Success -> {
-            val nextWeekGamesResults = (uiState as UIState.Success).data
+        is DataState.Success -> {
+            val nextWeekGamesResults = (uiState as DataState.Success).data
             NextWeekGamesContent(navController, nextWeekGamesResults, gameUiInfo)
         }
     }

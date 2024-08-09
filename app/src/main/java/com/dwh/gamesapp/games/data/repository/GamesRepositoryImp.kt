@@ -8,25 +8,16 @@ import com.dwh.gamesapp.core.data.remote.api.ApiService
 import com.dwh.gamesapp.a.data.database.dao.FavoriteGamesDao
 import com.dwh.gamesapp.a.data.database.dao.GameDao
 import com.dwh.gamesapp.a.data.database.entities.FavoriteGameEntity
-import com.dwh.gamesapp.a.data.database.entities.GameEntity
 import com.dwh.gamesapp.a.data.database.entities.toDatabase
-import com.dwh.gamesapp.games_details.data.remote.model.response.GameDetailsDTO
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.a.domain.model.favorite_game.toDomain
-import com.dwh.gamesapp.core.data.Resource
-import com.dwh.gamesapp.core.data.map
 import com.dwh.gamesapp.games.domain.model.Game
-import com.dwh.gamesapp.games.domain.model.toDomain
-import com.dwh.gamesapp.games_details.domain.model.GameDetails
-import com.dwh.gamesapp.games_details.domain.model.toDomain
 import com.dwh.gamesapp.games.domain.repository.GamesRepository
-import com.dwh.gamesapp.core.data.remote.api.BaseResponse
+import com.dwh.gamesapp.core.data.remote.api.BaseRepo
 import com.dwh.gamesapp.games.data.data_source.GamesDataSource
 import com.dwh.gamesapp.games.data.repository.paging_source.GamesPagingSource
-import com.dwh.gamesapp.games.domain.model.GamesResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import retrofit2.Response
 import javax.inject.Inject
 
 class GamesRepositoryImp @Inject constructor(
@@ -34,7 +25,7 @@ class GamesRepositoryImp @Inject constructor(
     private val gameDao: GameDao,
     private val favoriteGamesDao: FavoriteGamesDao,
     private val remoteDataSource: GamesDataSource
-) : GamesRepository, BaseResponse() {
+) : GamesRepository, BaseRepo() {
 
     /** TODO: este es el chido */
     override suspend fun getPaginatedGames(): Flow<PagingData<Game>> {

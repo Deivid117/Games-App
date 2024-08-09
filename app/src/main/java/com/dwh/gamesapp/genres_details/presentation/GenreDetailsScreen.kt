@@ -24,7 +24,7 @@ import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
-import com.dwh.gamesapp.core.presentation.state.UIState
+import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.core.presentation.utils.Constants.headerHeight
 import com.dwh.gamesapp.core.presentation.utils.Constants.toolbarHeight
 import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
@@ -68,8 +68,8 @@ private fun GenreDetailsValidateResponse(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (uiState) {
-        is UIState.Error -> {
-            val errorMsg = (uiState as UIState.Error).errorMessage
+        is DataState.Error -> {
+            val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: GenreDetailsScreen", errorMsg)
             EmptyData(
                 modifier = Modifier.fillMaxSize(),
@@ -78,12 +78,12 @@ private fun GenreDetailsValidateResponse(
             )
         }
 
-        UIState.Loading -> {
+        DataState.Loading -> {
             LoadingAnimation(Modifier.fillMaxSize())
         }
 
-        is UIState.Success -> {
-            val genreDetails = (uiState as UIState.Success).data
+        is DataState.Success -> {
+            val genreDetails = (uiState as DataState.Success).data
             GenreDetailsContentWithParallaxEffect(navController, genreDetails, gamesGenre)
         }
     }

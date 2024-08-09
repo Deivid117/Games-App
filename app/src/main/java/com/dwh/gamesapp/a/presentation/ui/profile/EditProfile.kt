@@ -1,6 +1,5 @@
 package com.dwh.gamesapp.a.presentation.ui.profile
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -16,11 +15,10 @@ import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.user.User
 import com.dwh.gamesapp.a.presentation.composables.Avatars
 import com.dwh.gamesapp.a.presentation.composables.AvatarsDialog
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.CustomArcShape
 import com.dwh.gamesapp.a.presentation.composables.CustomButton
 import com.dwh.gamesapp.a.presentation.composables.CustomDialog
-import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
+import com.dwh.gamesapp.a.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.CustomTextField
 import com.dwh.gamesapp.a.presentation.view_model.edit_profile.EditProfileViewModel
 
@@ -33,15 +31,14 @@ fun EditProfileScreen(
         viewModel.getValues()
     }
 
-    CustomScaffold(
+    GameScaffold(
         navController = navController,
-        showBottomBar = false,
-        showTopBar = true,
+        isBottomBarVisible = false,
+        isTopBarVisible = true,
         showTopBarColor = true,
         title = "Edit Profile",
         onBackClick = { navController.popBackStack() }
     ) {
-        BackgroundGradient()
         EditProfileContent(viewModel, navController)
     }
 }

@@ -12,13 +12,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.dwh.gamesapp.genres.domain.model.GenresResults
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
-import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
+import com.dwh.gamesapp.a.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
 import com.dwh.gamesapp.core.presentation.navigation.Screens
-import com.dwh.gamesapp.core.presentation.state.UIState
+import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.genres.domain.model.Genre
 
 @Composable
@@ -30,15 +29,14 @@ fun GenresScreen(
         genresViewModel.getGenres()
     }
 
-    CustomScaffold(
+    GameScaffold(
         navController,
-        showTopBar = true,
-        showBottomBar = false,
+        isTopBarVisible = true,
+        isBottomBarVisible = false,
         showTopBarColor = true,
         title = "Genres",
         onBackClick = { navController.popBackStack() }
     ) {
-        BackgroundGradient()
         GenresContent(navController, genresViewModel)
     }
 }
@@ -61,8 +59,8 @@ private fun GenresValidationResponse(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (uiState) {
-        is UIState.Error -> {
-            val errorMsg = (uiState as UIState.Error).errorMessage
+        is DataState.Error -> {
+            val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: GenresScreen", errorMsg)
             EmptyData(
                 modifier = Modifier.fillMaxSize(),
@@ -71,10 +69,10 @@ private fun GenresValidationResponse(
             )
         }
 
-        UIState.Loading -> LoadingAnimation(Modifier.fillMaxSize())
+        DataState.Loading -> LoadingAnimation(Modifier.fillMaxSize())
 
-        is UIState.Success -> {
-            val genresResults = (uiState as UIState.Success).data
+        is DataState.Success -> {
+            val genresResults = (uiState as DataState.Success).data
             GenresListContent(navController, genresResults)
         }
     }

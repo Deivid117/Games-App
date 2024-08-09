@@ -1,8 +1,6 @@
 package com.dwh.gamesapp.platforms.presentation
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -10,77 +8,38 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.dwh.gamesapp.platforms.domain.model.PlatformResults
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
-import com.dwh.gamesapp.a.presentation.composables.CustomScaffold
+import com.dwh.gamesapp.a.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.EmptyData
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
 import com.dwh.gamesapp.core.presentation.navigation.Screens
-import com.dwh.gamesapp.core.presentation.state.UIState
 import com.dwh.gamesapp.platforms.domain.model.Platform
 
 @Composable
 fun PlatformsScreen(
     navController: NavController,
-    platformsViewModel: PlatformsViewModel = hiltViewModel()
+    viewModel: PlatformsViewModel,
+    state: PlatformsState
 ) {
-    LaunchedEffect(platformsViewModel) {
-        platformsViewModel.getPlatforms()
+    LaunchedEffect(Unit) {
+        viewModel.getPlatforms()
     }
 
-    CustomScaffold(
+    GameScaffold(
         navController,
-        showTopBar = true,
-        showBottomBar = false,
+        isTopBarVisible = true,
+        isBottomBarVisible = false,
         showTopBarColor = true,
         title = "Platforms",
         onBackClick = { navController.popBackStack() }
     ) {
-        BackgroundGradient()
-        PlatformsContent(navController, platformsViewModel)
-    }
-}
-
-@Composable
-private fun PlatformsContent(
-    navController: NavController,
-    platformsViewModel: PlatformsViewModel
-) {
-    Column(Modifier.fillMaxSize()) {
-        PlatformsValidationResponse(navController, platformsViewModel)
-    }
-}
-
-@Composable
-private fun PlatformsValidationResponse(
-    navController: NavController,
-    platformsViewModel: PlatformsViewModel
-) {
-    val uiState by platformsViewModel.uiStateP.collectAsStateWithLifecycle()
-
-    when(uiState) {
-        is UIState.Error -> {
-            val errorMsg = (uiState as UIState.Error).errorMessage
-            Log.e("ERROR: PlatformsScreen", errorMsg)
-            EmptyData(
-                modifier = Modifier.fillMaxSize(),
-                title = "Ocurrió un error",
-                description = errorMsg
-            )
-        }
-
-        UIState.Loading -> LoadingAnimation(Modifier.fillMaxSize())
-
-        is UIState.Success -> {
-            val platformResults = (uiState as UIState.Success).data
-            PlatformsListContent(navController, platformResults)
+        if(state.isLoading) {
+            LoadingAnimation(modifier = Modifier.fillMaxSize())
+        } else {
+            PlatformsListContent(navController = navController, state = state)
         }
     }
 }
@@ -88,17 +47,15 @@ private fun PlatformsValidationResponse(
 @Composable
 private fun PlatformsListContent(
     navController: NavController,
-    platformResults: PlatformResults?
+    state: PlatformsState
 ) {
-    val platforms = platformResults?.results ?: arrayListOf()
-
-    if(platforms.isNotEmpty()) {
-        PlatformsVerticalGrid(navController, platforms)
+    if(state.platforms.isNotEmpty()) {
+        PlatformsVerticalGrid(navController, state.platforms)
     } else {
         EmptyData(
             modifier = Modifier.fillMaxSize(),
-            title = "Sin información disponible",
-            description = "No se han encontrado plataformas por el momento, inténtelo más tarde"
+            title = state.errorMessage,
+            description = state.errorDescription
         )
     }
 }

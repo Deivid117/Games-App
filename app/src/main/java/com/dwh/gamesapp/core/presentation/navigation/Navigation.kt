@@ -1,12 +1,24 @@
 package com.dwh.gamesapp.core.presentation.navigation
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.genres.domain.model.GameGenre
 import com.dwh.gamesapp.platforms.domain.model.PlatformGames
 import com.dwh.gamesapp.home.presentation.HomeScreen
@@ -22,6 +34,7 @@ import com.dwh.gamesapp.a.presentation.ui.profile.EditProfileScreen
 import com.dwh.gamesapp.a.presentation.ui.profile.ProfileScreen
 import com.dwh.gamesapp.a.presentation.ui.registration.RegistrationScreen
 import com.dwh.gamesapp.a.presentation.ui.welcome.WelcomeScreen
+import com.dwh.gamesapp.platforms.presentation.PlatformsViewModel
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -77,8 +90,13 @@ fun Navigation(navController: NavController) {
         }
         // Plataformas
         composable(Screens.PLATFORMS_SCREEN) {
-            PlatformsScreen(navController)
+
+            val viewModel = hiltViewModel<PlatformsViewModel>()
+            val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+            PlatformsScreen(navController, viewModel, state)
         }
+
         composable(Screens.PLATFORMS_DETAILS_SCREEN + "/{id}") {
             val games =
                 navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<PlatformGames>>("games")

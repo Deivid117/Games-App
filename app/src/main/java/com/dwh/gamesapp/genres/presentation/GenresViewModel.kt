@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.core.data.Resource
-import com.dwh.gamesapp.core.presentation.state.UIState
+import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.genres.domain.model.GenresResults
 import com.dwh.gamesapp.genres.domain.use_cases.GetGenresUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,8 +19,8 @@ class GenresViewModel @Inject constructor(
     private val getGenresUseCase: GetGenresUseCase
 ): ViewModel() {
 
-    private var _uiState: MutableStateFlow<UIState<GenresResults?>> = MutableStateFlow(UIState.Loading)
-    val uiState: StateFlow<UIState<GenresResults?>> get() = _uiState
+    private var _uiState: MutableStateFlow<DataState<GenresResults?>> = MutableStateFlow(DataState.Loading)
+    val uiState: StateFlow<DataState<GenresResults?>> get() = _uiState
 
     fun getGenres() = viewModelScope.launch(Dispatchers.IO) {
         getGenresUseCase().collect { resource ->
@@ -30,10 +30,10 @@ class GenresViewModel @Inject constructor(
                         "ERROR: GENRES",
                         "Error code: ${resource.code} - Message: ${resource.message}"
                     )
-                    UIState.Error(resource.message ?: "Error desconocido")
+                    DataState.Error(resource.message ?: "Error desconocido", code = 2)
                 }
-                is Resource.Loading -> UIState.Loading
-                is Resource.Success -> UIState.Success(resource.data)
+                is Resource.Loading -> DataState.Loading
+                is Resource.Success -> DataState.Success(resource.data)
             }
         }
     }
