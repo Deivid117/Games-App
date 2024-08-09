@@ -32,7 +32,7 @@ import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.a.presentation.composables.GameScaffold
-import com.dwh.gamesapp.a.presentation.composables.EmptyData
+import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.core.presentation.theme.Dark_Green
 import com.dwh.gamesapp.core.presentation.theme.Light_Green
 import com.dwh.gamesapp.core.presentation.navigation.Screens
@@ -77,8 +77,8 @@ fun FavoriteGamesContent(games: List<FavoritGame>, navController: NavController)
     if(games.isNotEmpty()) {
         FavoriteGamesList(games, navController)
     } else {
-        EmptyData(
-            title = "Sin información disponible",
+        InformationCard(
+            message = "Sin información disponible",
             description = "No se han encontrado juegos por el momento, inténtelo más tarde"
         )
     }

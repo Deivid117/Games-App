@@ -38,7 +38,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.presentation.composables.GameScaffold
-import com.dwh.gamesapp.a.presentation.composables.EmptyData
+import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.home.presentation.utils.GameUiInfo
 import com.dwh.gamesapp.home.presentation.utils.LocalGameUiInfo
@@ -143,8 +143,8 @@ fun BestOfTheYearValidationResponse(
         is DataState.Error -> {
             val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: HomeScreenError", errorMsg)
-            EmptyData(
-                title = "Ocurrió un error",
+            InformationCard(
+                message = "Ocurrió un error",
                 description = errorMsg
             )
         }
@@ -170,8 +170,8 @@ fun NextWeekGamesValidationResponse(
         is DataState.Error -> {
             val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: HomeScreenError", errorMsg)
-            EmptyData(
-                title = "Ocurrió un error",
+            InformationCard(
+                message = "Ocurrió un error",
                 description = errorMsg
             )
         }
@@ -201,8 +201,8 @@ fun BestOfTheYearContent(
             BestOfTheYearHorizontalList(bestOfTheYearGames, navController)
         }
     } else {
-        EmptyData(
-            title = "Sin información disponible",
+        InformationCard(
+            message = "Sin información disponible",
             description = "No hay juegos por mostrar"
         )
     }
@@ -221,8 +221,8 @@ fun NextWeekGamesContent(
             NextWeekGamesHorizontalList(nextWeekGames, navController)
         }
     } else {
-        EmptyData(
-            title = "Sin información disponible",
+        InformationCard(
+            message = "Sin información disponible",
             description = "No hay juegos por mostrar"
         )
     }

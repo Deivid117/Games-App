@@ -24,7 +24,7 @@ import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
 import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
-import com.dwh.gamesapp.a.presentation.composables.EmptyData
+import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.theme.Dark_Green
 import com.dwh.gamesapp.core.presentation.theme.Light_Green
@@ -73,9 +73,9 @@ private fun GameDetailsValidateResponse(
         is DataState.Error -> {
             val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: GameDetailsScreenError", errorMsg)
-            EmptyData(
+            InformationCard(
                 modifier = Modifier.fillMaxSize(),
-                title = "Ocurrió un error",
+                message = "Ocurrió un error",
                 description = errorMsg
             )
         }

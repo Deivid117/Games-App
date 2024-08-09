@@ -23,10 +23,10 @@ import com.dwh.gamesapp.R
 
 @Composable
 fun CardItemComposable(
-    onClick: () -> Unit,
-    imageBackground: String,
     name: String,
-    gamesCount: Int
+    imageBackground: String,
+    gamesCount: Int,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier

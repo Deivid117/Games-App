@@ -12,9 +12,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun EmptyData(
+fun InformationCard(
     modifier: Modifier = Modifier,
-    title: String,
+    message: String,
     description: String,
     verticalArrangement: Arrangement.Vertical = Arrangement.Center,
 ) {
@@ -30,7 +30,7 @@ fun EmptyData(
             Column(Modifier.padding(20.dp)) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = title,
+                    text = message,
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onBackground,

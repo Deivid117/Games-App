@@ -6,5 +6,5 @@ data class Platform(
     var slug: String?,
     var gamesCount: Int?,
     var imageBackground: String?,
-    var games: ArrayList<PlatformGames> = arrayListOf()
+    var games: ArrayList<PlatformGame> = arrayListOf()
 )

@@ -12,17 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.dwh.gamesapp.a.presentation.composables.GameScaffold
-import com.dwh.gamesapp.a.presentation.composables.EmptyData
+import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
 import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.platforms.domain.model.Platform
 
 @Composable
-fun PlatformsScreen(
+fun PlatformScreen(
     navController: NavController,
-    viewModel: PlatformsViewModel,
-    state: PlatformsState
+    viewModel: PlatformViewModel,
+    state: PlatformState
 ) {
     LaunchedEffect(Unit) {
         viewModel.getPlatforms()
@@ -39,22 +39,22 @@ fun PlatformsScreen(
         if(state.isLoading) {
             LoadingAnimation(modifier = Modifier.fillMaxSize())
         } else {
-            PlatformsListContent(navController = navController, state = state)
+            PlatformView(navController = navController, state = state)
         }
     }
 }
 
 @Composable
-private fun PlatformsListContent(
+private fun PlatformView(
     navController: NavController,
-    state: PlatformsState
+    state: PlatformState
 ) {
     if(state.platforms.isNotEmpty()) {
-        PlatformsVerticalGrid(navController, state.platforms)
+        VerticalGridPlatforms(navController = navController, platforms = state.platforms)
     } else {
-        EmptyData(
+        InformationCard(
             modifier = Modifier.fillMaxSize(),
-            title = state.errorMessage,
+            message = state.errorMessage,
             description = state.errorDescription
         )
     }
@@ -62,22 +62,22 @@ private fun PlatformsListContent(
 
 
 @Composable
-private fun PlatformsVerticalGrid(
+private fun VerticalGridPlatforms(
     navController: NavController,
     platforms: List<Platform>
 ) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(count = 2),
         contentPadding = PaddingValues(all = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ){
         items(platforms) { platform ->
             PlatformItem(
-                platform.name ?: "N/A",
-                platform.imageBackground ?: "",
-                platform.gamesCount ?: 0
+                name = platform.name ?: "N/A",
+                imageBackground = platform.imageBackground ?: "",
+                gamesCount = platform.gamesCount ?: 0
             ) {
                 navController.currentBackStackEntry?.savedStateHandle?.set(
                     "games",
@@ -97,9 +97,9 @@ private fun PlatformItem(
     onClick: () -> Unit
 ) {
     CardItemComposable(
-        onClick,
-        imageBackground,
-        name,
-        gamesCount
+        name = name,
+        imageBackground = imageBackground,
+        gamesCount = gamesCount,
+        onClick = onClick
     )
 }

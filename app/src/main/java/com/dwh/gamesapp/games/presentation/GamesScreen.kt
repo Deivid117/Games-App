@@ -34,7 +34,7 @@ import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.games.domain.model.Game
 import com.dwh.gamesapp.a.presentation.composables.GameScaffold
-import com.dwh.gamesapp.a.presentation.composables.EmptyData
+import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.a.presentation.composables.ShimmerLoadingAnimation
 import com.dwh.gamesapp.core.presentation.theme.Dark_Green
 import com.dwh.gamesapp.core.presentation.theme.Light_Green
@@ -73,8 +73,8 @@ fun GamesContent(game: LazyPagingItems<Game>, navController: NavController) {
     if(game.itemSnapshotList.isNotEmpty()) {
         GamesList(game, navController)
     } else {
-        EmptyData(
-            title = "Sin información disponible",
+        InformationCard(
+            message = "Sin información disponible",
             description = "No se han encontrado juegos por el momento, inténtelo más tarde"
         )
     }

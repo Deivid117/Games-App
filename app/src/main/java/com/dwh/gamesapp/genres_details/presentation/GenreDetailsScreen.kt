@@ -16,12 +16,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.dwh.gamesapp.genres_details.domain.model.GenreDetails
-import com.dwh.gamesapp.genres.domain.model.GameGenre
+import com.dwh.gamesapp.genres.domain.model.GenreGame
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
 import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
-import com.dwh.gamesapp.a.presentation.composables.EmptyData
+import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
 import com.dwh.gamesapp.core.presentation.state.DataState
@@ -33,7 +33,7 @@ import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
 fun GenreDetailsScreen(
     navController: NavController,
     genreId: Int,
-    gamesGenre: ArrayList<GameGenre>,
+    gamesGenre: ArrayList<GenreGame>,
     viewModel: GenreDetailsViewModel = hiltViewModel()
 ) {
     LaunchedEffect(viewModel) {
@@ -50,7 +50,7 @@ fun GenreDetailsScreen(
 private fun GenreDetailsContent(
     viewModel: GenreDetailsViewModel,
     navController: NavController,
-    gamesGenre: ArrayList<GameGenre>
+    gamesGenre: ArrayList<GenreGame>
 ) {
     GenreDetailsValidateResponse(
         viewModel,
@@ -63,7 +63,7 @@ private fun GenreDetailsContent(
 private fun GenreDetailsValidateResponse(
     viewModel: GenreDetailsViewModel,
     navController: NavController,
-    gamesGenre: ArrayList<GameGenre>
+    gamesGenre: ArrayList<GenreGame>
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -71,9 +71,9 @@ private fun GenreDetailsValidateResponse(
         is DataState.Error -> {
             val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: GenreDetailsScreen", errorMsg)
-            EmptyData(
+            InformationCard(
                 modifier = Modifier.fillMaxSize(),
-                title = "Ocurrió un error",
+                message = "Ocurrió un error",
                 description = errorMsg
             )
         }
@@ -93,7 +93,7 @@ private fun GenreDetailsValidateResponse(
 private fun GenreDetailsContentWithParallaxEffect(
     navController: NavController,
     genreDetails: GenreDetails?,
-    gamesGenre: ArrayList<GameGenre>
+    gamesGenre: ArrayList<GenreGame>
 ) {
     val scrollState = rememberScrollState()
     val headerHeightPx = with(LocalDensity.current) { headerHeight.toPx() }
@@ -136,7 +136,7 @@ private fun GenreDetailsContentWithParallaxEffect(
 private fun GameGenreInformation(
     scrollState: ScrollState,
     genreDetails: GenreDetails?,
-    gamesGenre: ArrayList<GameGenre>
+    gamesGenre: ArrayList<GenreGame>
 ) {
     val description = if(genreDetails?.description.isNullOrEmpty()) "N/A" else genreDetails?.description
 
@@ -158,7 +158,7 @@ private fun GameGenreInformation(
 }
 
 @Composable
-private fun PopularGamesGenre(gamesGenre: ArrayList<GameGenre>) {
+private fun PopularGamesGenre(gamesGenre: ArrayList<GenreGame>) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "Popular Games",
@@ -174,7 +174,7 @@ private fun PopularGamesGenre(gamesGenre: ArrayList<GameGenre>) {
 
 @Composable
 private fun ListPopularGames(
-    gamesGenre: ArrayList<GameGenre>
+    gamesGenre: ArrayList<GenreGame>
 ) {
     gamesGenre.forEach { game ->
         PopularGameItemComposable(

@@ -8,5 +8,5 @@ data class PlatformDTO(
     @SerializedName("slug") var slug : String? = null,
     @SerializedName("games_count") var gamesCount : Int? = null,
     @SerializedName("image_background") var imageBackground : String? = null,
-    @SerializedName("games") var games : ArrayList<PlatformGamesDTO> = arrayListOf()
+    @SerializedName("games") var games : ArrayList<PlatformGameDTO> = arrayListOf()
 )

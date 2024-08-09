@@ -1,40 +1,32 @@
 package com.dwh.gamesapp.core.presentation.navigation
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
-import com.dwh.gamesapp.genres.domain.model.GameGenre
-import com.dwh.gamesapp.platforms.domain.model.PlatformGames
+import com.dwh.gamesapp.genres.domain.model.GenreGame
+import com.dwh.gamesapp.platforms.domain.model.PlatformGame
 import com.dwh.gamesapp.home.presentation.HomeScreen
 import com.dwh.gamesapp.a.presentation.ui.favorite_games.FavoriteGamesScreen
 import com.dwh.gamesapp.games_details.presentation.GameDetailsScreen
 import com.dwh.gamesapp.games.presentation.GamesScreen
 import com.dwh.gamesapp.genres_details.presentation.GenreDetailsScreen
-import com.dwh.gamesapp.genres.presentation.GenresScreen
+import com.dwh.gamesapp.genres.presentation.GenreScreen
 import com.dwh.gamesapp.a.presentation.ui.login.LoginScreen
 import com.dwh.gamesapp.platforms_details.presentation.PlatformDetailsScreen
-import com.dwh.gamesapp.platforms.presentation.PlatformsScreen
+import com.dwh.gamesapp.platforms.presentation.PlatformScreen
 import com.dwh.gamesapp.a.presentation.ui.profile.EditProfileScreen
 import com.dwh.gamesapp.a.presentation.ui.profile.ProfileScreen
 import com.dwh.gamesapp.a.presentation.ui.registration.RegistrationScreen
 import com.dwh.gamesapp.a.presentation.ui.welcome.WelcomeScreen
-import com.dwh.gamesapp.platforms.presentation.PlatformsViewModel
+import com.dwh.gamesapp.genres.presentation.GenreViewModel
+import com.dwh.gamesapp.platforms.presentation.PlatformViewModel
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -77,11 +69,14 @@ fun Navigation(navController: NavController) {
         }
         // Géneros
         composable(Screens.GENRES_SCREEN) {
-            GenresScreen(navController)
+            val viewModel = hiltViewModel<GenreViewModel>()
+            val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+            GenreScreen(navController, viewModel, state)
         }
         composable(Screens.GENRES_DETAILS_SCREEN + "/{id}") {
             val games =
-                navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<GameGenre>>("games")
+                navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<GenreGame>>("games")
             if (!games.isNullOrEmpty()) {
                 it.arguments?.getString("id")?.let { id ->
                     GenreDetailsScreen(navController, id.toInt(), games)
@@ -91,15 +86,15 @@ fun Navigation(navController: NavController) {
         // Plataformas
         composable(Screens.PLATFORMS_SCREEN) {
 
-            val viewModel = hiltViewModel<PlatformsViewModel>()
+            val viewModel = hiltViewModel<PlatformViewModel>()
             val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-            PlatformsScreen(navController, viewModel, state)
+            PlatformScreen(navController, viewModel, state)
         }
 
         composable(Screens.PLATFORMS_DETAILS_SCREEN + "/{id}") {
             val games =
-                navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<PlatformGames>>("games")
+                navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<PlatformGame>>("games")
             if (!games.isNullOrEmpty()) {
                 it.arguments?.getString("id")?.let { id ->
                     PlatformDetailsScreen(navController, id.toInt(), games)

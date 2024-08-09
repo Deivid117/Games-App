@@ -16,12 +16,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.dwh.gamesapp.platforms_details.domain.model.PlatformDetails
-import com.dwh.gamesapp.platforms.domain.model.PlatformGames
+import com.dwh.gamesapp.platforms.domain.model.PlatformGame
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
 import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
-import com.dwh.gamesapp.a.presentation.composables.EmptyData
+import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
 import com.dwh.gamesapp.core.presentation.state.DataState
@@ -33,7 +33,7 @@ import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
 fun PlatformDetailsScreen(
     navController: NavController,
     platformId: Int,
-    platformGames: ArrayList<PlatformGames>,
+    platformGames: ArrayList<PlatformGame>,
     viewModel: PlatformDetailsViewModel = hiltViewModel()
 ) {
     LaunchedEffect(viewModel) {
@@ -50,7 +50,7 @@ fun PlatformDetailsScreen(
 private fun PlatformDetailsContent(
     viewModel: PlatformDetailsViewModel,
     navController: NavController,
-    platformGames: ArrayList<PlatformGames>
+    platformGames: ArrayList<PlatformGame>
 ) {
     PlatformDetailsValidateResponse(
         viewModel,
@@ -63,7 +63,7 @@ private fun PlatformDetailsContent(
 private fun PlatformDetailsValidateResponse(
     viewModel: PlatformDetailsViewModel,
     navController: NavController,
-    platformGames: ArrayList<PlatformGames>
+    platformGames: ArrayList<PlatformGame>
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -71,9 +71,9 @@ private fun PlatformDetailsValidateResponse(
         is DataState.Error -> {
             val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: PlatformDetailsScreen", errorMsg)
-            EmptyData(
+            InformationCard(
                 modifier = Modifier.fillMaxSize(),
-                title = "Ocurrió un error",
+                message = "Ocurrió un error",
                 description = errorMsg
             )
         }
@@ -90,7 +90,7 @@ private fun PlatformDetailsValidateResponse(
 fun PlatformDetailsContentWithParallaxEffect(
     navController: NavController,
     platformDetails: PlatformDetails?,
-    platformGames: java.util.ArrayList<PlatformGames>
+    platformGames: java.util.ArrayList<PlatformGame>
 ) {
     val scrollState = rememberScrollState()
     val headerHeightPx = with(LocalDensity.current) { headerHeight.toPx() }
@@ -130,7 +130,7 @@ fun PlatformDetailsContentWithParallaxEffect(
 private fun PlatformGameInformation(
     scrollState: ScrollState,
     platformDetails: PlatformDetails?,
-    platformGames: ArrayList<PlatformGames>
+    platformGames: ArrayList<PlatformGame>
 ) {
     val description = if(platformDetails?.description.isNullOrEmpty()) "N/A" else platformDetails?.description
 
@@ -152,7 +152,7 @@ private fun PlatformGameInformation(
 }
 
 @Composable
-private fun PopularGamesPlatform(platformGames: ArrayList<PlatformGames>) {
+private fun PopularGamesPlatform(platformGames: ArrayList<PlatformGame>) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "Popular Games",
@@ -167,7 +167,7 @@ private fun PopularGamesPlatform(platformGames: ArrayList<PlatformGames>) {
 }
 
 @Composable
-private fun ListPopularGames(platformGames: ArrayList<PlatformGames>) {
+private fun ListPopularGames(platformGames: ArrayList<PlatformGame>) {
     platformGames.forEach { game ->
         PopularGameItemComposable(
             gameName = game.name ?: "N/A",
