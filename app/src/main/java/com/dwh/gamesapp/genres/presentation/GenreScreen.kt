@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,7 +27,7 @@ fun GenreScreen(
     }
 
     GameScaffold(
-        navController,
+        navController = navController,
         isTopBarVisible = true,
         isBottomBarVisible = false,
         showTopBarColor = true,
@@ -60,16 +61,22 @@ private fun GenreView(
 @Composable
 private fun VerticalGridGenres(
     navController: NavController,
-    genres: List<Genre>,
+    genres: List<Genre>
 ) {
+    val listState = rememberLazyGridState()
+
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
+        state = listState,
         columns = GridCells.Fixed(count = 2),
         contentPadding = PaddingValues(all = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(genres) { genre ->
+        items(
+            items = genres,
+            key = { genre -> genre.id ?: 0 }
+        ) { genre ->
             GenreItem(
                 name = genre.name ?: "N/A",
                 imageBackground = genre.imageBackground ?: "",

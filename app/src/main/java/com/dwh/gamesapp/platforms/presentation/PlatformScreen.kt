@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -29,7 +30,7 @@ fun PlatformScreen(
     }
 
     GameScaffold(
-        navController,
+        navController = navController,
         isTopBarVisible = true,
         isBottomBarVisible = false,
         showTopBarColor = true,
@@ -66,14 +67,20 @@ private fun VerticalGridPlatforms(
     navController: NavController,
     platforms: List<Platform>
 ) {
+    val listState = rememberLazyGridState()
+
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
+        state = listState,
         columns = GridCells.Fixed(count = 2),
         contentPadding = PaddingValues(all = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ){
-        items(platforms) { platform ->
+        items(
+            items = platforms,
+            key ={ platform -> platform.id ?: 0}
+        ) { platform ->
             PlatformItem(
                 name = platform.name ?: "N/A",
                 imageBackground = platform.imageBackground ?: "",

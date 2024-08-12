@@ -1,6 +1,10 @@
 package com.dwh.gamesapp.core.presentation.composables
 
 import android.text.Html
+import android.util.Log
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.ColorUtils
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -43,7 +48,7 @@ fun CoverImageWithBackIconParallaxEffect(
     scrollState: ScrollState,
     imageUrl: String,
     modifier: Modifier = Modifier,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
 ) {
     SetStatusBarColor(imageUrl)
 
@@ -159,7 +164,7 @@ fun ScrollingTitleComposable(
 @Composable
 fun DescriptionComposable(
     description: String?,
-    isHeaderDisplayed: Boolean = false
+    isHeaderDisplayed: Boolean = false,
 ) {
     val formattedDescription = Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY).toString()
 
@@ -181,22 +186,33 @@ fun DescriptionComposable(
 
 @Composable
 private fun SetStatusBarColor(imageUrl: String) {
-    /** Utilizado para obtener el tono/color de la imagen y
-     * usarlo para el status bar */
+    val context = LocalContext.current as ComponentActivity
+
     val coroutineScope = rememberCoroutineScope()
-    val systemUiController = rememberSystemUiController()
-    var imageBitmap by remember { mutableStateOf(ImageBitmap(1,1)) }
+    //val systemUiController = rememberSystemUiController()
+    var imageBitmap by remember { mutableStateOf(ImageBitmap(1, 1)) }
     val imageLoader = ImageLoader(LocalContext.current)
-    val target = rememberCoilTarget {bitmap ->
+    val target = rememberCoilTarget { bitmap ->
         imageBitmap = bitmap.asImageBitmap()
         coroutineScope.launch {
             val (color, isLight) = bitmap
                 .computeDominantTopSectionColor()
-            systemUiController.setStatusBarColor(color, isLight)
+            //systemUiController.setStatusBarColor(color, isLight)
+            val statusBar = if (isLight) SystemBarStyle.light(
+                scrim = color.toArgb(),
+                darkScrim = Color.Transparent.toArgb()
+            ) else SystemBarStyle.dark(scrim = color.toArgb())
+            context.enableEdgeToEdge(statusBarStyle = statusBar)
         }
     }
     val imageRequest = rememberDefaultImageRequest(imageUrl = imageUrl, target = target)
     LaunchedEffect(imageUrl) {
         imageLoader.execute(imageRequest)
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            context.enableEdgeToEdge()
+        }
     }
 }

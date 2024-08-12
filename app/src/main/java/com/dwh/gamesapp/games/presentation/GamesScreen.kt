@@ -32,6 +32,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
+import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.games.domain.model.Game
 import com.dwh.gamesapp.a.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
@@ -43,7 +44,7 @@ import com.dwh.gamesapp.core.presentation.navigation.Screens
 @Composable
 fun GamesScreen(
     navController: NavController,
-    viewModel: GamesViewModel = hiltViewModel()
+    viewModel: GamesViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = viewModel) {
         viewModel.getGames()
@@ -57,7 +58,7 @@ fun GamesScreen(
 @Composable
 private fun ValidationResponse(
     viewModel: GamesViewModel,
-    navController: NavController
+    navController: NavController,
 ) {
     val gamesResults = viewModel.uiState.collectAsLazyPagingItems()
 
@@ -70,7 +71,7 @@ private fun ValidationResponse(
 
 @Composable
 fun GamesContent(game: LazyPagingItems<Game>, navController: NavController) {
-    if(game.itemSnapshotList.isNotEmpty()) {
+    if (game.itemSnapshotList.isNotEmpty()) {
         GamesList(game, navController)
     } else {
         InformationCard(
@@ -83,15 +84,16 @@ fun GamesContent(game: LazyPagingItems<Game>, navController: NavController) {
 @Composable
 private fun GamesList(game: LazyPagingItems<Game>, navController: NavController) {
     val context = LocalContext.current
-    val metacriticColor = if(isSystemInDarkTheme()) Light_Green else Dark_Green
+    val metacriticColor = if (isSystemInDarkTheme()) Light_Green else Dark_Green
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
         contentPadding = PaddingValues(all = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
         verticalItemSpacing = 8.dp
-    ){
+    ) {
         itemsIndexed(game.itemSnapshotList) { index, item ->
             if (item != null) {
                 GameItem(game = item, index, metacriticColor) {
@@ -106,6 +108,7 @@ private fun GamesList(game: LazyPagingItems<Game>, navController: NavController)
                         LoadingItem(metacriticColor)
                     }
                 }
+
                 loadState.refresh is LoadState.Error -> {
                     Log.e(
                         "LoadStateError",
@@ -117,6 +120,7 @@ private fun GamesList(game: LazyPagingItems<Game>, navController: NavController)
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
                 loadState.append is LoadState.Error -> {
                     // Muestra un mensaje de error en la parte inferior de la lista
                     item {
@@ -133,7 +137,7 @@ private fun GameItem(
     game: Game,
     index: Int,
     metacriticColor: Color,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -173,7 +177,7 @@ private fun GameItem(
                         color = metacriticColor
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(text = game.name ?: "", style = MaterialTheme.typography.titleMedium)
@@ -184,7 +188,7 @@ private fun GameItem(
 
 @Composable
 private fun LoadingItem(
-    color: Color
+    color: Color,
 ) {
     Column(
         Modifier.fillMaxSize(),
@@ -246,7 +250,7 @@ private fun ShimmerLazyVerticalGrid() {
         contentPadding = PaddingValues(all = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
         verticalItemSpacing = 8.dp
-    ){
+    ) {
         items(count = 10) {
 
             val heightRandom = (80..150).random()
@@ -258,30 +262,38 @@ private fun ShimmerLazyVerticalGrid() {
 
 @Composable
 private fun ShimmerItem(heightRandom: Int) {
-    Card(colors = CardDefaults.cardColors(
+    Card(
+        colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background.copy(
                 .8f
             )
-        )) {
+        )
+    ) {
         Column() {
             /*Box(
                 modifier = Modifier.fillMaxSize().height(heightRandom.dp).shimmerAnimation()
             )*/
-            ShimmerLoadingAnimation(modifier = Modifier
-                .fillMaxSize()
-                .height(heightRandom.dp))
+            ShimmerLoadingAnimation(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .height(heightRandom.dp)
+            )
 
             Column(Modifier.padding(horizontal = 10.dp, vertical = 8.dp)) {
 
-                ShimmerLoadingAnimation(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(12.dp))
+                ShimmerLoadingAnimation(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(12.dp)
+                )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                ShimmerLoadingAnimation(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(16.dp))
+                ShimmerLoadingAnimation(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(16.dp)
+                )
             }
         }
     }

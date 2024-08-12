@@ -20,7 +20,7 @@ import com.dwh.gamesapp.R
 @Composable
 fun BackgroundGradient(
     paddingValues: PaddingValues = PaddingValues(0.dp),
-    content: @Composable() (BoxScope.() -> Unit) = {}
+    content: @Composable() (BoxScope.() -> Unit) = {},
 ) {
     val brushGradientColor = Brush.linearGradient(
         0.0f to MaterialTheme.colorScheme.primary,
@@ -33,7 +33,6 @@ fun BackgroundGradient(
         modifier = Modifier
             .fillMaxSize()
             .background(brush = brushGradientColor)
-            .padding(paddingValues = paddingValues)
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),
@@ -42,6 +41,8 @@ fun BackgroundGradient(
             contentScale = ContentScale.Crop
         )
 
-        content()
+        Box(modifier = Modifier.padding(paddingValues)) {
+            content()
+        }
     }
 }
