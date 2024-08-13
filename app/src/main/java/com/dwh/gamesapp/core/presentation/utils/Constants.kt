@@ -25,4 +25,5 @@ object Constants {
     const val titleFontScaleStart = 1f
     const val titleFontScaleEnd = 0.66f
 
+    const val ANIMATION_DURATION = 600
 }

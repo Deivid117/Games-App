@@ -45,9 +45,9 @@ import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 @Composable
 fun GamesScreen(
     navController: NavController,
-    viewModel: GamesViewModel = hiltViewModel(),
+    viewModel: GamesViewModel
 ) {
-    LaunchedEffect(key1 = viewModel) {
+    LaunchedEffect(Unit) {
         viewModel.getGames()
     }
 

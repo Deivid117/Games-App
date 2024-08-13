@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.dwh.gamesapp.core.presentation.navigation.NavigationScreens
 import com.dwh.gamesapp.core.presentation.navigation.sharedViewModel
+import com.dwh.gamesapp.core.presentation.utils.Constants
 import com.dwh.gamesapp.platforms.presentation.PlatformViewModel
 import com.dwh.gamesapp.platforms_details.presentation.PlatformDetailsScreen
 
@@ -21,15 +22,15 @@ fun NavGraphBuilder.platformDetailsGraph(navController: NavController) {
         arguments = listOf(navArgument("platformId") { type = NavType.IntType }),
         enterTransition = {
             slideIntoContainer(
-                animationSpec = tween(600),
+                animationSpec = tween(Constants.ANIMATION_DURATION),
                 towards = AnimatedContentTransitionScope.SlideDirection.Down,
             )
         },
         popExitTransition = {
             fadeOut(
-                animationSpec = tween(600)
+                animationSpec = tween(Constants.ANIMATION_DURATION)
             ) + slideOutOfContainer(
-                animationSpec = tween(600),
+                animationSpec = tween(Constants.ANIMATION_DURATION),
                 towards = AnimatedContentTransitionScope.SlideDirection.Up
             )
         }

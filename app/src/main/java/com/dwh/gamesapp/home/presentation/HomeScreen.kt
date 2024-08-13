@@ -56,7 +56,7 @@ import kotlin.math.abs
 @Composable
 fun HomeScreen(
     navController: NavController,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel
 ) {
 
     LaunchedEffect(homeViewModel) {

@@ -10,6 +10,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.dwh.gamesapp.core.presentation.navigation.NavigationScreens
 import com.dwh.gamesapp.core.presentation.navigation.sharedViewModel
+import com.dwh.gamesapp.core.presentation.utils.Constants
 import com.dwh.gamesapp.platforms.presentation.PlatformScreen
 import com.dwh.gamesapp.platforms.presentation.PlatformViewModel
 
@@ -19,7 +20,7 @@ fun NavGraphBuilder.platformGraph(navController: NavController) {
         enterTransition = {
             when (initialState.destination.route) {
                 NavigationScreens.Home.route -> slideIntoContainer(
-                    animationSpec = tween(600),
+                    animationSpec = tween(Constants.ANIMATION_DURATION),
                     towards = AnimatedContentTransitionScope.SlideDirection.Right
                 )
                 else -> null
@@ -28,15 +29,15 @@ fun NavGraphBuilder.platformGraph(navController: NavController) {
         exitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Down,
-                animationSpec = tween(600)
+                animationSpec = tween(Constants.ANIMATION_DURATION)
             )
         },
         popExitTransition = {
             fadeOut(
-                animationSpec = tween(600)
+                animationSpec = tween(Constants.ANIMATION_DURATION)
             ) + slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(600)
+                animationSpec = tween(Constants.ANIMATION_DURATION)
             )
         }
     ) { backStackEntry ->

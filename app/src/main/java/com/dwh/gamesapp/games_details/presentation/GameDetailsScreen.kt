@@ -38,7 +38,7 @@ import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
 fun GameDetailsScreen(
     navController: NavController,
     gameId: String?,
-    viewModel: GameDetailsViewModel = hiltViewModel()
+    viewModel: GameDetailsViewModel
 ) {
     if(!gameId.isNullOrEmpty()) {
         LaunchedEffect(viewModel) {

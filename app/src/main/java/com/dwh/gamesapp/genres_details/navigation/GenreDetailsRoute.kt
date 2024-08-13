@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.dwh.gamesapp.core.presentation.navigation.NavigationScreens
 import com.dwh.gamesapp.core.presentation.navigation.sharedViewModel
+import com.dwh.gamesapp.core.presentation.utils.Constants
 import com.dwh.gamesapp.genres.presentation.GenreViewModel
 import com.dwh.gamesapp.genres_details.presentation.GenreDetailsScreen
 
@@ -22,16 +23,16 @@ fun NavGraphBuilder.genreDetailsGraph(navController: NavController) {
         // Genres to Genres Details, la animación se aplica a Genres Details
         enterTransition = {
             slideIntoContainer(
-                animationSpec = tween(600),
+                animationSpec = tween(Constants.ANIMATION_DURATION),
                 towards = AnimatedContentTransitionScope.SlideDirection.Down,
             )
         },
         // Genres Details back to Genres, la animación se aplica a Genres Details
         popExitTransition = {
             fadeOut(
-                animationSpec = tween(600)
+                animationSpec = tween(Constants.ANIMATION_DURATION)
             ) + slideOutOfContainer(
-                animationSpec = tween(600),
+                animationSpec = tween(Constants.ANIMATION_DURATION),
                 towards = AnimatedContentTransitionScope.SlideDirection.Up
             )
         }

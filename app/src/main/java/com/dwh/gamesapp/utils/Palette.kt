@@ -2,6 +2,7 @@ package com.dwh.gamesapp.utils
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
@@ -11,7 +12,7 @@ import kotlin.coroutines.resume
 suspend fun Bitmap.computeDominantTopSectionColor(): Pair<Color, Boolean> =
     suspendCancellableCoroutine { continuation ->
         Palette.from(this)
-            .setRegion(0,0,this.width,24.dp.value.toInt())
+            .setRegion(0, 0, this.width, 24.dp.value.toInt())
             .maximumColorCount(3)
             .generate { palette ->
                 palette ?: continuation.cancel()
@@ -20,8 +21,8 @@ suspend fun Bitmap.computeDominantTopSectionColor(): Pair<Color, Boolean> =
                 statusBarColorRgb ?: continuation.cancel()
 
                 val hsl = FloatArray(3)
-                ColorUtils.colorToHSL(statusBarColorRgb!!, hsl)
+                ColorUtils.colorToHSL(statusBarColorRgb ?: Color.Black.toArgb(), hsl)
                 val isLight = hsl[2] >= 0.5
-                continuation.resume(Color(statusBarColorRgb) to isLight)
+                continuation.resume(Color(statusBarColorRgb ?: Color.Black.toArgb()) to isLight)
             }
     }
