@@ -1,19 +1,24 @@
 package com.dwh.gamesapp.genres.presentation
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.dwh.gamesapp.a.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
+import com.dwh.gamesapp.core.domain.model.ScaleAndAlphaArgs
 import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
 import com.dwh.gamesapp.core.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.utils.animations.scaleAndAlpha
+import com.dwh.gamesapp.core.presentation.utils.lazygridstate.calculateDelayAndEasing
 import com.dwh.gamesapp.genres.domain.model.Genre
 
 @Composable
@@ -61,31 +66,40 @@ private fun GenreView(
 @Composable
 private fun VerticalGridGenres(
     navController: NavController,
-    genres: List<Genre>
+    genres: List<Genre>,
 ) {
+    //val columnsSize = 150.dp //TODO: Para uso de GridCells.Adaptive
     val listState = rememberLazyGridState()
 
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         state = listState,
-        columns = GridCells.Fixed(count = 2),
+        columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(all = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(
+        itemsIndexed(
             items = genres,
-            key = { genre -> genre.id ?: 0 }
-        ) { genre ->
+            key = { _, genre -> genre.id ?: 0 }
+        ) { index, genre ->
+
+            //val columns = calculateColumns(listState, columnsSize) //TODO: Para uso de GridCells.Adaptive
+            val (delay, easing) = listState.calculateDelayAndEasing(index = index, columnCount = 2)
+            val animation = tween<Float>(durationMillis = 500, delayMillis = delay, easing = easing)
+            val args = ScaleAndAlphaArgs(fromScale = 2f, toScale = 1f, fromAlpha = 0f, toAlpha = 1f)
+            val (scale, alpha) = scaleAndAlpha(args = args, animation = animation)
+
             GenreItem(
+                modifier = Modifier.graphicsLayer(alpha = alpha, scaleX = scale, scaleY = scale),
                 name = genre.name ?: "N/A",
                 imageBackground = genre.imageBackground ?: "",
                 gamesCount = genre.gamesCount ?: 0
             ) {
-                navController.currentBackStackEntry?.savedStateHandle?.set(
+                /*navController.currentBackStackEntry?.savedStateHandle?.set(
                     "games",
                     genre.games
-                )
+                )*/
                 navController.navigate(Screens.GENRES_DETAILS_SCREEN + "/" + (genre.id ?: 0))
             }
         }
@@ -94,12 +108,14 @@ private fun VerticalGridGenres(
 
 @Composable
 private fun GenreItem(
+    modifier: Modifier,
     name: String,
     imageBackground: String,
     gamesCount: Int,
     onClick: () -> Unit,
 ) {
     CardItemComposable(
+        modifier = modifier,
         name = name,
         imageBackground = imageBackground,
         gamesCount = gamesCount,

@@ -33,7 +33,7 @@ import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
 fun GenreDetailsScreen(
     navController: NavController,
     genreId: Int,
-    gamesGenre: ArrayList<GenreGame>,
+    gamesGenre: ArrayList<GenreGame> = arrayListOf(),
     viewModel: GenreDetailsViewModel = hiltViewModel()
 ) {
     LaunchedEffect(viewModel) {
@@ -110,7 +110,7 @@ private fun GenreDetailsContentWithParallaxEffect(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(headerHeight)
-        ) { navController.popBackStack() }
+        ) { navController.navigateUp() }
 
         ScrollingTitleComposable(
             scrollState = scrollState,

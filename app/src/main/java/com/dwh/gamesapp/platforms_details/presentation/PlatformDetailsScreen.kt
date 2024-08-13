@@ -33,7 +33,7 @@ import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
 fun PlatformDetailsScreen(
     navController: NavController,
     platformId: Int,
-    platformGames: ArrayList<PlatformGame>,
+    platformGames: ArrayList<PlatformGame> = arrayListOf(),
     viewModel: PlatformDetailsViewModel = hiltViewModel()
 ) {
     LaunchedEffect(viewModel) {

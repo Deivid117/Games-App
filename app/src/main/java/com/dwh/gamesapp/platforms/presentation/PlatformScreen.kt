@@ -1,29 +1,34 @@
 package com.dwh.gamesapp.platforms.presentation
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.dwh.gamesapp.a.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
+import com.dwh.gamesapp.core.domain.model.ScaleAndAlphaArgs
 import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
 import com.dwh.gamesapp.core.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.utils.animations.scaleAndAlpha
+import com.dwh.gamesapp.core.presentation.utils.lazygridstate.calculateDelayAndEasing
 import com.dwh.gamesapp.platforms.domain.model.Platform
 
 @Composable
 fun PlatformScreen(
     navController: NavController,
     viewModel: PlatformViewModel,
-    state: PlatformState
+    state: PlatformState,
 ) {
     LaunchedEffect(Unit) {
         viewModel.getPlatforms()
@@ -37,7 +42,7 @@ fun PlatformScreen(
         title = "Platforms",
         onBackClick = { navController.popBackStack() }
     ) {
-        if(state.isLoading) {
+        if (state.isLoading) {
             LoadingAnimation(modifier = Modifier.fillMaxSize())
         } else {
             PlatformView(navController = navController, state = state)
@@ -48,9 +53,9 @@ fun PlatformScreen(
 @Composable
 private fun PlatformView(
     navController: NavController,
-    state: PlatformState
+    state: PlatformState,
 ) {
-    if(state.platforms.isNotEmpty()) {
+    if (state.platforms.isNotEmpty()) {
         VerticalGridPlatforms(navController = navController, platforms = state.platforms)
     } else {
         InformationCard(
@@ -61,11 +66,10 @@ private fun PlatformView(
     }
 }
 
-
 @Composable
 private fun VerticalGridPlatforms(
     navController: NavController,
-    platforms: List<Platform>
+    platforms: List<Platform>,
 ) {
     val listState = rememberLazyGridState()
 
@@ -76,12 +80,19 @@ private fun VerticalGridPlatforms(
         contentPadding = PaddingValues(all = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
-    ){
-        items(
+    ) {
+        itemsIndexed(
             items = platforms,
-            key ={ platform -> platform.id ?: 0}
-        ) { platform ->
+            key = { _, platform -> platform.id ?: 0 }
+        ) { index, platform ->
+
+            val (delay, easing) = listState.calculateDelayAndEasing(index = index, columnCount = 2)
+            val animation = tween<Float>(durationMillis = 500, delayMillis = delay, easing = easing)
+            val args = ScaleAndAlphaArgs(fromScale = 2f, toScale = 1f, fromAlpha = 0f, toAlpha = 1f)
+            val (scale, alpha) = scaleAndAlpha(args = args, animation = animation)
+
             PlatformItem(
+                modifier = Modifier.graphicsLayer(alpha = alpha, scaleX = scale, scaleY = scale),
                 name = platform.name ?: "N/A",
                 imageBackground = platform.imageBackground ?: "",
                 gamesCount = platform.gamesCount ?: 0
@@ -98,12 +109,14 @@ private fun VerticalGridPlatforms(
 
 @Composable
 private fun PlatformItem(
+    modifier: Modifier,
     name: String,
     imageBackground: String,
     gamesCount: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     CardItemComposable(
+        modifier = modifier,
         name = name,
         imageBackground = imageBackground,
         gamesCount = gamesCount,

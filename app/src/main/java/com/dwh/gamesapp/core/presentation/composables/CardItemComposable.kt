@@ -23,13 +23,14 @@ import com.dwh.gamesapp.R
 
 @Composable
 fun CardItemComposable(
+    modifier: Modifier = Modifier,
     name: String,
     imageBackground: String,
     gamesCount: Int,
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .clickable { onClick() }
             .size(200.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
