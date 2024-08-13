@@ -45,7 +45,7 @@ import com.dwh.gamesapp.home.presentation.utils.LocalGameUiInfo
 import com.dwh.gamesapp.utils.vertical
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
-import com.dwh.gamesapp.core.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.home.domain.model.BestOfTheYearResults
 import com.dwh.gamesapp.home.domain.model.GameItem
@@ -110,8 +110,8 @@ private fun GenresPlatformsButtons(navController: NavController) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = SpaceEvenly
     ) {
-        ItemButton("Genres") { navController.navigate(Screens.GENRES_SCREEN) }
-        ItemButton("Platforms") { navController.navigate(Screens.PLATFORMS_SCREEN) }
+        ItemButton("Genres") { navController.navigate(GENRE_SCREEN.name) }
+        ItemButton("Platforms") { navController.navigate(PLATFORM_SCREEN.name) }
     }
 }
 
@@ -308,7 +308,7 @@ private fun GameItem(
                 .height(200.dp)
                 .width(150.dp)
                 .onGloballyPositioned { itemX = it.positionInWindow().x }
-                .clickable { navController.navigate(Screens.GAME_DETAILS_SCREEN + "/" + game.id) },
+                .clickable { navController.navigate(GAME_DETAILS_SCREEN.name + "/" + game.id) },
             shape = RectangleShape
         ) {
             AsyncImage(

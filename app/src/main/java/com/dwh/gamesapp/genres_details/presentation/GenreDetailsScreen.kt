@@ -28,21 +28,24 @@ import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.core.presentation.utils.Constants.headerHeight
 import com.dwh.gamesapp.core.presentation.utils.Constants.toolbarHeight
 import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
+import com.dwh.gamesapp.genres.presentation.GenreState
 
 @Composable
 fun GenreDetailsScreen(
     navController: NavController,
-    genreId: Int,
-    gamesGenre: ArrayList<GenreGame> = arrayListOf(),
+    genreId: Int?,
+    state: GenreState,
     viewModel: GenreDetailsViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(viewModel) {
-        viewModel.getGenreDetails(genreId)
+    if(genreId != null) {
+        LaunchedEffect(viewModel) {
+            viewModel.getGenreDetails(genreId)
+        }
     }
 
     Surface(Modifier.fillMaxSize()) {
         BackgroundGradient()
-        GenreDetailsContent(viewModel, navController, gamesGenre)
+        GenreDetailsContent(viewModel, navController, state.genreGames)
     }
 }
 
@@ -50,7 +53,7 @@ fun GenreDetailsScreen(
 private fun GenreDetailsContent(
     viewModel: GenreDetailsViewModel,
     navController: NavController,
-    gamesGenre: ArrayList<GenreGame>
+    gamesGenre: List<GenreGame>
 ) {
     GenreDetailsValidateResponse(
         viewModel,
@@ -63,7 +66,7 @@ private fun GenreDetailsContent(
 private fun GenreDetailsValidateResponse(
     viewModel: GenreDetailsViewModel,
     navController: NavController,
-    gamesGenre: ArrayList<GenreGame>
+    gamesGenre: List<GenreGame>
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -93,7 +96,7 @@ private fun GenreDetailsValidateResponse(
 private fun GenreDetailsContentWithParallaxEffect(
     navController: NavController,
     genreDetails: GenreDetails?,
-    gamesGenre: ArrayList<GenreGame>
+    gamesGenre: List<GenreGame>
 ) {
     val scrollState = rememberScrollState()
     val headerHeightPx = with(LocalDensity.current) { headerHeight.toPx() }
@@ -136,7 +139,7 @@ private fun GenreDetailsContentWithParallaxEffect(
 private fun GameGenreInformation(
     scrollState: ScrollState,
     genreDetails: GenreDetails?,
-    gamesGenre: ArrayList<GenreGame>
+    gamesGenre: List<GenreGame>
 ) {
     val description = if(genreDetails?.description.isNullOrEmpty()) "N/A" else genreDetails?.description
 
@@ -158,7 +161,7 @@ private fun GameGenreInformation(
 }
 
 @Composable
-private fun PopularGamesGenre(gamesGenre: ArrayList<GenreGame>) {
+private fun PopularGamesGenre(gamesGenre: List<GenreGame>) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "Popular Games",
@@ -174,7 +177,7 @@ private fun PopularGamesGenre(gamesGenre: ArrayList<GenreGame>) {
 
 @Composable
 private fun ListPopularGames(
-    gamesGenre: ArrayList<GenreGame>
+    gamesGenre: List<GenreGame>
 ) {
     gamesGenre.forEach { game ->
         PopularGameItemComposable(

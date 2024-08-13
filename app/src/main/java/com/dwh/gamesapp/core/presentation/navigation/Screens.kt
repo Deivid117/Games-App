@@ -1,31 +1,33 @@
 package com.dwh.gamesapp.core.presentation.navigation
 
-object Screens {
-    const val WELCOME = "WELCOME"
-
-    const val LOGIN_SCREEN = "LOGIN_SCREEN"
-
-    const val REGISTRATION_SCREEN = "REGISTRATION_SCREEN"
-
-    const val HOME_SCREEN = "HOME_SCREEN"
-
-    const val PROFILE_SCREEN = "PROFILE_SCREEN"
-
-    const val EDIT_PROFILE_SCREEN = "EDIT_PROFILE_SCREEN"
-
-    const val GAMES_SCREEN = "GAMES_SCREEN"
-
-    const val GAME_DETAILS_SCREEN = "GAME_DETAILS_SCREEN"
-
-    const val GENRES_SCREEN = "GENRES_SCREEN"
-
-    const val GENRES_DETAILS_SCREEN = "GENRES_DETAILS_SCREEN"
-
-    const val PLATFORMS_SCREEN = "PLATFORMS_SCREEN"
-
-    const val PLATFORMS_DETAILS_SCREEN = "PLATFORMS_DETAILS_SCREEN"
-
-    const val FAVORITE_GAMES_SCREEN = "FAVORITE_GAMES_SCREEN"
-
+enum class Screens {
+    WELCOME,
+    LOGIN_SCREEN,
+    SIGNUP_SCREEN,
+    HOME_SCREEN,
+    PROFILE_SCREEN,
+    EDIT_PROFILE_SCREEN,
+    GAME_SCREEN,
+    GAME_DETAILS_SCREEN,
+    GENRE_SCREEN,
+    GENRE_DETAILS_SCREEN,
+    PLATFORM_SCREEN,
+    PLATFORM_DETAILS_SCREEN,
+    FAVORITE_GAMES_SCREEN
 }
 
+sealed class NavigationScreens(val route: String) {
+    object Welcome : NavigationScreens(Screens.WELCOME.name)
+    object Login : NavigationScreens(Screens.LOGIN_SCREEN.name)
+    object Signup : NavigationScreens(Screens.SIGNUP_SCREEN.name)
+    object Home : NavigationScreens(Screens.HOME_SCREEN.name)
+    object Profile : NavigationScreens(Screens.PROFILE_SCREEN.name)
+    object EditProfile : NavigationScreens(Screens.EDIT_PROFILE_SCREEN.name)
+    object Game : NavigationScreens(Screens.GAME_SCREEN.name)
+    object GameDetails : NavigationScreens("${Screens.GAME_DETAILS_SCREEN.name}/{gameId}")
+    object Genre : NavigationScreens(Screens.GENRE_SCREEN.name)
+    object GenreDetails : NavigationScreens("${Screens.GENRE_DETAILS_SCREEN.name}/{genreId}")
+    object Platform : NavigationScreens(Screens.PLATFORM_SCREEN.name)
+    object PlatformDetails : NavigationScreens("${Screens.PLATFORM_DETAILS_SCREEN.name}/{platformId}")
+    object FavoriteGames : NavigationScreens(Screens.FAVORITE_GAMES_SCREEN.name)
+}

@@ -38,6 +38,7 @@ import com.dwh.gamesapp.core.presentation.theme.Light_Green
 import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesUiState
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesViewModel
+import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 
 @Composable
 fun FavoriteGamesScreen(
@@ -97,7 +98,7 @@ fun FavoriteGamesList(games: List<FavoritGame>, navController: NavController) {
     ){
         itemsIndexed(games) {index, item ->
             FavoriteGameItem(gamesResults = item, metacriticColor) {
-                navController.navigate(Screens.GAME_DETAILS_SCREEN + "/" + item.id)
+                navController.navigate(GAME_DETAILS_SCREEN.name + "/" + item.id)
             }
         }
     }

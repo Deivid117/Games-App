@@ -21,8 +21,8 @@ import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.composables.CustomButton
 import com.dwh.gamesapp.a.presentation.composables.CustomTextField
 import com.dwh.gamesapp.utils.WavyShape
-import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.a.presentation.view_model.login.LoginViewModel
+import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 
 @Composable
 fun LoginScreen(
@@ -99,9 +99,9 @@ private fun LoginCardContent(
 
                 LoginButtons( onClickLogin = {
                     viewModel.userLogin(email, password) {success ->
-                        if(success) navController.navigate(Screens.HOME_SCREEN)
+                        if(success) navController.navigate(HOME_SCREEN.name)
                     } }
-                ) { navController.navigate(Screens.REGISTRATION_SCREEN) }
+                ) { navController.navigate(SIGNUP_SCREEN.name) }
 
                 Spacer(modifier = Modifier.height(20.dp))
 

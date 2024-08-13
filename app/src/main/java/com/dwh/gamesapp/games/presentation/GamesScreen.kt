@@ -40,6 +40,7 @@ import com.dwh.gamesapp.a.presentation.composables.ShimmerLoadingAnimation
 import com.dwh.gamesapp.core.presentation.theme.Dark_Green
 import com.dwh.gamesapp.core.presentation.theme.Light_Green
 import com.dwh.gamesapp.core.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 
 @Composable
 fun GamesScreen(
@@ -97,7 +98,7 @@ private fun GamesList(game: LazyPagingItems<Game>, navController: NavController)
         itemsIndexed(game.itemSnapshotList) { index, item ->
             if (item != null) {
                 GameItem(game = item, index, metacriticColor) {
-                    navController.navigate(Screens.GAME_DETAILS_SCREEN + "/" + item.id)
+                    navController.navigate(GAME_DETAILS_SCREEN.name + "/" + item.id)
                 }
             }
         }

@@ -3,6 +3,7 @@ package com.dwh.gamesapp.genres.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.core.presentation.state.DataState
+import com.dwh.gamesapp.genres.domain.model.GenreGame
 import com.dwh.gamesapp.genres.domain.use_cases.GetGenresUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -34,5 +35,9 @@ class GenreViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setGenreGames(games: List<GenreGame>) = viewModelScope.launch(Dispatchers.IO) {
+        _uiState.update { it.copy(genreGames = games) }
     }
 }

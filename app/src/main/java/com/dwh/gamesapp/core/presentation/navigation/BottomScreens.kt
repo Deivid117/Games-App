@@ -1,6 +1,7 @@
 package com.dwh.gamesapp.core.presentation.navigation
 
 import com.dwh.gamesapp.R
+import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 
 sealed class BottomScreens(
     val route: String,
@@ -8,22 +9,22 @@ sealed class BottomScreens(
     val icon: Int
 ){
     object Home: BottomScreens(
-        route = Screens.HOME_SCREEN,
+        route = HOME_SCREEN.name,
         title = "Home",
         icon = R.drawable.ic_home_unfilled
     )
     object Games: BottomScreens(
-        route = Screens.GAMES_SCREEN,
+        route = GAME_SCREEN.name,
         title = "Games",
         icon = R.drawable.ic_controller_unfilled
     )
     object Favorites: BottomScreens(
-        route = Screens.FAVORITE_GAMES_SCREEN,
+        route = FAVORITE_GAMES_SCREEN.name,
         title = "Favorites",
         icon = R.drawable.ic_heart_filled
     )
     object Profile: BottomScreens(
-        route = Screens.PROFILE_SCREEN,
+        route = PROFILE_SCREEN.name,
         title = "Profile",
         icon = R.drawable.ic_user_unfilled
     )

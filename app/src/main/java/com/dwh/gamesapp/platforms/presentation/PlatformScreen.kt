@@ -19,7 +19,7 @@ import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.domain.model.ScaleAndAlphaArgs
 import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
-import com.dwh.gamesapp.core.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 import com.dwh.gamesapp.core.presentation.utils.animations.scaleAndAlpha
 import com.dwh.gamesapp.core.presentation.utils.lazygridstate.calculateDelayAndEasing
 import com.dwh.gamesapp.platforms.domain.model.Platform
@@ -101,7 +101,7 @@ private fun VerticalGridPlatforms(
                     "games",
                     platform.games
                 )
-                navController.navigate(Screens.PLATFORMS_DETAILS_SCREEN + "/" + (platform.id ?: 0))
+                navController.navigate(PLATFORM_DETAILS_SCREEN.name + "/" + (platform.id ?: 0))
             }
         }
     }

@@ -28,21 +28,24 @@ import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.core.presentation.utils.Constants.headerHeight
 import com.dwh.gamesapp.core.presentation.utils.Constants.toolbarHeight
 import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
+import com.dwh.gamesapp.platforms.presentation.PlatformState
 
 @Composable
 fun PlatformDetailsScreen(
     navController: NavController,
-    platformId: Int,
-    platformGames: ArrayList<PlatformGame> = arrayListOf(),
+    platformId: Int?,
+    state: PlatformState,
     viewModel: PlatformDetailsViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(viewModel) {
-        viewModel.getPlatformDetails(platformId)
+    if(platformId != null) {
+        LaunchedEffect(viewModel) {
+            viewModel.getPlatformDetails(platformId.toInt())
+        }
     }
 
     Surface(Modifier.fillMaxSize()) {
         BackgroundGradient()
-        PlatformDetailsContent(viewModel, navController, platformGames)
+        PlatformDetailsContent(viewModel, navController, state.platformGames)
     }
 }
 
@@ -50,7 +53,7 @@ fun PlatformDetailsScreen(
 private fun PlatformDetailsContent(
     viewModel: PlatformDetailsViewModel,
     navController: NavController,
-    platformGames: ArrayList<PlatformGame>
+    platformGames: List<PlatformGame>
 ) {
     PlatformDetailsValidateResponse(
         viewModel,
@@ -63,7 +66,7 @@ private fun PlatformDetailsContent(
 private fun PlatformDetailsValidateResponse(
     viewModel: PlatformDetailsViewModel,
     navController: NavController,
-    platformGames: ArrayList<PlatformGame>
+    platformGames: List<PlatformGame>
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -90,7 +93,7 @@ private fun PlatformDetailsValidateResponse(
 fun PlatformDetailsContentWithParallaxEffect(
     navController: NavController,
     platformDetails: PlatformDetails?,
-    platformGames: java.util.ArrayList<PlatformGame>
+    platformGames: List<PlatformGame>
 ) {
     val scrollState = rememberScrollState()
     val headerHeightPx = with(LocalDensity.current) { headerHeight.toPx() }
@@ -130,7 +133,7 @@ fun PlatformDetailsContentWithParallaxEffect(
 private fun PlatformGameInformation(
     scrollState: ScrollState,
     platformDetails: PlatformDetails?,
-    platformGames: ArrayList<PlatformGame>
+    platformGames: List<PlatformGame>
 ) {
     val description = if(platformDetails?.description.isNullOrEmpty()) "N/A" else platformDetails?.description
 
@@ -152,7 +155,7 @@ private fun PlatformGameInformation(
 }
 
 @Composable
-private fun PopularGamesPlatform(platformGames: ArrayList<PlatformGame>) {
+private fun PopularGamesPlatform(platformGames: List<PlatformGame>) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "Popular Games",
@@ -167,7 +170,7 @@ private fun PopularGamesPlatform(platformGames: ArrayList<PlatformGame>) {
 }
 
 @Composable
-private fun ListPopularGames(platformGames: ArrayList<PlatformGame>) {
+private fun ListPopularGames(platformGames: List<PlatformGame>) {
     platformGames.forEach { game ->
         PopularGameItemComposable(
             gameName = game.name ?: "N/A",

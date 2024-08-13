@@ -16,19 +16,20 @@ import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.domain.model.ScaleAndAlphaArgs
 import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
-import com.dwh.gamesapp.core.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 import com.dwh.gamesapp.core.presentation.utils.animations.scaleAndAlpha
 import com.dwh.gamesapp.core.presentation.utils.lazygridstate.calculateDelayAndEasing
 import com.dwh.gamesapp.genres.domain.model.Genre
+import com.dwh.gamesapp.genres.domain.model.GenreGame
 
 @Composable
 fun GenreScreen(
     navController: NavController,
-    genreViewModel: GenreViewModel,
+    viewModel: GenreViewModel,
     state: GenreState,
 ) {
-    LaunchedEffect(genreViewModel) {
-        genreViewModel.getGenres()
+    LaunchedEffect(viewModel) {
+        viewModel.getGenres()
     }
 
     GameScaffold(
@@ -42,7 +43,7 @@ fun GenreScreen(
         if (state.isLoading) {
             LoadingAnimation(modifier = Modifier.fillMaxSize())
         } else {
-            GenreView(navController, state)
+            GenreView(navController, state) { viewModel.setGenreGames(it) }
         }
     }
 }
@@ -51,9 +52,10 @@ fun GenreScreen(
 private fun GenreView(
     navController: NavController,
     state: GenreState,
+    onGenreClick: (List<GenreGame>) -> Unit
 ) {
     if (state.genres.isNotEmpty()) {
-        VerticalGridGenres(navController = navController, genres = state.genres)
+        VerticalGridGenres(navController = navController, genres = state.genres, onGenreClick)
     } else {
         InformationCard(
             modifier = Modifier.fillMaxSize(),
@@ -67,6 +69,7 @@ private fun GenreView(
 private fun VerticalGridGenres(
     navController: NavController,
     genres: List<Genre>,
+    onGenreClick: (List<GenreGame>) -> Unit
 ) {
     //val columnsSize = 150.dp //TODO: Para uso de GridCells.Adaptive
     val listState = rememberLazyGridState()
@@ -100,7 +103,8 @@ private fun VerticalGridGenres(
                     "games",
                     genre.games
                 )*/
-                navController.navigate(Screens.GENRES_DETAILS_SCREEN + "/" + (genre.id ?: 0))
+                onGenreClick(genre.games)
+                navController.navigate(GENRE_DETAILS_SCREEN.name + "/" + (genre.id ?: 0))
             }
         }
     }

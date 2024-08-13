@@ -9,28 +9,31 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.dwh.gamesapp.platforms.domain.model.PlatformGame
-import com.dwh.gamesapp.home.presentation.HomeScreen
-import com.dwh.gamesapp.a.presentation.ui.favorite_games.FavoriteGamesScreen
-import com.dwh.gamesapp.games_details.presentation.GameDetailsScreen
-import com.dwh.gamesapp.games.presentation.GamesScreen
-import com.dwh.gamesapp.genres_details.presentation.GenreDetailsScreen
-import com.dwh.gamesapp.genres.presentation.GenreScreen
-import com.dwh.gamesapp.a.presentation.ui.login.LoginScreen
+import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
 import com.dwh.gamesapp.platforms_details.presentation.PlatformDetailsScreen
 import com.dwh.gamesapp.platforms.presentation.PlatformScreen
 import com.dwh.gamesapp.a.presentation.ui.profile.EditProfileScreen
-import com.dwh.gamesapp.a.presentation.ui.profile.ProfileScreen
-import com.dwh.gamesapp.a.presentation.ui.registration.RegistrationScreen
 import com.dwh.gamesapp.a.presentation.ui.welcome.WelcomeScreen
-import com.dwh.gamesapp.genres.presentation.GenreViewModel
+import com.dwh.gamesapp.core.presentation.navigation.Screens.*
+import com.dwh.gamesapp.games.navigation.gameGraph
+import com.dwh.gamesapp.games_details.navigation.gameDetailsGraph
+import com.dwh.gamesapp.genres.navigation.genreGraph
+import com.dwh.gamesapp.genres_details.navigation.genreDetailsGraph
+import com.dwh.gamesapp.home.navigation.homeGraph
+import com.dwh.gamesapp.platforms.navigation.platformGraph
 import com.dwh.gamesapp.platforms.presentation.PlatformViewModel
+import com.dwh.gamesapp.platforms_details.navigation.platformDetailsGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -38,69 +41,43 @@ fun Navigation(navController: NavController) {
     val duration = 600
     NavHost(
         navController = navController as NavHostController,
-        startDestination = Screens.WELCOME,
+        startDestination = NavigationScreens.Welcome.route,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None }
     ) {
-        // Pantalla inicial
-        composable(Screens.WELCOME) {
+        composable(NavigationScreens.Welcome.route) {
             WelcomeScreen(navController)
         }
-        // Inicio de sesión
-        composable(Screens.LOGIN_SCREEN) {
+        /*composable(LOGIN_SCREEN.name) {
             LoginScreen(navController)
         }
-        //  Registro
-        composable(Screens.REGISTRATION_SCREEN) {
+        composable(REGISTRATION_SCREEN.name) {
             RegistrationScreen(navController)
-        }
-        // Home
-        composable(
-            route = Screens.HOME_SCREEN,
+        }*/
+
+        homeGraph(navController)
+
+        /*composable(
+            route = PROFILE_SCREEN.name,
             exitTransition = { fadeOut(animationSpec = tween(700)) }
         ) {
-            HomeScreen(navController)
-        }
-        // Perfil
-        composable(Screens.PROFILE_SCREEN) {
             ProfileScreen(navController)
-        }
-        composable(Screens.EDIT_PROFILE_SCREEN) {
-            EditProfileScreen(navController)
-        }
-        // Juegos
-        composable(Screens.GAMES_SCREEN) {
-            GamesScreen(navController)
-        }
-        composable(Screens.GAME_DETAILS_SCREEN + "/{id}") {
-            it.arguments?.getString("id")?.let { id ->
-                GameDetailsScreen(navController, id.toInt())
-            }
-        }
-        // Géneros
-        composable(
-            route = Screens.GENRES_SCREEN,
+        }*/
+
+        /*composable(
+            route = EDIT_PROFILE_SCREEN.name,
             enterTransition = {
                 when (initialState.destination.route) {
-                    // Home to Genres, la animación se aplica a Genres
-                    Screens.HOME_SCREEN -> slideIntoContainer(
+                    PROFILE_SCREEN.name -> slideIntoContainer(
                         animationSpec = tween(duration),
                         towards = AnimatedContentTransitionScope.SlideDirection.Right
                     )
-                    // Genres Details back to Genres, la animación se aplica a Genres
+
                     else -> null
                 }
             },
-            // Genres to Genres Details, la animación se aplica a Genres
-            exitTransition = {
-                slideOutOfContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Down,
-                    animationSpec = tween(duration)
-                )
-            },
-            // Genres back to Home, la animación se aplica a Genres
             popExitTransition = {
                 fadeOut(
                     animationSpec = tween(duration)
@@ -110,22 +87,35 @@ fun Navigation(navController: NavController) {
                 )
             }
         ) {
-            val viewModel = hiltViewModel<GenreViewModel>()
-            val state by viewModel.uiState.collectAsStateWithLifecycle()
+            EditProfileScreen(navController)
+        }*/
 
-            GenreScreen(navController, viewModel, state)
+        navigation(startDestination = NavigationScreens.Game.route, route = "Games") {
+            gameGraph(navController)
+
+            gameDetailsGraph(navController)
         }
 
-        composable(
-            route = Screens.GENRES_DETAILS_SCREEN + "/{id}",
-            // Genres to Genres Details, la animación se aplica a Genres Details
+        /*composable(
+            route = GAME_SCREEN.name,
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Down,
+                    animationSpec = tween(duration)
+                )
+            }
+        ) {
+            GamesScreen(navController)
+        }*/
+
+        /*composable(
+            route = GAME_DETAILS_SCREEN.name + "/{id}",
             enterTransition = {
                 slideIntoContainer(
                     animationSpec = tween(duration),
                     towards = AnimatedContentTransitionScope.SlideDirection.Down,
                 )
             },
-            // Genres Details back to Genres, la animación se aplica a Genres Details
             popExitTransition = {
                 fadeOut(
                     animationSpec = tween(duration)
@@ -135,20 +125,29 @@ fun Navigation(navController: NavController) {
                 )
             }
         ) {
-            /*val games =
-                navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<GenreGame>>("games")
-            if (!games.isNullOrEmpty()) {*/
             it.arguments?.getString("id")?.let { id ->
-                GenreDetailsScreen(navController, id.toInt())
+                GameDetailsScreen(navController, id.toInt())
             }
-            //}
+        }*/
+
+        navigation(startDestination = NavigationScreens.Genre.route, route = "Genres") {
+            genreGraph(navController)
+
+            genreDetailsGraph(navController)
         }
+
+        navigation(startDestination = NavigationScreens.Platform.route, route = "Platforms") {
+            platformGraph(navController)
+
+            platformDetailsGraph(navController)
+        }
+
         // Plataformas
-        composable(
-            route = Screens.PLATFORMS_SCREEN,
+        /*composable(
+            route = PLATFORM_SCREEN.name,
             enterTransition = {
                 when (initialState.destination.route) {
-                    Screens.HOME_SCREEN -> slideIntoContainer(
+                    HOME_SCREEN.name -> slideIntoContainer(
                         animationSpec = tween(duration),
                         towards = AnimatedContentTransitionScope.SlideDirection.Right
                     )
@@ -176,10 +175,11 @@ fun Navigation(navController: NavController) {
             val state by viewModel.uiState.collectAsStateWithLifecycle()
 
             PlatformScreen(navController, viewModel, state)
-        }
+        }*/
 
-        composable(
-            route = Screens.PLATFORMS_DETAILS_SCREEN + "/{id}",
+        /*composable(
+            route = "${PLATFORM_DETAILS_SCREEN.name}/{platformId}",
+            arguments = listOf(navArgument("platformId") { type = NavType.StringType }),
             enterTransition = {
                 slideIntoContainer(
                     animationSpec = tween(duration),
@@ -194,18 +194,38 @@ fun Navigation(navController: NavController) {
                     towards = AnimatedContentTransitionScope.SlideDirection.Up
                 )
             }
-        ) {
-            /*val games =
-                navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<PlatformGame>>("games")
-            if (!games.isNullOrEmpty()) {*/
-            it.arguments?.getString("id")?.let { id ->
-                PlatformDetailsScreen(navController, id.toInt())
-            }
+        ) { backStackEntry ->
+            *//*val games =
+            navController.previousBackStackEntry?.savedStateHandle?.get<ArrayList<PlatformGame>>("games")
+        if (!games.isNullOrEmpty()) {*//*
+            val platformId = backStackEntry.arguments?.getString("platformId")
+            PlatformDetailsScreen(navController, platformId)
             //}
-        }
+        }*/
+
         // Juegos favoritos
-        composable(Screens.FAVORITE_GAMES_SCREEN) {
+        /*composable(
+            route = FAVORITE_GAMES_SCREEN.name,
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Down,
+                    animationSpec = tween(duration)
+                )
+            }
+        ) {
             FavoriteGamesScreen(navController)
-        }
+        }*/
+
     }
+}
+
+@Composable
+inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(
+    navController: NavController,
+): T {
+    val navGraphRoute = destination.parent?.route ?: return hiltViewModel()
+    val parentEntry = remember(this) {
+        navController.getBackStackEntry(navGraphRoute)
+    }
+    return hiltViewModel(parentEntry)
 }

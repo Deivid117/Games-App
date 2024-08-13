@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.a.presentation.view_model.welcome.WelcomeViewModel
 import com.dwh.gamesapp.core.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 
 @Composable
 fun WelcomeScreen(
@@ -31,9 +32,9 @@ fun ValidationRoute(
         //delay(3000)
         viewModel.isThereLoggedUser {
             if(it) {
-                navController.navigate(Screens.HOME_SCREEN)
+                navController.navigate(HOME_SCREEN.name)
             } else {
-                navController.navigate(Screens.LOGIN_SCREEN)
+                navController.navigate(LOGIN_SCREEN.name)
             }
         }
     }

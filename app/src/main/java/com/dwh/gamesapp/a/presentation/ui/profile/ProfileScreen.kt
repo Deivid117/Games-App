@@ -27,6 +27,7 @@ import com.dwh.gamesapp.a.presentation.view_model.logout.LogoutViewModel
 import com.dwh.gamesapp.a.presentation.view_model.profile.ProfileUiState
 import com.dwh.gamesapp.a.presentation.view_model.profile.ProfileViewModel
 import com.dwh.gamesapp.core.presentation.navigation.Screens
+import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 
 @Composable
 fun ProfileScreen(
@@ -142,7 +143,7 @@ fun ProfileDetails(
         onAccept = {
             showLogoutDialog = false
             viewModel.userLogout(user.id) {success ->
-                if(success) navController.navigate(Screens.LOGIN_SCREEN)
+                if(success) navController.navigate(LOGIN_SCREEN.name)
             }
         }
     )
@@ -165,7 +166,7 @@ fun ProfileDetails(
     BottomProfileButtons(
         onClickLogout = { showLogoutDialog = true },
         onClickEdit = {
-            navController.navigate(Screens.EDIT_PROFILE_SCREEN)
+            navController.navigate(EDIT_PROFILE_SCREEN.name)
         }
     )
 }

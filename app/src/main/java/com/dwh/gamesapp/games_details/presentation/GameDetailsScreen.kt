@@ -37,12 +37,14 @@ import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
 @Composable
 fun GameDetailsScreen(
     navController: NavController,
-    gameId: Int,
+    gameId: String?,
     viewModel: GameDetailsViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(viewModel) {
-        viewModel.getGameDetails(gameId)
-        viewModel.isMyFavoriteGame(gameId)
+    if(!gameId.isNullOrEmpty()) {
+        LaunchedEffect(viewModel) {
+            viewModel.getGameDetails(gameId.toInt())
+            viewModel.isMyFavoriteGame(gameId.toInt())
+        }
     }
 
     Surface(Modifier.fillMaxSize()) {
