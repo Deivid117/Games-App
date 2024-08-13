@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.platforms_details.di
 
-import com.dwh.gamesapp.platforms_details.data.remote.repository.PlatformDetailsRepositoryImpl
+import com.dwh.gamesapp.platforms_details.data.repository.PlatformDetailsRepositoryImpl
 import com.dwh.gamesapp.platforms_details.domain.repository.PlatformDetailsRepository
 import dagger.Binds
 import dagger.Module

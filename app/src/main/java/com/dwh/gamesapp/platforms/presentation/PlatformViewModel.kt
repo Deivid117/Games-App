@@ -3,6 +3,7 @@ package com.dwh.gamesapp.platforms.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.core.presentation.state.DataState
+import com.dwh.gamesapp.platforms.domain.model.PlatformGame
 import com.dwh.gamesapp.platforms.domain.use_cases.GetPlatformsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -34,5 +35,9 @@ class PlatformViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setPlatformGames(games: List<PlatformGame>) = viewModelScope.launch(Dispatchers.IO) {
+        _uiState.update { it.copy(platformGames = games) }
     }
 }

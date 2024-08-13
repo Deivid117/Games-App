@@ -5,7 +5,7 @@ import com.dwh.gamesapp.games.data.model.GamesResultDTO
 import com.dwh.gamesapp.home.data.remote.model.response.NextWeekGamesResultsDTO
 import com.dwh.gamesapp.genres_details.data.remote.model.response.GenreDetailsDTO
 import com.dwh.gamesapp.genres.data.remote.model.response.GenreResultsDTO
-import com.dwh.gamesapp.platforms_details.data.remote.mode.response.PlatformDetailsDTO
+import com.dwh.gamesapp.platforms_details.data.remote.model.response.PlatformDetailsDTO
 import com.dwh.gamesapp.platforms.data.remote.model.response.PlatformResultsDTO
 import com.dwh.gamesapp.home.data.remote.model.response.BestOfTheYearResultsDTO
 import retrofit2.Response
@@ -41,11 +41,11 @@ interface ApiService {
     ): Response<BestOfTheYearResultsDTO>
 
     /** WS GENRES */
-    // ARREGLANDO V2.0
+    // ARREGLADO V2.0
     @GET("genres")
     suspend fun getGenres(): Response<GenreResultsDTO>
 
-    // ARREGLADO
+    // ARREGLADO V2.0
     @GET("genres/{id}")
     suspend fun getGenreDetails(@Path("id") id: Int): Response<GenreDetailsDTO>
 
@@ -54,7 +54,7 @@ interface ApiService {
     @GET("platforms")
     suspend fun getPlatforms(): Response<PlatformResultsDTO>
 
-    // ARREGLADO
+    // ARREGLADO V2.0
     @GET("platforms/{id}")
     suspend fun getPlatformDetails(@Path("id") id: Int): Response<PlatformDetailsDTO>
 

@@ -23,6 +23,7 @@ import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 import com.dwh.gamesapp.core.presentation.utils.animations.scaleAndAlpha
 import com.dwh.gamesapp.core.presentation.utils.lazygridstate.calculateDelayAndEasing
 import com.dwh.gamesapp.platforms.domain.model.Platform
+import com.dwh.gamesapp.platforms.domain.model.PlatformGame
 
 @Composable
 fun PlatformScreen(
@@ -45,7 +46,7 @@ fun PlatformScreen(
         if (state.isLoading) {
             LoadingAnimation(modifier = Modifier.fillMaxSize())
         } else {
-            PlatformView(navController = navController, state = state)
+            PlatformView(navController = navController, state = state) { viewModel.setPlatformGames(it) }
         }
     }
 }
@@ -54,9 +55,14 @@ fun PlatformScreen(
 private fun PlatformView(
     navController: NavController,
     state: PlatformState,
+    onPlatformClick: (List<PlatformGame>) -> Unit
 ) {
     if (state.platforms.isNotEmpty()) {
-        VerticalGridPlatforms(navController = navController, platforms = state.platforms)
+        VerticalGridPlatforms(
+            navController = navController,
+            platforms = state.platforms,
+            onPlatformClick = onPlatformClick
+        )
     } else {
         InformationCard(
             modifier = Modifier.fillMaxSize(),
@@ -70,6 +76,7 @@ private fun PlatformView(
 private fun VerticalGridPlatforms(
     navController: NavController,
     platforms: List<Platform>,
+    onPlatformClick: (List<PlatformGame>) -> Unit
 ) {
     val listState = rememberLazyGridState()
 
@@ -97,10 +104,7 @@ private fun VerticalGridPlatforms(
                 imageBackground = platform.imageBackground ?: "",
                 gamesCount = platform.gamesCount ?: 0
             ) {
-                navController.currentBackStackEntry?.savedStateHandle?.set(
-                    "games",
-                    platform.games
-                )
+                onPlatformClick(platform.games)
                 navController.navigate(PLATFORM_DETAILS_SCREEN.name + "/" + (platform.id ?: 0))
             }
         }

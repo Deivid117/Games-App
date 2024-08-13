@@ -1,111 +1,66 @@
 package com.dwh.gamesapp.genres_details.presentation
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.dwh.gamesapp.genres_details.domain.model.GenreDetails
 import com.dwh.gamesapp.genres.domain.model.GenreGame
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
+import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
 import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
-import com.dwh.gamesapp.a.presentation.composables.InformationCard
-import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
-import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.core.presentation.utils.Constants.headerHeight
-import com.dwh.gamesapp.core.presentation.utils.Constants.toolbarHeight
 import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
-import com.dwh.gamesapp.genres.presentation.GenreState
 
 @Composable
 fun GenreDetailsScreen(
-    navController: NavController,
     genreId: Int?,
-    state: GenreState,
-    viewModel: GenreDetailsViewModel = hiltViewModel()
+    genreGames: List<GenreGame>,
+    state: GenreDetailsState,
+    viewModel: GenreDetailsViewModel,
+    onNavigateBack: () -> Unit
 ) {
-    if(genreId != null) {
+    if (genreId != null) {
         LaunchedEffect(viewModel) {
             viewModel.getGenreDetails(genreId)
         }
     }
 
-    Surface(Modifier.fillMaxSize()) {
-        BackgroundGradient()
-        GenreDetailsContent(viewModel, navController, state.genreGames)
-    }
-}
-
-@Composable
-private fun GenreDetailsContent(
-    viewModel: GenreDetailsViewModel,
-    navController: NavController,
-    gamesGenre: List<GenreGame>
-) {
-    GenreDetailsValidateResponse(
-        viewModel,
-        navController,
-        gamesGenre
-    )
-}
-
-@Composable
-private fun GenreDetailsValidateResponse(
-    viewModel: GenreDetailsViewModel,
-    navController: NavController,
-    gamesGenre: List<GenreGame>
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    when (uiState) {
-        is DataState.Error -> {
-            val errorMsg = (uiState as DataState.Error).errorMessage
-            Log.e("ERROR: GenreDetailsScreen", errorMsg)
-            InformationCard(
-                modifier = Modifier.fillMaxSize(),
-                message = "Ocurrió un error",
-                description = errorMsg
+    BackgroundGradient {
+        if (state.isLoading) {
+            LoadingAnimation(modifier = Modifier.fillMaxSize())
+        } else {
+            GenreDetailsViewWithParallaxEffect(
+                genreDetails = state.genreDetails,
+                genreGames = genreGames,
+                onNavigateBack = onNavigateBack
             )
         }
-
-        DataState.Loading -> {
-            LoadingAnimation(Modifier.fillMaxSize())
-        }
-
-        is DataState.Success -> {
-            val genreDetails = (uiState as DataState.Success).data
-            GenreDetailsContentWithParallaxEffect(navController, genreDetails, gamesGenre)
-        }
     }
 }
 
 @Composable
-private fun GenreDetailsContentWithParallaxEffect(
-    navController: NavController,
+private fun GenreDetailsViewWithParallaxEffect(
     genreDetails: GenreDetails?,
-    gamesGenre: List<GenreGame>
+    genreGames: List<GenreGame>,
+    onNavigateBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val headerHeightPx = with(LocalDensity.current) { headerHeight.toPx() }
-    val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.toPx() }
 
     LifecycleOwnerListener()
 
     Box(
-        Modifier.background(MaterialTheme.colorScheme.background.copy(.8f))
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background.copy(.8f))
+            .statusBarsPadding()
     ) {
         CoverImageWithBackIconParallaxEffect(
             scrollState = scrollState,
@@ -113,25 +68,20 @@ private fun GenreDetailsContentWithParallaxEffect(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(headerHeight)
-        ) { navController.navigateUp() }
+        ) { onNavigateBack() }
 
         ScrollingTitleComposable(
             scrollState = scrollState,
-            genreDetails?.name ?: "N/A"
+            title = genreDetails?.name ?: "N/A"
         )
 
-        Box(Modifier.padding(top = 60.dp)) {
-            GameGenreInformation(scrollState, genreDetails, gamesGenre)
+        Box(modifier = Modifier.padding(top = 60.dp)) {
+            GameGenreInformation(
+                scrollState = scrollState,
+                genreDetails = genreDetails,
+                genreGames = genreGames
+            )
         }
-
-        /** TODO: Comprobar si es necesario dejar este composable
-         * Si no eliminarlo */
-
-        /*TopAppBarComposable(
-            scrollState = scrollState,
-            headerHeightPx = headerHeightPx,
-            toolbarHeightPx = toolbarHeightPx,
-        ) { navController.popBackStack() }*/
     }
 }
 
@@ -139,9 +89,9 @@ private fun GenreDetailsContentWithParallaxEffect(
 private fun GameGenreInformation(
     scrollState: ScrollState,
     genreDetails: GenreDetails?,
-    gamesGenre: List<GenreGame>
+    genreGames: List<GenreGame>
 ) {
-    val description = if(genreDetails?.description.isNullOrEmpty()) "N/A" else genreDetails?.description
+    val description = if (genreDetails?.description.isNullOrEmpty()) "N/A" else genreDetails?.description
 
     Column(
         modifier = Modifier
@@ -156,12 +106,12 @@ private fun GameGenreInformation(
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        PopularGamesGenre(gamesGenre)
+        PopularGamesGenre(genreGames)
     }
 }
 
 @Composable
-private fun PopularGamesGenre(gamesGenre: List<GenreGame>) {
+private fun PopularGamesGenre(genreGames: List<GenreGame>) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "Popular Games",
@@ -172,14 +122,12 @@ private fun PopularGamesGenre(gamesGenre: List<GenreGame>) {
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    ListPopularGames(gamesGenre)
+    ListPopularGames(genreGames)
 }
 
 @Composable
-private fun ListPopularGames(
-    gamesGenre: List<GenreGame>
-) {
-    gamesGenre.forEach { game ->
+private fun ListPopularGames(genreGames: List<GenreGame>) {
+    genreGames.forEach { game ->
         PopularGameItemComposable(
             gameName = game.name ?: "N/A",
             added = "${(game.added ?: 0)}"

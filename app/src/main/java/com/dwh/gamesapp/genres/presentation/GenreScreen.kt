@@ -43,7 +43,7 @@ fun GenreScreen(
         if (state.isLoading) {
             LoadingAnimation(modifier = Modifier.fillMaxSize())
         } else {
-            GenreView(navController, state) { viewModel.setGenreGames(it) }
+            GenreView(navController = navController, state = state) { viewModel.setGenreGames(it) }
         }
     }
 }
@@ -55,7 +55,11 @@ private fun GenreView(
     onGenreClick: (List<GenreGame>) -> Unit
 ) {
     if (state.genres.isNotEmpty()) {
-        VerticalGridGenres(navController = navController, genres = state.genres, onGenreClick)
+        VerticalGridGenres(
+            navController = navController,
+            genres = state.genres,
+            onGenreClick = onGenreClick
+        )
     } else {
         InformationCard(
             modifier = Modifier.fillMaxSize(),
@@ -99,10 +103,6 @@ private fun VerticalGridGenres(
                 imageBackground = genre.imageBackground ?: "",
                 gamesCount = genre.gamesCount ?: 0
             ) {
-                /*navController.currentBackStackEntry?.savedStateHandle?.set(
-                    "games",
-                    genre.games
-                )*/
                 onGenreClick(genre.games)
                 navController.navigate(GENRE_DETAILS_SCREEN.name + "/" + (genre.id ?: 0))
             }
