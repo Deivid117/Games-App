@@ -40,7 +40,7 @@ fun PlatformScreen(
         isTopBarVisible = true,
         isBottomBarVisible = false,
         showTopBarColor = true,
-        title = "Platforms",
+        topBarTitle = "Platforms",
         onBackClick = { navController.popBackStack() }
     ) {
         if (state.isLoading) {

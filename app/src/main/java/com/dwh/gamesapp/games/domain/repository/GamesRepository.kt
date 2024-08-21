@@ -2,6 +2,7 @@ package com.dwh.gamesapp.games.domain.repository
 
 import androidx.paging.PagingData
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
+import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.games.domain.model.Game
 import kotlinx.coroutines.flow.Flow
 

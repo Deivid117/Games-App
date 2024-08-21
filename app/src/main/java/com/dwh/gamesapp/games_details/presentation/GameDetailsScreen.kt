@@ -102,7 +102,9 @@ fun GameDetailsContentWithParallaxEffect(
     LifecycleOwnerListener()
 
     Box(
-        Modifier.background(MaterialTheme.colorScheme.background.copy(.8f))
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background.copy(.8f))
+            .statusBarsPadding()
     ) {
         CoverImageWithBackIconParallaxEffect(
             scrollState = scrollState,

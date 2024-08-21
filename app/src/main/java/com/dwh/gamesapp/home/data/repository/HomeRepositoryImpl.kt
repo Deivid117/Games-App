@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.home.data.repository
 
-import com.dwh.gamesapp.core.data.remote.api.ApiService
+import com.dwh.gamesapp.core.data.remote.api.GameApiService
 import com.dwh.gamesapp.home.domain.model.BestOfTheYearResults
 import com.dwh.gamesapp.home.domain.model.toDomain
 import com.dwh.gamesapp.home.domain.repository.HomeRepository
@@ -13,12 +13,12 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class HomeRepositoryImpl@Inject constructor(
-    private val apiService: ApiService,
+    private val gameApiService: GameApiService,
 ): HomeRepository, BaseRepo() {
 
     override suspend fun getNextWeekGames(dates: String, platforms: String): Flow<Resource<NextWeekGamesResults>> {
         return safeApiCall2 {
-            apiService.getNextWeekGames(dates, platforms)
+            gameApiService.getNextWeekGames(dates, platforms)
         }.map { resource ->
             resource.map { model -> model.toDomain() }
         }
@@ -26,7 +26,7 @@ class HomeRepositoryImpl@Inject constructor(
 
     override suspend fun getBestOfTheYear(dates: String, ordering: String): Flow<Resource<BestOfTheYearResults>> {
         return safeApiCall2 {
-            apiService.getBestOfTheYear(dates, ordering)
+            gameApiService.getBestOfTheYear(dates, ordering)
         }.map { resource ->
             resource.map { model -> model.toDomain() }
         }

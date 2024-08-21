@@ -28,14 +28,14 @@ fun ShimmerLoadingAnimation(
     modifier: Modifier,
     widthOfShadowBrush: Int = 700,
     angleOfAxisY: Float = 270f,
-    durationMillis: Int = 1000,
+    durationMillis: Int = 1000
 ) {
     val shimmerColors = listOf(
         MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
         MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
         MaterialTheme.colorScheme.outlineVariant.copy(alpha = 1.0f),
         MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
     )
 
     val transition = rememberInfiniteTransition(label = "")
@@ -50,13 +50,13 @@ fun ShimmerLoadingAnimation(
             ),
             repeatMode = RepeatMode.Restart,
         ),
-        label = "Shimmer loading animation",
+        label = "Shimmer loading animation"
     )
 
     val brush = Brush.linearGradient(
         colors = shimmerColors,
         start = Offset(x = translateAnimation.value - widthOfShadowBrush, y = 0.0f),
-        end = Offset(x = translateAnimation.value, y = angleOfAxisY),
+        end = Offset(x = translateAnimation.value, y = angleOfAxisY)
     )
 
     Box(
@@ -68,7 +68,6 @@ fun ShimmerLoadingAnimation(
                 .background(brush)
         )
     }
-
 }
 
 fun Modifier.shimmerAnimation(

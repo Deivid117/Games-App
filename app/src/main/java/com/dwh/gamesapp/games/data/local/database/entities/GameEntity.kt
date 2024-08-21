@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.data.database.entities
+package com.dwh.gamesapp.games.data.local.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,8 +7,8 @@ import com.dwh.gamesapp.games.domain.model.Game
 
 @Entity(tableName = "game_table")
 data class GameEntity(
-    @PrimaryKey()
-    @ColumnInfo(name = "id") val id: Int,
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo("id") val id: Int,
     @ColumnInfo("slug") var slug : String,
     @ColumnInfo("name") var name : String,
     @ColumnInfo("released") var released : String,
@@ -16,4 +16,3 @@ data class GameEntity(
     @ColumnInfo("metacritic") var metacritic : Int,
 )
 
-fun Game.toDatabase() = GameEntity(id = id!!, slug = slug!!, name = name!!, released = released!!, backgroundImage = backgroundImage!!, metacritic = metacritic!!)

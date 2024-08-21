@@ -19,6 +19,7 @@ import com.dwh.gamesapp.R
 
 @Composable
 fun BackgroundGradient(
+    modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(0.dp),
     content: @Composable() (BoxScope.() -> Unit) = {},
 ) {
@@ -30,7 +31,7 @@ fun BackgroundGradient(
     )
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(brush = brushGradientColor)
     ) {

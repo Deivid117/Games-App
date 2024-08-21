@@ -49,7 +49,7 @@ fun FavoriteGamesScreen(
         viewModel.getAllFavoriteGames()
     }
 
-    GameScaffold(navController) {
+    GameScaffold(navController = navController) {
         ValidationFavoriteGamesResponse(viewModel, navController)
     }
 }

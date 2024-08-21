@@ -20,18 +20,17 @@ import com.dwh.gamesapp.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBarComposable(
-    scrollState: ScrollState = rememberScrollState(),
     headerHeightPx: Float = 0f,
     toolbarHeightPx: Float = 0f,
-    iconColor: Color = Color.Transparent,
-    topBarColor: Color = Color.Transparent,
+    topBarTitle: String = "",
+    topBarTitleColor: Color = MaterialTheme.colorScheme.background,
+    navigationIconColor: Color = Color.Transparent,
     showTopBarColor: Boolean = false,
-    title: String = "",
-    titleColor: Color = MaterialTheme.colorScheme.background,
-    onClickNav: () -> Unit
+    scrollState: ScrollState = rememberScrollState(),
+    onBackClick: () -> Unit
 ) {
     val toolbarBottom by remember {
-        mutableStateOf(headerHeightPx - toolbarHeightPx)
+        mutableFloatStateOf(headerHeightPx - toolbarHeightPx)
     }
     val showToolbar by remember {
         derivedStateOf {
@@ -48,24 +47,25 @@ fun TopAppBarComposable(
         exit = fadeOut(animationSpec = tween(300))
     ) {
         CenterAlignedTopAppBar(
-            modifier = if(showTopBarColor) Modifier.background(brush = gradient) else Modifier,
+            modifier = if (showTopBarColor) Modifier.background(brush = gradient) else Modifier,
             navigationIcon = {
-                IconButton(
-                    onClick = { onClickNav() },
-                ) {
+                IconButton(onClick = { onBackClick() }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
                         contentDescription = "back left icon",
-                        tint = iconColor,
-                        modifier = Modifier
-                            .size(24.dp)
+                        tint = navigationIconColor,
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             },
             title = {
-                Text(text = title, style = MaterialTheme.typography.titleLarge, color = titleColor)
+                Text(
+                    text = topBarTitle,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = topBarTitleColor
+                )
             },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = topBarColor),
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         )
     }
 }

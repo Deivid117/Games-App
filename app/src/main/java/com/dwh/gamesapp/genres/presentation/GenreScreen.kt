@@ -37,7 +37,7 @@ fun GenreScreen(
         isTopBarVisible = true,
         isBottomBarVisible = false,
         showTopBarColor = true,
-        title = "Genres",
+        topBarTitle = "Genres",
         onBackClick = { navController.popBackStack() }
     ) {
         if (state.isLoading) {

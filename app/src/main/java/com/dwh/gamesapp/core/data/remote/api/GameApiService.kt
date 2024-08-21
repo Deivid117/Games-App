@@ -1,7 +1,7 @@
 package com.dwh.gamesapp.core.data.remote.api
 
 import com.dwh.gamesapp.games_details.data.remote.model.response.GameDetailsDTO
-import com.dwh.gamesapp.games.data.model.GamesResultDTO
+import com.dwh.gamesapp.games.data.remote.model.GamesResultDTO
 import com.dwh.gamesapp.home.data.remote.model.response.NextWeekGamesResultsDTO
 import com.dwh.gamesapp.genres_details.data.remote.model.response.GenreDetailsDTO
 import com.dwh.gamesapp.genres.data.remote.model.response.GenreResultsDTO
@@ -13,10 +13,10 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ApiService {
+interface GameApiService {
 
     /** WS GAMES */
-    // FALTA
+    // ARREGLANDO
     @GET("games")
     suspend fun getGames(
         @Query("page") page: Int,

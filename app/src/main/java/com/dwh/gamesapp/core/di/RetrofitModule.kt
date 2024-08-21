@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.core.di
 
-import com.dwh.gamesapp.core.data.remote.api.ApiService
+import com.dwh.gamesapp.core.data.remote.api.GameApiService
 import com.dwh.gamesapp.core.data.remote.api.ApiConstants
 import com.dwh.gamesapp.core.data.remote.api.HeaderInterceptor
 import dagger.Module
@@ -18,13 +18,13 @@ import java.util.concurrent.TimeUnit
 class RetrofitModule {
 
     @Provides
-    fun getRetrofit(): ApiService {
+    fun getRetrofit(): GameApiService {
         return Retrofit.Builder()
             .baseUrl(ApiConstants.SERVER_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(getClient())
             .build()
-            .create(ApiService::class.java)
+            .create(GameApiService::class.java)
     }
 
     private fun getClient(): OkHttpClient =

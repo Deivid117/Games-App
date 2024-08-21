@@ -1,39 +1,47 @@
 package com.dwh.gamesapp.games.data.repository
 
 import android.util.Log
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.dwh.gamesapp.core.data.remote.api.ApiService
-import com.dwh.gamesapp.a.data.database.dao.FavoriteGamesDao
-import com.dwh.gamesapp.a.data.database.dao.GameDao
 import com.dwh.gamesapp.a.data.database.entities.FavoriteGameEntity
 import com.dwh.gamesapp.a.data.database.entities.toDatabase
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.a.domain.model.favorite_game.toDomain
+import com.dwh.gamesapp.core.data.local.database.GameDatabase
 import com.dwh.gamesapp.games.domain.model.Game
 import com.dwh.gamesapp.games.domain.repository.GamesRepository
 import com.dwh.gamesapp.core.data.remote.api.BaseRepo
-import com.dwh.gamesapp.games.data.data_source.GamesDataSource
-import com.dwh.gamesapp.games.data.repository.paging_source.GamesPagingSource
+import com.dwh.gamesapp.games.data.repository.remote_mediator.GameRemoteMediator
+import com.dwh.gamesapp.games.domain.model.toDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class GamesRepositoryImp @Inject constructor(
-    private val apiService: ApiService,
-    private val gameDao: GameDao,
-    private val favoriteGamesDao: FavoriteGamesDao,
-    private val remoteDataSource: GamesDataSource
+    gameDatabase: GameDatabase,
+    private val gameRemoteMediator: GameRemoteMediator
 ) : GamesRepository, BaseRepo() {
 
-    /** TODO: este es el chido */
+    private val gameDao = gameDatabase.gameDao()
+    private val favoriteGamesDao = gameDatabase.favoriteGameDao()
+
+    companion object {
+        const val NETWORK_PAGE_SIZE = 20
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
     override suspend fun getPaginatedGames(): Flow<PagingData<Game>> {
         return Pager(
-            config = PagingConfig(pageSize = 100, prefetchDistance = 2),
-            pagingSourceFactory = {
-                GamesPagingSource(remoteDataSource)
-            }
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                // TODO ver si dejar estos atributos
+                prefetchDistance = 10,
+                initialLoadSize = NETWORK_PAGE_SIZE
+            ),
+            pagingSourceFactory = gameDao.getGames().map { it.toDomain() }.asPagingSourceFactory(),
+            remoteMediator = gameRemoteMediator
         ).flow
     }
 

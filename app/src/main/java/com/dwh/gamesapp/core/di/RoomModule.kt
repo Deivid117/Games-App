@@ -1,10 +1,11 @@
 package com.dwh.gamesapp.core.di
 
 import android.content.Context
-import com.dwh.gamesapp.a.data.database.DBGamesApp
+import com.dwh.gamesapp.core.data.local.database.GameDatabase
 import com.dwh.gamesapp.a.data.database.dao.FavoriteGamesDao
-import com.dwh.gamesapp.a.data.database.dao.GameDao
+import com.dwh.gamesapp.games.data.local.database.dao.GameDao
 import com.dwh.gamesapp.a.data.database.dao.UserDao
+import com.dwh.gamesapp.games.data.local.database.dao.RemoteKeyDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,25 +21,31 @@ class RoomModule {
     fun provideRoomDatabase(
         @ApplicationContext
         context: Context
-    ): DBGamesApp {
-        return DBGamesApp.newInstance(context)
+    ): GameDatabase {
+        return GameDatabase.newInstance(context)
     }
 
     @Singleton
     @Provides
-    fun provideGameDao(dbGamesApp: DBGamesApp): GameDao {
-        return dbGamesApp.gameDao()
+    fun provideGameDao(gameDatabase: GameDatabase): GameDao {
+        return gameDatabase.gameDao()
     }
 
     @Singleton
     @Provides
-    fun provideUserDao(dbGamesApp: DBGamesApp): UserDao {
-        return dbGamesApp.userDao()
+    fun provideRemoteKeyDao(gameDatabase: GameDatabase): RemoteKeyDao {
+        return gameDatabase.remoteKeyDao()
     }
 
     @Singleton
     @Provides
-    fun providesFavoriteGameDao(dbGamesApp: DBGamesApp): FavoriteGamesDao {
-        return dbGamesApp.favoriteGameDao()
+    fun provideUserDao(gameDatabase: GameDatabase): UserDao {
+        return gameDatabase.userDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesFavoriteGameDao(gameDatabase: GameDatabase): FavoriteGamesDao {
+        return gameDatabase.favoriteGameDao()
     }
 }

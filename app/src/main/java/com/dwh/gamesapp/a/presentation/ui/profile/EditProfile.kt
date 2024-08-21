@@ -36,7 +36,7 @@ fun EditProfileScreen(
         isBottomBarVisible = false,
         isTopBarVisible = true,
         showTopBarColor = true,
-        title = "Edit Profile",
+        topBarTitle = "Edit Profile",
         onBackClick = { navController.popBackStack() }
     ) {
         EditProfileContent(viewModel, navController)

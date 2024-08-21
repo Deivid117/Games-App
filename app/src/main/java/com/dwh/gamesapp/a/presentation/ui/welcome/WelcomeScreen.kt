@@ -29,13 +29,15 @@ fun ValidationRoute(
     navController: NavController
 ) {
     LaunchedEffect(viewModel) {
+        navController.navigate(HOME_SCREEN.name)
+
         //delay(3000)
-        viewModel.isThereLoggedUser {
+        /*viewModel.isThereLoggedUser {
             if(it) {
                 navController.navigate(HOME_SCREEN.name)
             } else {
                 navController.navigate(LOGIN_SCREEN.name)
             }
-        }
+        }*/
     }
 }
