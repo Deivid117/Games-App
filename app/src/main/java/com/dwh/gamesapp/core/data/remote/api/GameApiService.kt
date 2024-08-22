@@ -16,7 +16,7 @@ import retrofit2.http.Query
 interface GameApiService {
 
     /** WS GAMES */
-    // ARREGLANDO
+    // ARREGLADO v2.0
     @GET("games")
     suspend fun getGames(
         @Query("page") page: Int,

@@ -8,5 +8,5 @@ data class GameDTO(
     @SerializedName("name") var name : String? = null,
     @SerializedName("released") var released : String? = null,
     @SerializedName("background_image") var backgroundImage : String? = null,
-    @SerializedName("metacritic") var metacritic : Int? = null,
+    @SerializedName("metacritic") var metacritic : Int? = null
 )

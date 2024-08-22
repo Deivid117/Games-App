@@ -1,8 +1,7 @@
-package com.dwh.gamesapp.a.presentation.composables
+package com.dwh.gamesapp.core.presentation.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,7 +15,7 @@ import com.airbnb.lottie.compose.*
 import com.dwh.gamesapp.R
 
 @Composable
-fun LoadingAnimation(
+fun GameLoadingAnimation(
     modifier: Modifier = Modifier,
     size: Int = 300
 ){

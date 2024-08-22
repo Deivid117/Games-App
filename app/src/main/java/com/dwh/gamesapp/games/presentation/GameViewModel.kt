@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    private val getGamesUseCase: GetGamesUseCase,
+    private val getGamesUseCase: GetGamesUseCase
 ) : ViewModel() {
 
     private var _pagingGames: MutableStateFlow<PagingData<Game>> = MutableStateFlow(PagingData.empty())
@@ -28,7 +28,7 @@ class GameViewModel @Inject constructor(
         getGamesUseCase()
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
-            .collectLatest { games: PagingData<Game> ->
+            .collectLatest { games ->
                 _pagingGames.value = games
             }
     }

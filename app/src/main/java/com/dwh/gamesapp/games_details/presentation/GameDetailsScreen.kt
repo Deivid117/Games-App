@@ -15,7 +15,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.dwh.gamesapp.R
@@ -25,7 +24,7 @@ import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
 import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
-import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
+import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.core.presentation.theme.Dark_Green
 import com.dwh.gamesapp.core.presentation.theme.Light_Green
 import com.dwh.gamesapp.core.presentation.state.DataState
@@ -82,7 +81,7 @@ private fun GameDetailsValidateResponse(
             )
         }
 
-        DataState.Loading -> LoadingAnimation()
+        DataState.Loading -> GameLoadingAnimation()
 
         is DataState.Success -> {
             val gameDetails = (uiState as DataState.Success).data

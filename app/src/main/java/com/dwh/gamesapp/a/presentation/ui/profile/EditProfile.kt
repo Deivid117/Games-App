@@ -18,7 +18,7 @@ import com.dwh.gamesapp.a.presentation.composables.AvatarsDialog
 import com.dwh.gamesapp.a.presentation.composables.CustomArcShape
 import com.dwh.gamesapp.a.presentation.composables.CustomButton
 import com.dwh.gamesapp.a.presentation.composables.CustomDialog
-import com.dwh.gamesapp.a.presentation.composables.GameScaffold
+import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.CustomTextField
 import com.dwh.gamesapp.a.presentation.view_model.edit_profile.EditProfileViewModel
 

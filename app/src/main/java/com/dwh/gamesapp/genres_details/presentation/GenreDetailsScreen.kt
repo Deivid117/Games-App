@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.genres_details.domain.model.GenreDetails
 import com.dwh.gamesapp.genres.domain.model.GenreGame
 import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
-import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
+import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
 import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
@@ -36,7 +36,7 @@ fun GenreDetailsScreen(
 
     BackgroundGradient {
         if (state.isLoading) {
-            LoadingAnimation(modifier = Modifier.fillMaxSize())
+            GameLoadingAnimation(modifier = Modifier.fillMaxSize())
         } else {
             GenreDetailsViewWithParallaxEffect(
                 genreDetails = state.genreDetails,

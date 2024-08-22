@@ -17,6 +17,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.dwh.gamesapp.R
+import com.dwh.gamesapp.core.presentation.composables.CompositionAnimation
 import com.dwh.gamesapp.core.presentation.theme.Dogica
 
 @Composable

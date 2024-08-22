@@ -12,8 +12,8 @@ import com.dwh.gamesapp.games.data.local.database.dao.RemoteKeyDao
 import com.dwh.gamesapp.games.data.local.database.entities.RemoteKeyEntity
 import com.dwh.gamesapp.games.data.remote.mappers.mapToEntity
 import com.dwh.gamesapp.games.domain.model.Game
-import com.dwh.gamesapp.games.presentation.utils.CustomException
-import com.dwh.gamesapp.games.presentation.utils.ErrorMessage
+import com.dwh.gamesapp.games.presentation.utils.GameCustomException
+import com.dwh.gamesapp.games.presentation.utils.GameErrorMessage
 import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 @OptIn(ExperimentalPagingApi::class)
 class GameRemoteMediator(
     private val gameDatabase: GameDatabase,
-    private val gameApiService: GameApiService,
+    private val gameApiService: GameApiService
 ) : RemoteMediator<Int, Game>() {
 
     private val gameDao: GameDao = gameDatabase.gameDao()
@@ -33,7 +33,7 @@ class GameRemoteMediator(
 
         val cacheTimeout = TimeUnit.HOURS.convert(1, TimeUnit.MILLISECONDS)
 
-        return if ((System.currentTimeMillis() - remoteKey.last_updated) >= cacheTimeout) {
+        return if ((System.currentTimeMillis() - remoteKey.lastUpdated) >= cacheTimeout) {
             InitializeAction.SKIP_INITIAL_REFRESH
         } else {
             InitializeAction.LAUNCH_INITIAL_REFRESH
@@ -51,7 +51,7 @@ class GameRemoteMediator(
                 LoadType.APPEND -> {
                     val remoteKey = remoteKeyDao.getRemoteKeyByGameId("game_id")
                         ?: return MediatorResult.Success(true)
-                    remoteKey.next_page ?: return MediatorResult.Success(true)
+                    remoteKey.nextPage ?: return MediatorResult.Success(true)
                 }
             }
 
@@ -62,8 +62,8 @@ class GameRemoteMediator(
 
             if (!response.isSuccessful) {
                 return MediatorResult.Error(
-                    CustomException(
-                        ErrorMessage(
+                    GameCustomException(
+                        GameErrorMessage(
                             errorMessage = "Error de Conexión",
                             errorDescription = "Ocurrió un error al solicitar los datos, por favor inténtelo más tarde"
                         )
@@ -75,8 +75,8 @@ class GameRemoteMediator(
 
             if (games.isEmpty()) {
                 return MediatorResult.Error(
-                    CustomException(
-                        ErrorMessage(
+                    GameCustomException(
+                        GameErrorMessage(
                             errorMessage = "Sin Datos Disponibles",
                             errorDescription = "No pudimos encontrar la información solicitada"
                         )
@@ -87,7 +87,7 @@ class GameRemoteMediator(
             gameDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     gameDao.deleteGames()
-                    remoteKeyDao.clearRemoteKeys()
+                    remoteKeyDao.deleteRemoteKeys()
                 }
 
                 val nextPage = if (games.isEmpty()) null else page + 1
@@ -95,8 +95,8 @@ class GameRemoteMediator(
                 remoteKeyDao.insertRemoteKey(
                     RemoteKeyEntity(
                         id = "game_id",
-                        next_page = nextPage,
-                        last_updated = System.currentTimeMillis()
+                        nextPage = nextPage,
+                        lastUpdated = System.currentTimeMillis()
                     )
                 )
 
@@ -106,8 +106,8 @@ class GameRemoteMediator(
             MediatorResult.Success(endOfPaginationReached = games.isEmpty())
         } catch (e: IOException) {
             MediatorResult.Error(
-                CustomException(
-                    errorMessage = ErrorMessage(
+                GameCustomException(
+                    gameErrorMessage = GameErrorMessage(
                         errorMessage = "Sin Conexión a Internet",
                         errorDescription = "Por favor, verifica tu conexión a internet y vuelve a intentarlo"
                     )
@@ -115,8 +115,8 @@ class GameRemoteMediator(
             )
         } catch (e: HttpException) {
             MediatorResult.Error(
-                CustomException(
-                    ErrorMessage(
+                GameCustomException(
+                    GameErrorMessage(
                         errorMessage = "Error del Servidor", errorDescription = e.message
                             ?: "Estamos experimentando problemas con el servidor. Por favor, inténtalo más tarde"
                     )
@@ -124,8 +124,8 @@ class GameRemoteMediator(
             )
         } catch (e: Exception) {
             MediatorResult.Error(
-                CustomException(
-                    ErrorMessage(
+                GameCustomException(
+                    GameErrorMessage(
                         errorMessage = "Algo salió mal", errorDescription = e.message ?: "Error desconocido"
                     )
                 )

@@ -31,15 +31,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
-import com.dwh.gamesapp.a.presentation.composables.GameScaffold
+import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
-import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
+import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.home.presentation.utils.GameUiInfo
 import com.dwh.gamesapp.home.presentation.utils.LocalGameUiInfo
 import com.dwh.gamesapp.utils.vertical
@@ -149,7 +148,7 @@ fun BestOfTheYearValidationResponse(
             )
         }
 
-        DataState.Loading -> LoadingAnimation()
+        DataState.Loading -> GameLoadingAnimation()
 
         is DataState.Success -> {
             val bestOfTheYearResults = (uiState as DataState.Success).data
@@ -176,7 +175,7 @@ fun NextWeekGamesValidationResponse(
             )
         }
 
-        DataState.Loading -> LoadingAnimation()
+        DataState.Loading -> GameLoadingAnimation()
 
         is DataState.Success -> {
             val nextWeekGamesResults = (uiState as DataState.Success).data

@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.presentation.composables
+package com.dwh.gamesapp.core.presentation.composables
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -68,68 +68,4 @@ fun ShimmerLoadingAnimation(
                 .background(brush)
         )
     }
-}
-
-fun Modifier.shimmerAnimation(
-    widthOfShadowBrush: Int = 700,
-    angleOfAxisY: Float = 270f,
-    durationMillis: Int = 1000,
-): Modifier = composed {
-
-    val shimmerColors = listOf(
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 1.0f),
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
-    )
-
-    val transition = rememberInfiniteTransition(label = "")
-
-    val translateAnimation = transition.animateFloat(
-        initialValue = 0f,
-        targetValue = (durationMillis + widthOfShadowBrush).toFloat(),
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = durationMillis,
-                easing = LinearEasing,
-            ),
-            repeatMode = RepeatMode.Restart,
-        ),
-        label = "Shimmer loading animation",
-    )
-
-    background(
-        brush = Brush.linearGradient(
-            colors = shimmerColors,
-            start = Offset(x = translateAnimation.value - widthOfShadowBrush, y = 0.0f),
-            end = Offset(x = translateAnimation.value, y = angleOfAxisY),
-        )
-    )
-}
-
-fun Modifier.shimmerEffect(
-    baseColor: Color = Color(0xFFE1E1E1),
-    transitionColor: Color = Color(0xFFAFACAC)
-): Modifier = composed {
-    var size by remember { mutableStateOf(IntSize.Zero) }
-    val transition = rememberInfiniteTransition(label = "")
-    val startOffsetX by transition.animateFloat(
-        initialValue = -2 * size.width.toFloat(),
-        targetValue = 2 * size.width.toFloat(),
-        animationSpec = infiniteRepeatable(
-            animation = tween(1000)
-        ), label = ""
-    )
-    background(
-        brush = Brush.linearGradient(
-            colors = listOf(
-                baseColor,
-                transitionColor,
-                baseColor,
-            ),
-            start = Offset(startOffsetX, 0f),
-            end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
-        )
-    ).onGloballyPositioned { size = it.size }
 }

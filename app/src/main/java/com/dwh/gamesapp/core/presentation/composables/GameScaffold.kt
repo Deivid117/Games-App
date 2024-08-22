@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.presentation.composables
+package com.dwh.gamesapp.core.presentation.composables
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.material3.MaterialTheme
@@ -12,7 +12,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.dwh.gamesapp.core.presentation.composables.GameSnackBar
+import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
+import com.dwh.gamesapp.a.presentation.composables.NavigationBarComposable
+import com.dwh.gamesapp.a.presentation.composables.TopAppBarComposable
 
 @Composable
 fun GameScaffold(
@@ -26,17 +28,15 @@ fun GameScaffold(
     snackBarMessage: String = "",
     onBackClick: () -> Unit = {},
     onDismissSnackBar: () -> Unit = {},
-    onActionSnackBar: () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
-    content: @Composable() (BoxScope.() -> Unit) = {},
+    content: @Composable() (BoxScope.() -> Unit) = {}
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
 
     HandleSnackBar(
         snackBarHostState = snackBarHostState,
         isSnackBarVisible = isSnackBarVisible,
-        onDismiss = onDismissSnackBar,
-        onAction = onActionSnackBar
+        onDismiss = onDismissSnackBar
     )
 
     Scaffold(
@@ -53,7 +53,7 @@ fun GameScaffold(
         },
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState) {
-                GameSnackBar(snackBarMessage) { onActionSnackBar() }
+                GameSnackBar(snackBarMessage)
             }
         },
         bottomBar = { if (isBottomBarVisible) NavigationBarComposable(navController) },
@@ -72,8 +72,7 @@ fun GameScaffold(
 private fun HandleSnackBar(
     snackBarHostState: SnackbarHostState,
     isSnackBarVisible: Boolean,
-    onAction: () -> Unit = {},
-    onDismiss: () -> Unit,
+    onDismiss: () -> Unit
 ) {
     LaunchedEffect(isSnackBarVisible) {
         if (isSnackBarVisible) {
@@ -81,12 +80,11 @@ private fun HandleSnackBar(
                 message = "",
                 duration = SnackbarDuration.Short
             )
+
             when (snackBarResult) {
-                SnackbarResult.ActionPerformed -> onAction()
+                SnackbarResult.ActionPerformed -> {}
                 SnackbarResult.Dismissed -> onDismiss()
             }
         }
     }
 }
-
-

@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.dwh.gamesapp.a.presentation.composables.GameScaffold
+import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
-import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
+import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.core.domain.model.ScaleAndAlphaArgs
 import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
 import com.dwh.gamesapp.core.presentation.navigation.Screens.*
@@ -44,7 +44,7 @@ fun PlatformScreen(
         onBackClick = { navController.popBackStack() }
     ) {
         if (state.isLoading) {
-            LoadingAnimation(modifier = Modifier.fillMaxSize())
+            GameLoadingAnimation(modifier = Modifier.fillMaxSize())
         } else {
             PlatformView(navController = navController, state = state) { viewModel.setPlatformGames(it) }
         }

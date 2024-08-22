@@ -12,11 +12,11 @@ interface RemoteKeyDao {
     suspend fun insertRemoteKey(remoteKey: RemoteKeyEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllRemoteKeys(remoteKeys: List<RemoteKeyEntity>)
+    suspend fun insertRemoteKeys(remoteKeys: List<RemoteKeyEntity>)
 
-    @Query("Select * From remote_key_table Where id = :id")
+    @Query("SELECT * FROM remote_key_table WHERE id = :id")
     suspend fun getRemoteKeyByGameId(id: String): RemoteKeyEntity?
 
-    @Query("Delete From remote_key_table")
-    suspend fun clearRemoteKeys()
+    @Query("DELETE FROM remote_key_table")
+    suspend fun deleteRemoteKeys()
 }

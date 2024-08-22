@@ -31,11 +31,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
-import com.dwh.gamesapp.a.presentation.composables.GameScaffold
+import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.core.presentation.theme.Dark_Green
 import com.dwh.gamesapp.core.presentation.theme.Light_Green
-import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesUiState
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesViewModel
 import com.dwh.gamesapp.core.presentation.navigation.Screens.*

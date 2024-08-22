@@ -7,8 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "remote_key_table")
 data class RemoteKeyEntity(
     @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "id")
-    val id: String,
-    val next_page: Int?,
-    val last_updated: Long
+    @ColumnInfo("id") val id: String,
+    @ColumnInfo("next_page") val nextPage: Int?,
+    @ColumnInfo("last_updated") val lastUpdated: Long
 )

@@ -21,12 +21,11 @@ import com.dwh.gamesapp.a.domain.model.user.UserDataStore
 import com.dwh.gamesapp.a.presentation.composables.Avatars
 import com.dwh.gamesapp.a.presentation.composables.CustomButton
 import com.dwh.gamesapp.a.presentation.composables.CustomDialog
-import com.dwh.gamesapp.a.presentation.composables.GameScaffold
+import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.UserImage
 import com.dwh.gamesapp.a.presentation.view_model.logout.LogoutViewModel
 import com.dwh.gamesapp.a.presentation.view_model.profile.ProfileUiState
 import com.dwh.gamesapp.a.presentation.view_model.profile.ProfileViewModel
-import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 
 @Composable

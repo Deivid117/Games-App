@@ -15,7 +15,7 @@ import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
 import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
 import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
-import com.dwh.gamesapp.a.presentation.composables.LoadingAnimation
+import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
 import com.dwh.gamesapp.core.presentation.utils.Constants.headerHeight
 import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
@@ -36,7 +36,7 @@ fun PlatformDetailsScreen(
 
     BackgroundGradient() {
         if (state.isLoading) {
-            LoadingAnimation(modifier = Modifier.fillMaxSize())
+            GameLoadingAnimation(modifier = Modifier.fillMaxSize())
         } else {
             PlatformDetailsViewWithParallaxEffect(
                 platformDetails = state.platformDetails,

@@ -13,8 +13,8 @@ import com.dwh.gamesapp.core.data.local.database.GameDatabase
 import com.dwh.gamesapp.games.domain.model.Game
 import com.dwh.gamesapp.games.domain.repository.GamesRepository
 import com.dwh.gamesapp.core.data.remote.api.BaseRepo
+import com.dwh.gamesapp.games.data.local.database.mappers.mapToDomain
 import com.dwh.gamesapp.games.data.repository.remote_mediator.GameRemoteMediator
-import com.dwh.gamesapp.games.domain.model.toDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -40,11 +40,12 @@ class GamesRepositoryImp @Inject constructor(
                 prefetchDistance = 10,
                 initialLoadSize = NETWORK_PAGE_SIZE
             ),
-            pagingSourceFactory = gameDao.getGames().map { it.toDomain() }.asPagingSourceFactory(),
+            pagingSourceFactory = gameDao.getGames().map { it.mapToDomain() }.asPagingSourceFactory(),
             remoteMediator = gameRemoteMediator
         ).flow
     }
 
+    // TODO arreglar todos estos métodos
     /** ADD FAVORITE GAME */
     override suspend fun addFavoriteGame(favoriteGame: FavoritGame) {
         favoriteGamesDao.insertFavoriteGame(favoriteGame.toDatabase())
