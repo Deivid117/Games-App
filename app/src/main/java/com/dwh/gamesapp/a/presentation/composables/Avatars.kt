@@ -1,9 +1,6 @@
 package com.dwh.gamesapp.a.presentation.composables
 
-import android.media.Image
 import com.dwh.gamesapp.R
-import com.dwh.gamesapp.core.presentation.navigation.BottomScreens
-import com.dwh.gamesapp.core.presentation.navigation.Screens
 
 sealed class Avatars(
     val id: Long,

@@ -6,7 +6,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.dwh.gamesapp.a.data.database.entities.FavoriteGameEntity
-import com.dwh.gamesapp.a.data.database.entities.toDatabase
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.a.domain.model.favorite_game.toDomain
 import com.dwh.gamesapp.core.data.local.database.GameDatabase
@@ -48,7 +47,6 @@ class GamesRepositoryImp @Inject constructor(
     // TODO arreglar todos estos métodos
     /** ADD FAVORITE GAME */
     override suspend fun addFavoriteGame(favoriteGame: FavoritGame) {
-        favoriteGamesDao.insertFavoriteGame(favoriteGame.toDatabase())
     }
 
     override suspend fun getAllFavoritesGames(): Flow<List<FavoritGame>> {

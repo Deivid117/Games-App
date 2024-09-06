@@ -17,7 +17,7 @@ import com.dwh.gamesapp.a.presentation.composables.Avatars
 import com.dwh.gamesapp.a.presentation.composables.AvatarsDialog
 import com.dwh.gamesapp.a.presentation.composables.CustomArcShape
 import com.dwh.gamesapp.a.presentation.composables.CustomButton
-import com.dwh.gamesapp.a.presentation.composables.CustomDialog
+import com.dwh.gamesapp.core.presentation.composables.GameElevatedDialog
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.CustomTextField
 import com.dwh.gamesapp.a.presentation.view_model.edit_profile.EditProfileViewModel
@@ -127,8 +127,7 @@ fun EditProfileContent(
                     User(
                     name = userName,
                     password = password,
-                    passwordConfirmation = passwordConfirmation,
-                    image_id = userAvatarId.toLong()
+                    profileAvatarId = userAvatarId.toLong()
                 )
                 ) { success ->
                     if(success) {
@@ -223,10 +222,10 @@ private fun ShowEditProfileSuccessDialog(
     onDissmiss: () -> Unit
 ) {
     if(showSuccessDialog) {
-        CustomDialog(
+        GameElevatedDialog(
             animation = R.raw.heart_animation,
-            onDissmiss = { onDissmiss() },
-            title = "Se ha modificado tu perfil",
+            onDismiss = { onDissmiss() },
+            bodyText = "Se ha modificado tu perfil",
         ) {}
     }
 }

@@ -33,8 +33,8 @@ import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
-import com.dwh.gamesapp.core.presentation.theme.Dark_Green
-import com.dwh.gamesapp.core.presentation.theme.Light_Green
+import com.dwh.gamesapp.core.presentation.theme.dark_green
+import com.dwh.gamesapp.core.presentation.theme.light_green
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesUiState
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesViewModel
 import com.dwh.gamesapp.core.presentation.navigation.Screens.*
@@ -86,7 +86,7 @@ fun FavoriteGamesContent(games: List<FavoritGame>, navController: NavController)
 
 @Composable
 fun FavoriteGamesList(games: List<FavoritGame>, navController: NavController) {
-    val metacriticColor = if(isSystemInDarkTheme()) Light_Green else Dark_Green
+    val metacriticColor = if(isSystemInDarkTheme()) light_green else dark_green
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),

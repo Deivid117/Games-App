@@ -10,6 +10,7 @@ object Constants {
     const val USER_IS_LOGGED = "isLogged"
     const val USER_IMAGE_ID = "imageId"
     const val DATA_STORE_NAME = "GamesApp"
+    const val USER_SESSION = "userSession"
 
     const val PLATFORMS = "4,187,186,7,21"
     const val ORDERING = "-added"

@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.dwh.gamesapp.a.data.database.dao.FavoriteGamesDao
 import com.dwh.gamesapp.games.data.local.database.dao.GameDao
-import com.dwh.gamesapp.a.data.database.dao.UserDao
+import com.dwh.gamesapp.core.data.local.database.dao.UserDao
 import com.dwh.gamesapp.a.data.database.entities.FavoriteGameEntity
 import com.dwh.gamesapp.games.data.local.database.entities.GameEntity
-import com.dwh.gamesapp.a.data.database.entities.UserEntity
+import com.dwh.gamesapp.core.data.local.database.entities.UserEntity
 import com.dwh.gamesapp.games.data.local.database.dao.RemoteKeyDao
 import com.dwh.gamesapp.games.data.local.database.entities.RemoteKeyEntity
 

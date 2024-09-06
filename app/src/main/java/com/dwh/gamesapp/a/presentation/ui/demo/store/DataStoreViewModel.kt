@@ -3,7 +3,7 @@ package com.dwh.gamesapp.a.presentation.ui.demo.store
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.dwh.gamesapp.a.domain.repository.DataStoreRepository
+import com.dwh.gamesapp.core.domain.preferences.repository.DataStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

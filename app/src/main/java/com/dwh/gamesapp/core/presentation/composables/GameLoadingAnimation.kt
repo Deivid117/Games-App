@@ -17,13 +17,14 @@ import com.dwh.gamesapp.R
 @Composable
 fun GameLoadingAnimation(
     modifier: Modifier = Modifier,
+    lottieComposition: Int = R.raw.pacman_animation,
     size: Int = 300
 ){
     val isLottiePlaying by remember {
         mutableStateOf(true)
     }
     val composition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(R.raw.pacman_animation)
+        LottieCompositionSpec.RawRes(lottieComposition)
     )
     val lottieAnimation by animateLottieCompositionAsState(
         composition,

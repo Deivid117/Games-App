@@ -4,13 +4,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
+import com.dwh.gamesapp.core.presentation.composables.GameBackgroundGradient
 import com.dwh.gamesapp.a.presentation.view_model.welcome.WelcomeViewModel
-import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.navigation.Screens.*
+import kotlinx.coroutines.delay
 
 @Composable
 fun WelcomeScreen(
@@ -18,7 +20,7 @@ fun WelcomeScreen(
     viewModel: WelcomeViewModel = hiltViewModel()
 ) {
     Surface(Modifier.fillMaxSize()) {
-        BackgroundGradient()
+        GameBackgroundGradient()
         ValidationRoute(viewModel, navController)
     }
 }
@@ -28,16 +30,19 @@ fun ValidationRoute(
     viewModel: WelcomeViewModel,
     navController: NavController
 ) {
-    LaunchedEffect(viewModel) {
-        navController.navigate(HOME_SCREEN.name)
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-        //delay(3000)
-        /*viewModel.isThereLoggedUser {
-            if(it) {
-                navController.navigate(HOME_SCREEN.name)
-            } else {
-                navController.navigate(LOGIN_SCREEN.name)
-            }
-        }*/
+    LaunchedEffect(viewModel) {
+        viewModel.isUserLoggedIn()
+
+        //delay(1000L)
+        //navController.navigate(LOGIN_SCREEN.name)
+
+        delay(1000L)
+        if (state.isUserLoggedIn) {
+            navController.navigate(HOME_SCREEN.name)
+        } else {
+            navController.navigate(LOGIN_SCREEN.name)
+        }
     }
 }

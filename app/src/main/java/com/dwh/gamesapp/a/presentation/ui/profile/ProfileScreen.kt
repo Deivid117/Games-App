@@ -20,9 +20,9 @@ import com.dwh.gamesapp.a.domain.model.user.User
 import com.dwh.gamesapp.a.domain.model.user.UserDataStore
 import com.dwh.gamesapp.a.presentation.composables.Avatars
 import com.dwh.gamesapp.a.presentation.composables.CustomButton
-import com.dwh.gamesapp.a.presentation.composables.CustomDialog
+import com.dwh.gamesapp.core.presentation.composables.GameElevatedDialog
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
-import com.dwh.gamesapp.a.presentation.composables.UserImage
+import com.dwh.gamesapp.core.presentation.composables.GameUserImage
 import com.dwh.gamesapp.a.presentation.view_model.logout.LogoutViewModel
 import com.dwh.gamesapp.a.presentation.view_model.profile.ProfileUiState
 import com.dwh.gamesapp.a.presentation.view_model.profile.ProfileViewModel
@@ -60,8 +60,7 @@ fun ValidationResponse(
                 data.name,
                 data.email,
                 data.password,
-                isLogged = data.isLogged ?: false,
-                imageId = (data.image_id).toInt()
+                imageId = (data.profileAvatarId).toInt()
             ))
 
             ProfileContent(navController, viewModel, data)
@@ -85,11 +84,11 @@ private fun ProfileContent(navController: NavController, viewModel: LogoutViewMo
     )
 
     for (i in avatars.indices) {
-        if(avatars[i].id == user.image_id) {
+        if(avatars[i].id == user.profileAvatarId) {
             userAvatar = avatars[i].image
         }
     }
-    UserImage(image = userAvatar)
+    GameUserImage(image = userAvatar)
 }
 
 @Composable
@@ -213,11 +212,11 @@ fun ShowLogoutDialog(
     onAccept: () -> Unit
 ) {
     if(showLogoutDialog) {
-        CustomDialog(
+        GameElevatedDialog(
             animation = R.raw.broken_heart_animation,
-            onDissmiss = { onCancel() },
-            title = "¿Seguro que quieres cerrar sesión?",
-            isLoggingOut = true
+            onDismiss = { onCancel() },
+            bodyText = "¿Seguro que quieres cerrar sesión?",
+            isLogoutDialog = true
         ) {
             Row(
                 Modifier.fillMaxWidth(),

@@ -1,5 +1,41 @@
 <resources>
     <string name="app_name">Games App</string>
-    <string name="login_btn_login">LOGIN</string>
-    <string name="login_btn_sign_up">Sign up</string>
+
+    <string name="login_title">SIGN IN</string>
+    <string name="login_btn_login">SIGN IN</string>
+    <string name="login_email_textfield_label">Email</string>
+    <string name="login_email_textfield_placeholder">Enter Email</string>
+    <string name="login_password_textfield_label">Password</string>
+    <string name="login_password_textfield_placeholder">Enter Password</string>
+    <string name="login_remember_me">Remember me</string>
+    <string name="login_forgot_password">Forgot password</string>
+    <string name="login_still_not_connected">Still not connected?</string>
+    <string name="login_sign_up">Sign Up</string>
+    <string name="login_email_error1">Campo vacío</string>
+    <string name="login_password_error1">Campo vacío</string>
+    <string name="login_general_error">Correo o contraseña incorrectos</string>
+
+    <string name="signup_title">SIGN UP</string>
+    <string name="signup_btn_sign_up">SIGN UP</string>
+    <string name="signup_btn_cancel">CANCEL</string>
+    <string name="signup_password_instruction">La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula, un número y un caracter especial.</string>
+    <string name="signup_name_textfield_label">User Name</string>
+    <string name="signup_name_textfield_placeholder">Enter User Name</string>
+    <string name="signup_email_textfield_label">Email</string>
+    <string name="signup_email_textfield_placeholder">Enter Email</string>
+    <string name="signup_password_textfield_label">Password</string>
+    <string name="signup_password_textfield_placeholder">Enter Password</string>
+    <string name="signup_confirm_password_textfield_label">Confirm Password</string>
+    <string name="signup_confirm_password_textfield_placeholder">Repeat the Password</string>
+    <string name="signup_name_error1">Campo vacío</string>
+    <string name="signup_email_error1">Campo vacío</string>
+    <string name="signup_email_error2">Formato de correo inválido</string>
+    <string name="signup_password_error1">Campo vacío</string>
+    <string name="signup_password_error2">Debe contener al menos una letra minúscula y mayúscula</string>
+    <string name="signup_password_error3">Debe contener al menos un dígito</string>
+    <string name="signup_password_error4">Debe contener al menos un caracter especial</string>
+    <string name="signup_password_error5">Contraseña débil</string>
+    <string name="signup_confirm_password_error1">La contraseña no coincide</string>
+    <string name="signup_user_already_exists">El email o user name ya pertenecen a otro usuario.</string>
+
 </resources>

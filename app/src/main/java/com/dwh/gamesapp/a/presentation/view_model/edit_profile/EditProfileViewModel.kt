@@ -1,18 +1,13 @@
 package com.dwh.gamesapp.a.presentation.view_model.edit_profile
 
 import android.app.Application
-import android.text.BoringLayout
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.a.domain.model.user.User
 import com.dwh.gamesapp.a.domain.model.user.UserDataStore
-import com.dwh.gamesapp.a.domain.repository.DataStoreRepository
-import com.dwh.gamesapp.a.domain.use_cases.user.FindUserLogged
-import com.dwh.gamesapp.a.domain.use_cases.user.UpdateUserUseCase
+import com.dwh.gamesapp.core.domain.preferences.repository.DataStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
-    private val updateUserUseCase: UpdateUserUseCase,
-    private val findUserLogged: FindUserLogged,
     application: Application
 ): AndroidViewModel(application) {
 
@@ -49,35 +42,11 @@ class EditProfileViewModel @Inject constructor(
     val userData: StateFlow<UserDataStore> = _userData
 
     fun getValues() = viewModelScope.launch(Dispatchers.IO) {
-        dataStoreRepository.getUserData().collect {
-            withContext(Dispatchers.Main) {
-                _userData.value = it
-            }
-        }
+
     }
 
     fun updateUser(user: User, success: (Boolean) -> Unit) = viewModelScope.launch {
-        try {
-            val userLogged: User? = findUserLogged()
-            if(fieldsValidation(user.name, user.password, user.passwordConfirmation ?: "")) {
-                if(userLogged != null) {
-                    val userEdited: User = if(user.password.isNotEmpty()) {
-                        userLogged.copy(name = user.name, password = user.password, isLogged = _userData.value.isLogged, image_id = user.image_id)
-                    } else {
-                        userLogged.copy(name = user.name, isLogged = _userData.value.isLogged, image_id = user.image_id)
-                    }
-                    updateUserUseCase(
-                        userEdited
-                    )
-                    success(true)
-                }
-            } else {
-                Toast.makeText(getApplication(), "Verifica los datos ingresados", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: Exception) {
-            success(false)
-            Log.e("UpdateUser_ViewModel", e.message ?: "Error desconocido")
-        }
+
     }
 
 }

@@ -2,38 +2,32 @@ package com.dwh.gamesapp.core.presentation.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import androidx.navigation.navArgument
-import com.dwh.gamesapp.platforms_details.presentation.PlatformDetailsScreen
-import com.dwh.gamesapp.platforms.presentation.PlatformScreen
-import com.dwh.gamesapp.a.presentation.ui.profile.EditProfileScreen
+import com.dwh.gamesapp.a.presentation.ui.profile.ProfileScreen
 import com.dwh.gamesapp.a.presentation.ui.welcome.WelcomeScreen
-import com.dwh.gamesapp.core.presentation.navigation.Screens.*
+import com.dwh.gamesapp.core.presentation.utils.Constants
 import com.dwh.gamesapp.games.navigation.gameGraph
 import com.dwh.gamesapp.games_details.navigation.gameDetailsGraph
 import com.dwh.gamesapp.genres.navigation.genreGraph
 import com.dwh.gamesapp.genres_details.navigation.genreDetailsGraph
 import com.dwh.gamesapp.home.navigation.homeGraph
+import com.dwh.gamesapp.login.navigation.loginGraph
 import com.dwh.gamesapp.platforms.navigation.platformGraph
-import com.dwh.gamesapp.platforms.presentation.PlatformViewModel
 import com.dwh.gamesapp.platforms_details.navigation.platformDetailsGraph
+import com.dwh.gamesapp.signup.navigation.registrationGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -46,26 +40,29 @@ fun Navigation(navController: NavController) {
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None }
     ) {
-        composable(NavigationScreens.Welcome.route) {
+        composable(NavigationScreens.Welcome.route,
+            exitTransition = {
+                fadeOut(animationSpec = tween(1250))
+            },
+            enterTransition = { EnterTransition.None },
+            popEnterTransition = { EnterTransition.None },
+            popExitTransition = { ExitTransition.None }
+        ) {
             WelcomeScreen(navController)
         }
 
-        /*composable(LOGIN_SCREEN.name) {
-            LoginScreen(navController)
-        }
+        loginGraph(navController)
 
-        composable(REGISTRATION_SCREEN.name) {
-            RegistrationScreen(navController)
-        }*/
+        registrationGraph(navController)
 
         homeGraph(navController)
 
-        /*composable(
-            route = PROFILE_SCREEN.name,
+        composable(
+            route = Screens.PROFILE_SCREEN.name,
             exitTransition = { fadeOut(animationSpec = tween(700)) }
         ) {
             ProfileScreen(navController)
-        }*/
+        }
 
         /*composable(
             route = EDIT_PROFILE_SCREEN.name,

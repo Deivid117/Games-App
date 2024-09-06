@@ -212,7 +212,7 @@ private fun SetStatusBarColor(imageUrl: String) {
 
     DisposableEffect(Unit) {
         onDispose {
-            context.enableEdgeToEdge()
+            context.enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(Color.Transparent.toArgb()))
         }
     }
 }

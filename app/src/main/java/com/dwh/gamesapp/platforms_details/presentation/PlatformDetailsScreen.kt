@@ -11,7 +11,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.platforms_details.domain.model.PlatformDetails
 import com.dwh.gamesapp.platforms.domain.model.PlatformGame
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
+import com.dwh.gamesapp.core.presentation.composables.GameBackgroundGradient
 import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
 import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
@@ -34,7 +34,7 @@ fun PlatformDetailsScreen(
         }
     }
 
-    BackgroundGradient() {
+    GameBackgroundGradient() {
         if (state.isLoading) {
             GameLoadingAnimation(modifier = Modifier.fillMaxSize())
         } else {

@@ -19,14 +19,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.games_details.domain.model.GameDetails
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
+import com.dwh.gamesapp.core.presentation.composables.GameBackgroundGradient
 import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
 import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
-import com.dwh.gamesapp.core.presentation.theme.Dark_Green
-import com.dwh.gamesapp.core.presentation.theme.Light_Green
+import com.dwh.gamesapp.core.presentation.theme.dark_green
+import com.dwh.gamesapp.core.presentation.theme.light_green
 import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.games_details.presentation.utils.DateFormatter.formattedDate
 import com.dwh.gamesapp.games_details.presentation.utils.generateStringFromList
@@ -47,7 +47,7 @@ fun GameDetailsScreen(
     }
 
     Surface(Modifier.fillMaxSize()) {
-        BackgroundGradient()
+        GameBackgroundGradient()
         GameDetailsContent(navController, viewModel)
     }
 }
@@ -407,7 +407,7 @@ private fun GameAttributeText(
 
 @Composable
 private fun MetacriticAttributeText(text: String) {
-    val metacriticColor = if (isSystemInDarkTheme()) Dark_Green else Light_Green
+    val metacriticColor = if (isSystemInDarkTheme()) dark_green else light_green
 
     Text(
         modifier = Modifier

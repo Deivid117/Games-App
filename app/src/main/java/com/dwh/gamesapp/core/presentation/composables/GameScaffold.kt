@@ -1,5 +1,6 @@
 package com.dwh.gamesapp.core.presentation.composables
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -11,19 +12,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
-import com.dwh.gamesapp.a.presentation.composables.BackgroundGradient
+import androidx.navigation.compose.rememberNavController
+import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.presentation.composables.NavigationBarComposable
 import com.dwh.gamesapp.a.presentation.composables.TopAppBarComposable
 
 @Composable
 fun GameScaffold(
-    navController: NavController,
     modifier: Modifier = Modifier,
+    navController: NavController = rememberNavController(),
     isTopBarVisible: Boolean = false,
     isBottomBarVisible: Boolean = true,
     isSnackBarVisible: Boolean = false,
     showTopBarColor: Boolean = false,
+    showBackgroundGradient: Boolean = true,
+    showSnackBarDismissAction: Boolean = false,
+    lottieAnimationSnackBar: Int = R.raw.broken_heart,
+    snackBarContainerColor: Color = MaterialTheme.colorScheme.errorContainer,
+    snackBarBorderColor: Color = MaterialTheme.colorScheme.error,
+    snackBarLottieBackgroundColor: Color = Color.White,
+    snackBarDuration: SnackbarDuration = SnackbarDuration.Short,
     topBarTitle: String = "",
     snackBarMessage: String = "",
     onBackClick: () -> Unit = {},
@@ -36,6 +46,7 @@ fun GameScaffold(
     HandleSnackBar(
         snackBarHostState = snackBarHostState,
         isSnackBarVisible = isSnackBarVisible,
+        duration = snackBarDuration,
         onDismiss = onDismissSnackBar
     )
 
@@ -53,17 +64,27 @@ fun GameScaffold(
         },
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState) {
-                GameSnackBar(snackBarMessage)
+                GameSnackBar(
+                    snackBarMessages = snackBarMessage,
+                    showSnackBarDismissAction = showSnackBarDismissAction,
+                    lottieAnimation = lottieAnimationSnackBar,
+                    containerColor = snackBarContainerColor,
+                    borderColorSnackBar = snackBarBorderColor,
+                    lottieBackgroundColor = snackBarLottieBackgroundColor,
+                    onDismiss = onDismissSnackBar
+                )
             }
         },
         bottomBar = { if (isBottomBarVisible) NavigationBarComposable(navController) },
         floatingActionButton = { floatingActionButton() },
         content = { innerPadding ->
-            BackgroundGradient(
-                modifier = modifier,
-                paddingValues = innerPadding,
-                content = content
-            )
+            if (showBackgroundGradient)
+                GameBackgroundGradient(
+                    modifier = modifier,
+                    paddingValues = innerPadding,
+                    content = content
+                )
+            else Box { content() }
         }
     )
 }
@@ -72,13 +93,14 @@ fun GameScaffold(
 private fun HandleSnackBar(
     snackBarHostState: SnackbarHostState,
     isSnackBarVisible: Boolean,
+    duration: SnackbarDuration,
     onDismiss: () -> Unit
 ) {
     LaunchedEffect(isSnackBarVisible) {
         if (isSnackBarVisible) {
             val snackBarResult = snackBarHostState.showSnackbar(
                 message = "",
-                duration = SnackbarDuration.Short
+                duration = duration
             )
 
             when (snackBarResult) {

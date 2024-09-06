@@ -20,8 +20,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
-import com.dwh.gamesapp.core.presentation.theme.Dark_Green
-import com.dwh.gamesapp.core.presentation.theme.Light_Green
+import com.dwh.gamesapp.core.presentation.theme.dark_green
+import com.dwh.gamesapp.core.presentation.theme.light_green
 import com.dwh.gamesapp.games.domain.model.Game
 import com.dwh.gamesapp.games.presentation.utils.GameCustomException
 
@@ -32,7 +32,7 @@ fun VerticalStaggeredGridGames(
     onShowSnackBar: (String) -> Unit,
     navigateToGameDetails: (Int) -> Unit
 ) {
-    val metaCriticColor = if (isSystemInDarkTheme()) Light_Green else Dark_Green
+    val metaCriticColor = if (isSystemInDarkTheme()) light_green else dark_green
     val loadState = games.loadState
     val error = when {
         loadState.append is LoadState.Error -> (loadState.append as? LoadState.Error)?.error

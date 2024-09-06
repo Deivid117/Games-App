@@ -18,7 +18,7 @@ import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.a.presentation.composables.InformationCard
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.core.domain.model.ScaleAndAlphaArgs
-import com.dwh.gamesapp.core.presentation.composables.CardItemComposable
+import com.dwh.gamesapp.core.presentation.composables.GameCard
 import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 import com.dwh.gamesapp.core.presentation.utils.animations.scaleAndAlpha
 import com.dwh.gamesapp.core.presentation.utils.lazygridstate.calculateDelayAndEasing
@@ -119,7 +119,7 @@ private fun PlatformItem(
     gamesCount: Int,
     onClick: () -> Unit,
 ) {
-    CardItemComposable(
+    GameCard(
         modifier = modifier,
         name = name,
         imageBackground = imageBackground,
