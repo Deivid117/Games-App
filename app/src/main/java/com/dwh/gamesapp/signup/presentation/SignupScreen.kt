@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.core.domain.model.User
+import com.dwh.gamesapp.core.presentation.composables.GameBackgroundGradient
 import com.dwh.gamesapp.core.presentation.composables.KeyboardAware
 import com.dwh.gamesapp.core.presentation.composables.GameUserImage
 import com.dwh.gamesapp.core.presentation.composables.GameFilledButton
@@ -40,6 +41,7 @@ fun SignupScreen(
         isTopAppBarVisible = false,
         isBottomBarVisible = false,
         showSnackBarDismissAction = true,
+        showBackgroundGradient = false,
         isSnackBarVisible = state.isSnackBarVisible,
         snackBarMessage = state.snackBarMessage?.asString() ?: "",
         snackBarBorderColor = state.snackBarBorderColor,
@@ -48,11 +50,13 @@ fun SignupScreen(
         snackBarDuration = state.snackBarDuration,
         onDismissSnackBar = { viewModel.handleSnackBar(isVisible = false) }
     ) {
-        SignupView(
-            viewModel = viewModel,
-            state = state,
-            onNavigateBack = onNavigateBack
-        )
+        GameBackgroundGradient {
+            SignupView(
+                viewModel = viewModel,
+                state = state,
+                onNavigateBack = onNavigateBack
+            )
+        }
     }
 }
 
@@ -70,9 +74,9 @@ fun SignupView(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
                 .statusBarsPadding()
                 .navigationBarsPadding()
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 15.dp)
                 .padding(bottom = 30.dp),
             verticalArrangement = Arrangement.Center,
@@ -100,7 +104,7 @@ fun SignupView(
 
                     GameUserImage(
                         onClick = { viewModel.handleAvatarsModalBottomSheet(true) },
-                        image = state.profileAvatarImage,
+                        image = state.profileAvatarImage
                     )
 
                     SignUpForm(

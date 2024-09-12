@@ -9,11 +9,12 @@
     <string name="login_password_textfield_placeholder">Enter Password</string>
     <string name="login_remember_me">Remember me</string>
     <string name="login_forgot_password">Forgot password</string>
-    <string name="login_still_not_connected">Still not connected?</string>
+    <string name="login_still_not_connected">Still not connected? </string>
     <string name="login_sign_up">Sign Up</string>
     <string name="login_email_error1">Campo vacío</string>
     <string name="login_password_error1">Campo vacío</string>
     <string name="login_general_error">Correo o contraseña incorrectos</string>
+    <string name="login_snackbar_message">Correo o contraseña invalidos.</string>
 
     <string name="signup_title">SIGN UP</string>
     <string name="signup_btn_sign_up">SIGN UP</string>

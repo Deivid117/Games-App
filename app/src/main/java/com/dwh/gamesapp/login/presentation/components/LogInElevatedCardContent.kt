@@ -70,7 +70,7 @@ fun LogInElevatedCardContent(
             ) {
                 GameTitleGradientText(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "SIGN IN",
+                    text = stringResource(id = R.string.login_title),
                     fontWeight = FontWeight.Bold,
                     fontSize = 28.sp
                 )
@@ -99,7 +99,7 @@ fun LogInElevatedCardContent(
                         modifier = Modifier.clickable {
                             Toast.makeText(context, "No funca c:", Toast.LENGTH_SHORT).show()
                         },
-                        text = "Forgot password",
+                        text = stringResource(id = R.string.login_forgot_password),
                         style = MaterialTheme.typography.labelLarge,
                         color = primary
                     )
@@ -118,14 +118,14 @@ fun LogInElevatedCardContent(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Still not connected? ",
+                        text = stringResource(id = R.string.login_still_not_connected),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.outline
                     )
 
                     Text(
                         modifier = Modifier.clickable { navigateToSignUp() },
-                        text = "Sign Up",
+                        text = stringResource(id = R.string.login_sign_up),
                         style = MaterialTheme.typography.labelLarge,
                         color = primary
                     )

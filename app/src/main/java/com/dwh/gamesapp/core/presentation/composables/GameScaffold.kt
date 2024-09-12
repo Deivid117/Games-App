@@ -47,7 +47,6 @@ fun GameScaffold(
     content: @Composable() (BoxScope.() -> Unit) = {}
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
-    //val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     HandleSnackBar(
         snackBarHostState = snackBarHostState,
@@ -57,7 +56,6 @@ fun GameScaffold(
     )
 
     Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             if (isTopAppBarVisible) {
                 GameTopAppBar(
@@ -86,7 +84,7 @@ fun GameScaffold(
         content = { innerPadding ->
             if (showBackgroundGradient)
                 GameBackgroundGradient(
-                    modifier = modifier,
+                    modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                     paddingValues = innerPadding,
                     content = content
                 )
