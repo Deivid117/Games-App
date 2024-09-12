@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.R
+import com.dwh.gamesapp.core.presentation.theme.image_border
 import com.dwh.gamesapp.core.presentation.utils.shapes.roundedRectanglePath
 
 @Composable
@@ -31,7 +32,7 @@ fun EditProfileElevatedArcCard(
     onClick: () -> Unit,
     content: @Composable () -> Unit
 ) {
-    val color = MaterialTheme.colorScheme.onTertiaryContainer
+    val color = image_border
 
     val diameter = 90.dp
     val radiusDp = diameter / 2

@@ -84,7 +84,9 @@ fun GameScaffold(
         content = { innerPadding ->
             if (showBackgroundGradient)
                 GameBackgroundGradient(
-                    modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+                    modifier =
+                        if (isTopAppBarVisible) modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        else modifier,
                     paddingValues = innerPadding,
                     content = content
                 )

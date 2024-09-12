@@ -21,6 +21,8 @@ val red_error = Color(0xFFBA1A1A)
 val top_bar_dark = Color(0xFF1C1B1E)
 val top_bar_light = Color(0xFFA43075)
 
+val image_border = Color(0xFF531358)
+
 val md_theme_light_primary = Color(0xFF684FA3)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFE9DDFF)
