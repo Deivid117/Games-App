@@ -2,6 +2,7 @@ package com.dwh.gamesapp.core.presentation.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
@@ -16,9 +17,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.dwh.gamesapp.a.presentation.ui.profile.ProfileScreen
+import com.dwh.gamesapp.edit_profile.presentation.EditProfileScreen
 import com.dwh.gamesapp.a.presentation.ui.welcome.WelcomeScreen
 import com.dwh.gamesapp.core.presentation.utils.Constants
+import com.dwh.gamesapp.edit_profile.navigation.editProfileGraph
 import com.dwh.gamesapp.games.navigation.gameGraph
 import com.dwh.gamesapp.games_details.navigation.gameDetailsGraph
 import com.dwh.gamesapp.genres.navigation.genreGraph
@@ -27,6 +29,7 @@ import com.dwh.gamesapp.home.navigation.homeGraph
 import com.dwh.gamesapp.login.navigation.loginGraph
 import com.dwh.gamesapp.platforms.navigation.platformGraph
 import com.dwh.gamesapp.platforms_details.navigation.platformDetailsGraph
+import com.dwh.gamesapp.profile.navigation.profileGraph
 import com.dwh.gamesapp.signup.navigation.registrationGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -57,19 +60,18 @@ fun Navigation(navController: NavController) {
 
         homeGraph(navController)
 
-        composable(
-            route = Screens.PROFILE_SCREEN.name,
-            exitTransition = { fadeOut(animationSpec = tween(700)) }
-        ) {
-            ProfileScreen(navController)
+        navigation(startDestination = NavigationScreens.Profile.route, route = "Profile") {
+            profileGraph(navController)
+
+            editProfileGraph(navController)
         }
 
         /*composable(
-            route = EDIT_PROFILE_SCREEN.name,
+            route = Screens.EDIT_PROFILE_SCREEN.name,
             enterTransition = {
                 when (initialState.destination.route) {
-                    PROFILE_SCREEN.name -> slideIntoContainer(
-                        animationSpec = tween(duration),
+                    Screens.PROFILE_SCREEN.name -> slideIntoContainer(
+                        animationSpec = tween(Constants.ANIMATION_DURATION),
                         towards = AnimatedContentTransitionScope.SlideDirection.Right
                     )
 
@@ -78,10 +80,10 @@ fun Navigation(navController: NavController) {
             },
             popExitTransition = {
                 fadeOut(
-                    animationSpec = tween(duration)
+                    animationSpec = tween(Constants.ANIMATION_DURATION)
                 ) + slideOutOfContainer(
                     towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(duration)
+                    animationSpec = tween(Constants.ANIMATION_DURATION)
                 )
             }
         ) {

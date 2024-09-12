@@ -28,14 +28,14 @@ class RetrofitModule {
     }
 
     private fun getClient(): OkHttpClient =
-         OkHttpClient
-            .Builder()
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
+        OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(HeaderInterceptor())
             .addInterceptor(
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            )
             .build()
 
 }

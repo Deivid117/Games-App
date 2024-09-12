@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
-import com.dwh.gamesapp.a.presentation.composables.InformationCard
+import com.dwh.gamesapp.core.presentation.composables.GameInformationCard
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.core.presentation.theme.dark_green
 import com.dwh.gamesapp.core.presentation.theme.light_green
@@ -94,7 +94,7 @@ fun ShowInformationMessage(
     if (listIsEmpty) {
         error?.let {
             if (it is GameCustomException) {
-                InformationCard(
+                GameInformationCard(
                     modifier = Modifier.fillMaxSize(),
                     message = it.gameErrorMessage.errorMessage,
                     description = it.gameErrorMessage.errorDescription

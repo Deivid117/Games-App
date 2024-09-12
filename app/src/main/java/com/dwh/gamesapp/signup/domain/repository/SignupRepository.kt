@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.signup.domain.repository
 
-import com.dwh.gamesapp.a.domain.model.user.User
+import com.dwh.gamesapp.core.domain.model.User
 import com.dwh.gamesapp.core.presentation.state.DataState
 import kotlinx.coroutines.flow.Flow
 

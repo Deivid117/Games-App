@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.dwh.gamesapp.login.presentation
 
 import androidx.compose.animation.EnterTransition
@@ -7,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.core.presentation.composables.KeyboardAware
@@ -28,7 +31,7 @@ fun LoginScreen(
     }*/
 
     GameScaffold(
-        isTopBarVisible = false,
+        isTopAppBarVisible = false,
         isBottomBarVisible = false,
         showBackgroundGradient = false,
         showSnackBarDismissAction = true,

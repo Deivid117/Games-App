@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.dwh.gamesapp.a.presentation.composables.Avatars
+import com.dwh.gamesapp.core.presentation.utils.Avatars
 import com.dwh.gamesapp.core.presentation.theme.dark_green
 
 @Composable

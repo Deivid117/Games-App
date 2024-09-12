@@ -38,4 +38,24 @@
     <string name="signup_confirm_password_error1">La contraseña no coincide</string>
     <string name="signup_user_already_exists">El email o user name ya pertenecen a otro usuario.</string>
 
+    <string name="profile_title">MY PROFILE</string>
+    <string name="profile_btn_edit_profile">EDIT PROFILE</string>
+    <string name="profile_btn_logout">LOGOUT</string>
+
+    <string name="edit_profile_title">EDIT PROFILE</string>
+    <string name="edit_profile_btn_save">SAVE</string>
+    <string name="edit_profile_name_textfield_label">User Name</string>
+    <string name="edit_profile_name_textfield_placeholder">Enter User Name</string>
+    <string name="edit_profile_password_textfield_label">New Password</string>
+    <string name="edit_profile_password_textfield_placeholder">Enter New Password</string>
+    <string name="edit_profile_confirm_password_textfield_label">Confirm New Password</string>
+    <string name="edit_profile_confirm_password_textfield_placeholder">Repeat the New Password</string>
+    <string name="edit_profile_name_error1">Campo vacío</string>
+    <string name="edit_profile_password_error1">Debe contener al menos una letra minúscula y mayúscula</string>
+    <string name="edit_profile_password_error2">Debe contener al menos un dígito</string>
+    <string name="edit_profile_password_error3">Debe contener al menos un caracter especial</string>
+    <string name="edit_profile_password_error4">Contraseña débil</string>
+    <string name="edit_profile_confirm_password_error1">La contraseña no coincide</string>
+
+
 </resources>

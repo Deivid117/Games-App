@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.dwh.gamesapp.signup.presentation
 
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -14,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dwh.gamesapp.R
-import com.dwh.gamesapp.a.domain.model.user.User
+import com.dwh.gamesapp.core.domain.model.User
 import com.dwh.gamesapp.core.presentation.composables.KeyboardAware
 import com.dwh.gamesapp.core.presentation.composables.GameUserImage
 import com.dwh.gamesapp.core.presentation.composables.GameFilledButton
@@ -35,7 +37,7 @@ fun SignupScreen(
     onNavigateBack: () -> Unit
 ) {
     GameScaffold(
-        isTopBarVisible = false,
+        isTopAppBarVisible = false,
         isBottomBarVisible = false,
         showSnackBarDismissAction = true,
         isSnackBarVisible = state.isSnackBarVisible,

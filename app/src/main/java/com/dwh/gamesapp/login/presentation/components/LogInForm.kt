@@ -34,7 +34,7 @@ fun LogInForm(
         errorValue = emailError,
         leadingIcon = {
             Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_person),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_email),
                 contentDescription = "person icon",
                 tint = Color.White
             )

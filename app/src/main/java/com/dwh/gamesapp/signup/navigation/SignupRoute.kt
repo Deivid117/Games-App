@@ -13,7 +13,7 @@ import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.utils.Constants
 import com.dwh.gamesapp.signup.presentation.SignupScreen
 import com.dwh.gamesapp.signup.presentation.SignupViewModel
-import com.dwh.gamesapp.signup.presentation.components.AvatarModalBottomSheet
+import com.dwh.gamesapp.core.presentation.composables.GameAvatarModalBottomSheet
 import com.dwh.gamesapp.signup.presentation.components.SuccessfulRegistrationDialog
 
 fun NavGraphBuilder.registrationGraph(navController: NavController) {
@@ -38,7 +38,7 @@ fun NavGraphBuilder.registrationGraph(navController: NavController) {
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
         if (state.isVisibleAvatarsModalBottomSheet) {
-            AvatarModalBottomSheet(
+            GameAvatarModalBottomSheet(
                 onAccept = { avatarId, avatarImage ->
                     viewModel.handleAvatarsModalBottomSheet(false)
                     viewModel.setUserAvatar(id = avatarId, image = avatarImage)

@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetUserIdByPreferencesUseCase @Inject constructor(
     private val dataStoreRepository: DataStoreRepository
 ) {
-    suspend operator fun invoke() = dataStoreRepository.getUserId()
+    operator fun invoke() = dataStoreRepository.getUserId()
 }

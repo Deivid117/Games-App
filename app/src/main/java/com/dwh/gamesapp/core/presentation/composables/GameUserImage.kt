@@ -27,6 +27,7 @@ import com.dwh.gamesapp.core.presentation.theme.secondary_gradient
 
 @Composable
 fun GameUserImage(
+    modifier: Modifier = Modifier,
     image: Int = R.drawable.user,
     onClick: () -> Unit = {}
 ) {
@@ -38,7 +39,7 @@ fun GameUserImage(
     )
 
     Column(
-        Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

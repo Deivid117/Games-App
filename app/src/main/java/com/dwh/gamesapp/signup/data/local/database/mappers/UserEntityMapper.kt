@@ -1,6 +1,6 @@
 package com.dwh.gamesapp.signup.data.local.database.mappers
 
-import com.dwh.gamesapp.a.domain.model.user.User
+import com.dwh.gamesapp.core.domain.model.User
 import com.dwh.gamesapp.core.data.local.database.entities.UserEntity
 
 fun UserEntity.mapToDomain() = User(

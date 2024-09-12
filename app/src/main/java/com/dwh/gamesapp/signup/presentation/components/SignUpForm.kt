@@ -1,6 +1,5 @@
 package com.dwh.gamesapp.signup.presentation.components
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
@@ -21,8 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.core.presentation.composables.GameTextField
 import com.dwh.gamesapp.core.presentation.ui.UiText
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpForm(
@@ -44,7 +41,6 @@ fun SignUpForm(
 
     Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
         GameTextField(
-            modifier = Modifier.imePadding(),
             value = name,
             onValueChange = { onNameChanged(it) },
             label = stringResource(id = R.string.signup_name_textfield_label),
@@ -65,8 +61,6 @@ fun SignUpForm(
         )
 
         GameTextField(
-            modifier = Modifier.imePadding(),
-
             value = email,
             onValueChange = { onEmailChanged(it) },
             label = stringResource(id = R.string.signup_email_textfield_label),

@@ -41,7 +41,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -71,7 +70,7 @@ fun GameTextField(
     leadingIcon: @Composable (() -> Unit) = {},
     labelIcon: Int? = null,
     isPasswordTextField: Boolean = false,
-    readyOnly: Boolean = false,
+    enabled: Boolean = true,
     errorValue: UiText? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -142,7 +141,7 @@ fun GameTextField(
                     textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
                     cursorBrush = SolidColor(tertiary_cursor),
                     singleLine = true,
-                    readOnly = readyOnly,
+                    enabled = enabled,
                     visualTransformation = if (isPasswordTextField && hidePassword) PasswordVisualTransformation() else visualTransformation,
                     keyboardActions = keyboardActions,
                     keyboardOptions = keyboardOptions,

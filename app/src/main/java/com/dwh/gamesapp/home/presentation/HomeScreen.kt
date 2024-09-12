@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.dwh.gamesapp.home.presentation
 
 import android.os.Build
@@ -12,6 +14,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -37,7 +40,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
-import com.dwh.gamesapp.a.presentation.composables.InformationCard
+import com.dwh.gamesapp.core.presentation.composables.GameInformationCard
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.home.presentation.utils.GameUiInfo
 import com.dwh.gamesapp.home.presentation.utils.LocalGameUiInfo
@@ -142,7 +145,7 @@ fun BestOfTheYearValidationResponse(
         is DataState.Error -> {
             val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: HomeScreenError", errorMsg)
-            InformationCard(
+            GameInformationCard(
                 message = "Ocurrió un error",
                 description = errorMsg
             )
@@ -169,7 +172,7 @@ fun NextWeekGamesValidationResponse(
         is DataState.Error -> {
             val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: HomeScreenError", errorMsg)
-            InformationCard(
+            GameInformationCard(
                 message = "Ocurrió un error",
                 description = errorMsg
             )
@@ -200,7 +203,7 @@ fun BestOfTheYearContent(
             BestOfTheYearHorizontalList(bestOfTheYearGames, navController)
         }
     } else {
-        InformationCard(
+        GameInformationCard(
             message = "Sin información disponible",
             description = "No hay juegos por mostrar"
         )
@@ -220,7 +223,7 @@ fun NextWeekGamesContent(
             NextWeekGamesHorizontalList(nextWeekGames, navController)
         }
     } else {
-        InformationCard(
+        GameInformationCard(
             message = "Sin información disponible",
             description = "No hay juegos por mostrar"
         )

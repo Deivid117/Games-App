@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.dwh.gamesapp.a.presentation.ui.favorite_games
 
 import android.util.Log
@@ -12,6 +14,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +35,7 @@ import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
-import com.dwh.gamesapp.a.presentation.composables.InformationCard
+import com.dwh.gamesapp.core.presentation.composables.GameInformationCard
 import com.dwh.gamesapp.core.presentation.theme.dark_green
 import com.dwh.gamesapp.core.presentation.theme.light_green
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesUiState
@@ -77,7 +80,7 @@ fun FavoriteGamesContent(games: List<FavoritGame>, navController: NavController)
     if(games.isNotEmpty()) {
         FavoriteGamesList(games, navController)
     } else {
-        InformationCard(
+        GameInformationCard(
             message = "Sin información disponible",
             description = "No se han encontrado juegos por el momento, inténtelo más tarde"
         )

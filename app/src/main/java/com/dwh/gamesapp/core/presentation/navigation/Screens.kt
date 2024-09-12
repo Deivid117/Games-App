@@ -22,7 +22,7 @@ sealed class NavigationScreens(val route: String) {
     object Signup : NavigationScreens(Screens.SIGNUP_SCREEN.name)
     object Home : NavigationScreens(Screens.HOME_SCREEN.name)
     object Profile : NavigationScreens(Screens.PROFILE_SCREEN.name)
-    object EditProfile : NavigationScreens(Screens.EDIT_PROFILE_SCREEN.name)
+    object EditProfile : NavigationScreens("${Screens.EDIT_PROFILE_SCREEN.name}/{profileAvatarId}/{profileAvatar}/{userName}")
     object Game : NavigationScreens(Screens.GAME_SCREEN.name)
     object GameDetails : NavigationScreens("${Screens.GAME_DETAILS_SCREEN.name}/{gameId}")
     object Genre : NavigationScreens(Screens.GENRE_SCREEN.name)

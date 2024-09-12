@@ -2,31 +2,36 @@ package com.dwh.gamesapp.core.presentation.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dwh.gamesapp.R
-import com.dwh.gamesapp.a.presentation.composables.NavigationBarComposable
-import com.dwh.gamesapp.a.presentation.composables.TopAppBarComposable
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScaffold(
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController(),
-    isTopBarVisible: Boolean = false,
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
+    isTopAppBarVisible: Boolean = false,
     isBottomBarVisible: Boolean = true,
     isSnackBarVisible: Boolean = false,
-    showTopBarColor: Boolean = false,
+    showTopAppBarColor: Boolean = false,
     showBackgroundGradient: Boolean = true,
     showSnackBarDismissAction: Boolean = false,
     lottieAnimationSnackBar: Int = R.raw.broken_heart,
@@ -34,7 +39,7 @@ fun GameScaffold(
     snackBarBorderColor: Color = MaterialTheme.colorScheme.error,
     snackBarLottieBackgroundColor: Color = Color.White,
     snackBarDuration: SnackbarDuration = SnackbarDuration.Short,
-    topBarTitle: String = "",
+    topAppBarTitle: String = "",
     snackBarMessage: String = "",
     onBackClick: () -> Unit = {},
     onDismissSnackBar: () -> Unit = {},
@@ -42,6 +47,7 @@ fun GameScaffold(
     content: @Composable() (BoxScope.() -> Unit) = {}
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
+    //val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     HandleSnackBar(
         snackBarHostState = snackBarHostState,
@@ -51,13 +57,13 @@ fun GameScaffold(
     )
 
     Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            if (isTopBarVisible) {
-                TopAppBarComposable(
-                    topBarTitle = topBarTitle,
-                    topBarTitleColor = MaterialTheme.colorScheme.outlineVariant,
-                    navigationIconColor = MaterialTheme.colorScheme.outlineVariant,
-                    showTopBarColor = showTopBarColor,
+            if (isTopAppBarVisible) {
+                GameTopAppBar(
+                    title = topAppBarTitle,
+                    showTopAppBarColor = showTopAppBarColor,
+                    scrollBehavior = scrollBehavior,
                     onBackClick = { onBackClick() }
                 )
             }

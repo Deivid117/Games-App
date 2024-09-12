@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.R
-import com.dwh.gamesapp.a.domain.model.user.User
+import com.dwh.gamesapp.core.domain.model.User
 import com.dwh.gamesapp.core.domain.use_case.SaveUserIdUseCase
 import com.dwh.gamesapp.core.domain.use_case.SaveUserSessionFromPreferencesUseCase
 import com.dwh.gamesapp.core.presentation.state.DataState

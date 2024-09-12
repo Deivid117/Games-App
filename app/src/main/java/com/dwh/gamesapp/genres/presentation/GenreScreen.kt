@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.dwh.gamesapp.genres.presentation
 
 import androidx.compose.animation.core.tween
@@ -6,13 +8,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
-import com.dwh.gamesapp.a.presentation.composables.InformationCard
+import com.dwh.gamesapp.core.presentation.composables.GameInformationCard
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.core.domain.model.ScaleAndAlphaArgs
 import com.dwh.gamesapp.core.presentation.composables.GameCard
@@ -34,10 +37,10 @@ fun GenreScreen(
 
     GameScaffold(
         navController = navController,
-        isTopBarVisible = true,
+        isTopAppBarVisible = true,
         isBottomBarVisible = false,
-        showTopBarColor = true,
-        topBarTitle = "Genres",
+        showTopAppBarColor = true,
+        topAppBarTitle = "Genres",
         onBackClick = { navController.popBackStack() }
     ) {
         if (state.isLoading) {
@@ -61,7 +64,7 @@ private fun GenreView(
             onGenreClick = onGenreClick
         )
     } else {
-        InformationCard(
+        GameInformationCard(
             modifier = Modifier.fillMaxSize(),
             message = state.errorMessage,
             description = state.errorDescription

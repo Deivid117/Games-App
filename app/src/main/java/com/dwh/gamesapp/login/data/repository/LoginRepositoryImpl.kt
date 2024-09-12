@@ -1,15 +1,12 @@
 package com.dwh.gamesapp.login.data.repository
 
-import android.database.sqlite.SQLiteConstraintException
-import android.util.Log
 import com.dwh.gamesapp.core.data.local.database.dao.UserDao
-import com.dwh.gamesapp.a.domain.model.user.User
+import com.dwh.gamesapp.core.domain.model.User
 import com.dwh.gamesapp.core.data.remote.api.BaseRepo
 import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.login.domain.repository.LoginRepository
 import com.dwh.gamesapp.signup.data.local.database.mappers.mapToDomain
 import kotlinx.coroutines.flow.Flow
-import java.sql.SQLException
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+
 package com.dwh.gamesapp.games.presentation
 
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
@@ -6,6 +8,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,7 +19,6 @@ import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.games.presentation.components.GameButtonToScrollToTop
 import com.dwh.gamesapp.games.presentation.components.VerticalStaggeredGridGames
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun GameScreen(
     navController: NavController,
