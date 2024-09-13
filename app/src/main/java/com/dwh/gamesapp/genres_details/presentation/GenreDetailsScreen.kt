@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.genres_details.domain.model.GenreDetails
 import com.dwh.gamesapp.genres.domain.model.GenreGame
 import com.dwh.gamesapp.core.presentation.composables.GameBackgroundGradient
+import com.dwh.gamesapp.core.presentation.composables.GameInformationalMessageCard
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.details.DescriptionDetails
 import com.dwh.gamesapp.core.presentation.composables.details.GameAppBarParallaxEffect
@@ -19,30 +20,36 @@ import com.dwh.gamesapp.core.presentation.composables.details.ScrollingTitleDeta
 import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
 import com.dwh.gamesapp.core.presentation.utils.Constants.headerHeight
 import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
+import com.dwh.gamesapp.genres_details.presentation.components.GameGenreInformation
 
 @Composable
 fun GenreDetailsScreen(
-    genreId: Int?,
-    genreGames: List<GenreGame>,
-    state: GenreDetailsState,
     viewModel: GenreDetailsViewModel,
+    state: GenreDetailsState,
+    genreGames: List<GenreGame>,
+    genreId: Int?,
     onNavigateBack: () -> Unit
 ) {
-    if (genreId != null) {
-        LaunchedEffect(viewModel) {
-            viewModel.getGenreDetails(genreId)
-        }
-    }
-
-    GameBackgroundGradient {
-        if (state.isLoading) {
-            GameLoadingAnimation(modifier = Modifier.fillMaxSize())
-        } else {
-            GenreDetailsViewWithParallaxEffect(
-                genreDetails = state.genreDetails,
-                genreGames = genreGames,
-                onNavigateBack = onNavigateBack
-            )
+    GameBackgroundGradient(
+        isRefreshing = state.isRefreshing,
+        onRefresh = { if (genreId != null) viewModel.refreshGenreDetails(genreId) }
+    ) {
+        when {
+            state.isLoading -> GameLoadingAnimation(modifier = Modifier.fillMaxSize())
+            state.isError -> {
+                GameInformationalMessageCard(
+                    modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+                    message = state.errorMessage,
+                    description = state.errorDescription
+                )
+            }
+            else -> {
+                GenreDetailsViewWithParallaxEffect(
+                    genreDetails = state.genreDetails,
+                    genreGames = genreGames,
+                    onNavigateBack = onNavigateBack
+                )
+            }
         }
     }
 }
@@ -82,56 +89,5 @@ private fun GenreDetailsViewWithParallaxEffect(
                 genreGames = genreGames
             )
         }
-    }
-}
-
-@Composable
-private fun GameGenreInformation(
-    scrollState: ScrollState,
-    genreDetails: GenreDetails?,
-    genreGames: List<GenreGame>
-) {
-    val description = if (genreDetails?.description.isNullOrEmpty()) "N/A" else genreDetails?.description
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(bottom = 15.dp)
-            .padding(horizontal = 15.dp)
-    ) {
-        Spacer(Modifier.height(headerHeight - 50.dp))
-
-        DescriptionDetails(description)
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        PopularGamesGenre(genreGames)
-    }
-}
-
-@Composable
-private fun PopularGamesGenre(genreGames: List<GenreGame>) {
-    Text(
-        modifier = Modifier.fillMaxWidth(),
-        text = "Popular Games",
-        textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-        color = MaterialTheme.colorScheme.onBackground
-    )
-
-    Spacer(modifier = Modifier.height(10.dp))
-
-    ListPopularGames(genreGames)
-}
-
-@Composable
-private fun ListPopularGames(genreGames: List<GenreGame>) {
-    genreGames.forEach { game ->
-        PopularGameItemComposable(
-            gameName = game.name ?: "N/A",
-            added = "${(game.added ?: 0)}"
-        )
-        Spacer(modifier = Modifier.height(15.dp))
     }
 }

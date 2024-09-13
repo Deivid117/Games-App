@@ -3,6 +3,7 @@ package com.dwh.gamesapp.platforms_details.navigation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,19 +38,25 @@ fun NavGraphBuilder.platformDetailsGraph(navController: NavController) {
             )
         }
     ) { backStackEntry ->
+        val platformId = backStackEntry.arguments?.getInt("platformId", 0)
+
         val viewModel = hiltViewModel<PlatformDetailsViewModel>()
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
         val platformViewModel = backStackEntry.sharedViewModel<PlatformViewModel>(navController)
         val platformState by platformViewModel.uiState.collectAsStateWithLifecycle()
 
-        val platformId = backStackEntry.arguments?.getInt("platformId", 0)
+        LaunchedEffect(viewModel) {
+            if (platformId != null) {
+                viewModel.getPlatformDetails(platformId)
+            }
+        }
 
         PlatformDetailsScreen(
-            platformId = platformId,
-            platformGames = platformState.platformGames,
-            state = state,
             viewModel = viewModel,
+            state = state,
+            platformGames = platformState.platformGames,
+            platformId = platformId,
             onNavigateBack = { navController.navigateUp() }
         )
     }

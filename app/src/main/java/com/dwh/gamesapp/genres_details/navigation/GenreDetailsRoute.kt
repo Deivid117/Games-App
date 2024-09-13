@@ -3,6 +3,7 @@ package com.dwh.gamesapp.genres_details.navigation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -39,19 +40,25 @@ fun NavGraphBuilder.genreDetailsGraph(navController: NavController) {
             )
         }
     ) { backStackEntry ->
+        val genreId = backStackEntry.arguments?.getInt("genreId", 0)
+
         val viewModel = hiltViewModel<GenreDetailsViewModel>()
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
         val genreViewModel = backStackEntry.sharedViewModel<GenreViewModel>(navController)
         val genreState by genreViewModel.uiState.collectAsStateWithLifecycle()
 
-        val genreId = backStackEntry.arguments?.getInt ("genreId", 0)
+        LaunchedEffect(Unit) {
+            if (genreId != null) {
+                viewModel.getGenreDetails(genreId)
+            }
+        }
 
         GenreDetailsScreen(
-            genreId = genreId,
-            genreGames = genreState.genreGames,
-            state = state,
             viewModel = viewModel,
+            state = state,
+            genreGames = genreState.genreGames,
+            genreId = genreId,
             onNavigateBack = { navController.navigateUp() }
         )
     }

@@ -7,6 +7,8 @@ import com.dwh.gamesapp.platforms_details.domain.use_cases.GetPlatformDetailsUse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -17,16 +19,25 @@ class PlatformDetailsViewModel @Inject constructor(
     private val getPlatformDetailsUseCase: GetPlatformDetailsUseCase
 ): ViewModel() {
     private var _uiState: MutableStateFlow<PlatformDetailsState> = MutableStateFlow(PlatformDetailsState())
-    val uiState: MutableStateFlow<PlatformDetailsState> get() = _uiState
+    val uiState: StateFlow<PlatformDetailsState> get() = _uiState.asStateFlow()
 
     fun getPlatformDetails(id: Int) = viewModelScope.launch(Dispatchers.IO) {
         getPlatformDetailsUseCase(id).collectLatest { dataState ->
             when (dataState) {
-                is DataState.Loading -> _uiState.update { it.copy(isLoading = true) }
-                is DataState.Success -> _uiState.update { it.copy(isLoading = false, platformDetails = dataState.data) }
+                is DataState.Loading -> _uiState.update { it.copy(isLoading = true, isError = false) }
+                is DataState.Success -> _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        isRefreshing = false,
+                        isError = false,
+                        platformDetails = dataState.data
+                    )
+                }
                 is DataState.Error -> _uiState.update {
                     it.copy(
                         isLoading = false,
+                        isError = true,
+                        isRefreshing = false,
                         errorMessage = dataState.errorMessage,
                         errorDescription = dataState.errorDescription,
                         errorCode = dataState.code
@@ -34,5 +45,10 @@ class PlatformDetailsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun refreshPlatformDetails(id: Int) {
+        _uiState.update { it.copy(isRefreshing = true) }
+        getPlatformDetails(id)
     }
 }
