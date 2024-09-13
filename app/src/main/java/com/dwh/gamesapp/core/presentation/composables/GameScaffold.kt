@@ -34,6 +34,8 @@ fun GameScaffold(
     showTopAppBarColor: Boolean = false,
     showBackgroundGradient: Boolean = true,
     showSnackBarDismissAction: Boolean = false,
+    isRefreshing: Boolean = false,
+    isVisiblePullRefreshIndicator: Boolean = true,
     lottieAnimationSnackBar: Int = R.raw.broken_heart,
     snackBarContainerColor: Color = MaterialTheme.colorScheme.errorContainer,
     snackBarBorderColor: Color = MaterialTheme.colorScheme.error,
@@ -43,6 +45,7 @@ fun GameScaffold(
     snackBarMessage: String = "",
     onBackClick: () -> Unit = {},
     onDismissSnackBar: () -> Unit = {},
+    onRefresh: () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     content: @Composable() (BoxScope.() -> Unit) = {}
 ) {
@@ -88,6 +91,9 @@ fun GameScaffold(
                         if (isTopAppBarVisible) modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         else modifier,
                     paddingValues = innerPadding,
+                    isRefreshing = isRefreshing,
+                    isVisiblePullRefreshIndicator = isVisiblePullRefreshIndicator,
+                    onRefresh = onRefresh,
                     content = content
                 )
             else Box { content() }

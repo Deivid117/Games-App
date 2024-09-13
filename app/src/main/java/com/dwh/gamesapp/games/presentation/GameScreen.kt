@@ -5,15 +5,8 @@ package com.dwh.gamesapp.games.presentation
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.contentColorFor
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.paging.compose.LazyPagingItems
 import com.dwh.gamesapp.R
@@ -34,17 +27,13 @@ fun GameScreen(
     games: LazyPagingItems<Game>,
     navigateToGameDetails: (Int) -> Unit
 ) {
-    val pullRefreshState =
-        rememberPullRefreshState(
-            refreshing = state.isRefreshing,
-            onRefresh = { viewModel.refreshList { games.refresh() } })
     val listState = rememberLazyStaggeredGridState()
 
     GameScaffold(
         navController = navController,
-        modifier = Modifier.pullRefresh(pullRefreshState),
         isSnackBarVisible = state.isSnackBarVisible,
         showSnackBarDismissAction = false,
+        isRefreshing = state.isRefreshing,
         snackBarMessage = state.snackBarMessage,
         lottieAnimationSnackBar = R.raw.error_not_found,
         snackBarBorderColor = snackbar_border_warning,
@@ -57,6 +46,7 @@ fun GameScreen(
                 listIsNotEmpty = games.itemCount > 0
             )
         },
+        onRefresh = { viewModel.refreshList { games.refresh() } },
         onDismissSnackBar = { viewModel.hideSnackBar() }
     ) {
         GameView(
@@ -64,14 +54,6 @@ fun GameScreen(
             listState = listState,
             onShowSnackBar = { viewModel.showSnackBar(it) },
             navigateToGameDetails = navigateToGameDetails
-        )
-
-        PullRefreshIndicator(
-            modifier = Modifier.align(Alignment.TopCenter),
-            refreshing = state.isRefreshing,
-            backgroundColor = MaterialTheme.colorScheme.onSecondary,
-            contentColor = MaterialTheme.colorScheme.onBackground,
-            state = pullRefreshState
         )
     }
 }

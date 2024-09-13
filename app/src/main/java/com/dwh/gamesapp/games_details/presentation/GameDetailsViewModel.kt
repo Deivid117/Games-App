@@ -29,11 +29,15 @@ class GameDetailsViewModel @Inject constructor(
     fun getGameDetails(id: Int) = viewModelScope.launch {
         getGameDetailsUseCase(id).collect { dataState ->
             when (dataState) {
-                is DataState.Loading -> _uiState.update { it.copy(isLoading = true) }
-                is DataState.Success -> _uiState.update { it.copy(isLoading = false, gameDetails = dataState.data) }
+                is DataState.Loading -> _uiState.update { it.copy(isLoading = true, isError = false) }
+                is DataState.Success -> _uiState.update {
+                    it.copy(isLoading = false, isError = false, isRefreshing = false, gameDetails = dataState.data)
+                }
                 is DataState.Error -> _uiState.update {
                     it.copy(
                         isLoading = false,
+                        isError = true,
+                        isRefreshing = false,
                         errorMessage = dataState.errorMessage,
                         errorDescription = dataState.errorDescription,
                         errorCode = dataState.code
@@ -41,6 +45,11 @@ class GameDetailsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun refreshGameDetails(id: Int) {
+        _uiState.update { it.copy(isRefreshing = true) }
+        getGameDetails(id)
     }
 
 /** TODO: FALTA ARREGLAR ESTOS SERVICIOS */

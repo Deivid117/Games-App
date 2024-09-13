@@ -4,6 +4,8 @@ import com.dwh.gamesapp.games_details.domain.model.GameDetails
 
 data class GameDetailsState(
     val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val isRefreshing: Boolean = false,
     val gameDetails: GameDetails? = GameDetails(),
     val errorMessage: String = "",
     val errorDescription: String = "",

@@ -3,12 +3,14 @@ package com.dwh.gamesapp.platforms.navigation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.dwh.gamesapp.core.presentation.navigation.NavigationScreens
+import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.navigation.sharedViewModel
 import com.dwh.gamesapp.core.presentation.utils.Constants
 import com.dwh.gamesapp.platforms.presentation.PlatformScreen
@@ -44,6 +46,15 @@ fun NavGraphBuilder.platformGraph(navController: NavController) {
         val viewModel = backStackEntry.sharedViewModel<PlatformViewModel>(navController)
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-        PlatformScreen(navController, viewModel, state)
+        LaunchedEffect(Unit) {
+            viewModel.getPlatforms()
+        }
+
+        PlatformScreen(
+            navController = navController,
+            viewModel = viewModel,
+            state = state,
+            navigateToPlatformDetails = { navController.navigate("${Screens.PLATFORM_DETAILS_SCREEN.name}/$it") }
+        )
     }
 }

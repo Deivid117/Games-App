@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.games_details.domain.model.GameDetails
 import com.dwh.gamesapp.core.presentation.composables.GameBackgroundGradient
+import com.dwh.gamesapp.core.presentation.composables.GameInformationalMessageCard
 import com.dwh.gamesapp.core.presentation.composables.details.GameAppBarParallaxEffect
 import com.dwh.gamesapp.core.presentation.composables.details.ScrollingTitleDetails
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
@@ -19,17 +20,29 @@ import com.dwh.gamesapp.games_details.presentation.components.GameInformation
 fun GameDetailsScreen(
     viewModel: GameDetailsViewModel,
     state: GameDetailsState,
+    gameId: String?,
     onNavigateBack: () -> Unit
 ) {
-    GameBackgroundGradient {
-        if (state.isLoading) {
-            GameLoadingAnimation(modifier = Modifier.fillMaxSize())
-        } else {
-            GameDetailsView(
-                viewModel = viewModel,
-                gameDetails = state.gameDetails,
-                onNavigateBack = onNavigateBack
-            )
+    GameBackgroundGradient(
+        isRefreshing = state.isRefreshing,
+        onRefresh = { if (gameId != null) viewModel.refreshGameDetails(gameId.toInt()) }
+    ) {
+        when {
+            state.isLoading -> GameLoadingAnimation(modifier = Modifier.fillMaxSize())
+            state.isError -> {
+                GameInformationalMessageCard(
+                    modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+                    message = state.errorMessage,
+                    description = state.errorDescription
+                )
+            }
+            else -> {
+                GameDetailsView(
+                    viewModel = viewModel,
+                    gameDetails = state.gameDetails,
+                    onNavigateBack = onNavigateBack
+                )
+            }
         }
     }
 }

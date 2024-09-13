@@ -5,6 +5,7 @@ import com.dwh.gamesapp.platforms.domain.model.PlatformGame
 
 data class PlatformState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val platforms: List<Platform> = listOf(),
     val platformGames: List<PlatformGame> = listOf(),
     val errorMessage: String = "",

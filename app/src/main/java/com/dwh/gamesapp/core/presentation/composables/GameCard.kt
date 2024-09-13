@@ -61,7 +61,7 @@ fun GameCard(
             )
 
             Column(
-                Modifier.padding(horizontal = 8.dp, vertical = 10.dp),
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 OutlinedText(
@@ -76,7 +76,7 @@ fun GameCard(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 HorizontalDivider(
-                    Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 

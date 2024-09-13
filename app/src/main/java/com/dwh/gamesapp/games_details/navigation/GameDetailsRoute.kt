@@ -36,12 +36,12 @@ fun NavGraphBuilder.gameDetailsGraph(navController: NavController) {
             )
         }
     ) { backStackEntry ->
-        val gameId = backStackEntry.arguments?.getString("gameId", "0")
+        val gameId = backStackEntry.arguments?.getString("gameId", "")
         val viewModel = hiltViewModel<GameDetailsViewModel>()
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
         LaunchedEffect(Unit) {
-            if (!gameId.isNullOrEmpty()) {
+            if (gameId != null) {
                 viewModel.getGameDetails(gameId.toInt())
                 //viewModel.isMyFavoriteGame(gameId.toInt())
             }
@@ -50,6 +50,7 @@ fun NavGraphBuilder.gameDetailsGraph(navController: NavController) {
         GameDetailsScreen(
             viewModel = viewModel,
             state = state,
+            gameId = gameId,
             onNavigateBack = { navController.navigateUp() }
         )
     }

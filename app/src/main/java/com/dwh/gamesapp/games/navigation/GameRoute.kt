@@ -1,5 +1,6 @@
 package com.dwh.gamesapp.games.navigation
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.LaunchedEffect
@@ -38,7 +39,12 @@ fun NavGraphBuilder.gameGraph(navController: NavController) {
             navController = navController,
             viewModel = viewModel,
             state = state,
-            games = games
-        ) { navController.navigate("${Screens.GAME_DETAILS_SCREEN.name}/${it}") }
+            games = games,
+            navigateToGameDetails = {
+                Log.d("UWU", "$it")
+
+                navController.navigate("${Screens.GAME_DETAILS_SCREEN.name}/${it}")
+            }
+        )
     }
 }
