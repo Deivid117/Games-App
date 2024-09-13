@@ -79,7 +79,7 @@ fun GameScaffold(
                 )
             }
         },
-        bottomBar = { if (isBottomBarVisible) NavigationBarComposable(navController) },
+        bottomBar = { if (isBottomBarVisible) GameNavigationBar(navController) },
         floatingActionButton = { floatingActionButton() },
         content = { innerPadding ->
             if (showBackgroundGradient)

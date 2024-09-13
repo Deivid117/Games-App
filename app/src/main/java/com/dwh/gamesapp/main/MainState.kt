@@ -1,4 +1,4 @@
-package com.dwh.gamesapp
+package com.dwh.gamesapp.main
 
 import com.dwh.gamesapp.core.domain.enums.ThemeValues
 

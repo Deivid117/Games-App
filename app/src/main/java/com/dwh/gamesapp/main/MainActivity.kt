@@ -1,4 +1,4 @@
-package com.dwh.gamesapp
+package com.dwh.gamesapp.main
 
 import android.graphics.Color
 import android.os.Build

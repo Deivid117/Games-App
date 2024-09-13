@@ -8,6 +8,7 @@ val light_green_background = Color(0xFFBAFCBD)
 
 val primary = Color(0xFF684FA3)
 val secondary = Color(0xFFA43075)
+val tertiary = Color(0xFF88458A)
 
 val primary_gradient = Color(0xFF684FA3)
 val secondary_gradient = Color(0xFFA43075)
@@ -23,9 +24,14 @@ val top_bar_light = Color(0xFFA43075)
 
 val image_border = Color(0xFF531358)
 
-val light_snackbar_container_warning = Color(0xFFFFC775)
+val light_snackbar_container_warning = Color(0xFFFFCE85)
 val dark_snackbar_container_warning = Color(0xFFBD7100)
 val snackbar_border_warning = Color(0xFFFF9800)
+
+val dark_nav_item_background = Color(0xFFE6E1E6)
+
+val light_nav_bar_background = Color(0xFFEBE4EE)
+val dark_nav_bar_background = Color(0xFF343236)
 
 val md_theme_light_primary = Color(0xFF684FA3)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)

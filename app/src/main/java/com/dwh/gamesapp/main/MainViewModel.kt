@@ -1,4 +1,4 @@
-package com.dwh.gamesapp
+package com.dwh.gamesapp.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

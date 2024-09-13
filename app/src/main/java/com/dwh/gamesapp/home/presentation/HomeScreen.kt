@@ -44,11 +44,11 @@ import com.dwh.gamesapp.core.presentation.composables.GameInformationalMessageCa
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.home.presentation.utils.GameUiInfo
 import com.dwh.gamesapp.home.presentation.utils.LocalGameUiInfo
-import com.dwh.gamesapp.utils.vertical
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 import com.dwh.gamesapp.core.presentation.state.DataState
+import com.dwh.gamesapp.core.presentation.utils.modifier.vertical
 import com.dwh.gamesapp.home.domain.model.BestOfTheYearResults
 import com.dwh.gamesapp.home.domain.model.GameItem
 import com.dwh.gamesapp.home.domain.model.NextWeekGamesResults

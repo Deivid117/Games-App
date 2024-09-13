@@ -5,13 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -20,22 +20,34 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.dwh.gamesapp.core.presentation.navigation.BottomScreens
+import com.dwh.gamesapp.core.presentation.theme.dark_nav_bar_background
+import com.dwh.gamesapp.core.presentation.theme.dark_nav_item_background
+import com.dwh.gamesapp.core.presentation.theme.light_nav_bar_background
+import com.dwh.gamesapp.core.presentation.theme.tertiary
+import com.dwh.gamesapp.core.presentation.utils.isDarkThemeEnabled
 
 @Composable
-fun NavigationBarComposable(navController: NavController) {
+fun GameNavigationBar(navController: NavController) {
     val screens = listOf(
         BottomScreens.Home,
         BottomScreens.Games,
         BottomScreens.Favorites,
-        BottomScreens.Profile,
+        BottomScreens.Profile
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+    val navigationBarBackgroundColor =
+        if (isDarkThemeEnabled()) dark_nav_bar_background
+        else light_nav_bar_background
 
     Card(
-        Modifier.fillMaxWidth().wrapContentHeight(),
-        shape = RectangleShape,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(horizontal = 5.dp)
+            .padding(bottom = 5.dp),
+        shape = RoundedCornerShape(50.dp),
+        colors = CardDefaults.cardColors(containerColor = navigationBarBackgroundColor)
     ) {
         Row(
             Modifier
@@ -44,11 +56,11 @@ fun NavigationBarComposable(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            screens.forEach {screen ->
-                NavBarItem(
+            screens.forEach { screen ->
+                GameNavigationBarItem(
+                    navController = navController,
                     screen = screen,
-                    currentDestination = currentDestination,
-                    navController = navController
+                    currentDestination = currentDestination
                 )
             }
         }
@@ -56,24 +68,26 @@ fun NavigationBarComposable(navController: NavController) {
 }
 
 @Composable
-fun RowScope.NavBarItem(
+fun GameNavigationBarItem(
+    navController: NavController,
     screen: BottomScreens,
-    currentDestination: NavDestination?,
-    navController: NavController
+    currentDestination: NavDestination?
 ) {
     val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
-    val background =
-        if (selected) MaterialTheme.colorScheme.onPrimaryContainer else Color.Transparent
-    val contentColor =
-        if (selected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.onBackground
+    val iconColor = if (isDarkThemeEnabled()) tertiary else Color.White
+    val iconColorItem =
+        if (selected) iconColor else MaterialTheme.colorScheme.onBackground
+    val backgroundColor = if (isDarkThemeEnabled()) dark_nav_item_background else tertiary
+    val backgroundColorItem =
+        if (selected) backgroundColor else Color.Transparent
 
     Box(
         modifier = Modifier
-            .height(40.dp)
+            .height(35.dp)
             .clip(CircleShape)
-            .background(background)
+            .background(backgroundColorItem)
             .clickable(onClick = {
-                navController.navigate(screen.route){
+                navController.navigate(screen.route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
                     }
@@ -83,19 +97,20 @@ fun RowScope.NavBarItem(
     ) {
         Row(
             modifier = Modifier
-                .padding(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 8.dp),
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             Icon(
+                modifier = Modifier.size(30.dp),
                 painter = painterResource(id = screen.icon),
-                contentDescription = "icon",
-                tint = contentColor
+                contentDescription = "nav item icon",
+                tint = iconColorItem
             )
             AnimatedVisibility(visible = selected) {
                 Text(
                     text = screen.title,
-                    color = contentColor,
+                    color = iconColorItem,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
