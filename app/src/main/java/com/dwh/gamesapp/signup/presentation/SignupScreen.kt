@@ -28,6 +28,7 @@ import com.dwh.gamesapp.core.presentation.theme.dark_green
 import com.dwh.gamesapp.core.presentation.theme.light_green
 import com.dwh.gamesapp.core.presentation.theme.light_green_background
 import com.dwh.gamesapp.core.presentation.ui.UiText
+import com.dwh.gamesapp.core.presentation.utils.isDarkThemeEnabled
 import com.dwh.gamesapp.login.presentation.components.RememberMeCheckBox
 import com.dwh.gamesapp.signup.presentation.components.SignUpForm
 
@@ -66,7 +67,7 @@ fun SignupView(
     state: SignupState,
     onNavigateBack: () -> Unit
 ) {
-    val snackBarContainerColor = if (isSystemInDarkTheme()) dark_green else light_green_background
+    val snackBarContainerColor = if (isDarkThemeEnabled()) dark_green else light_green_background
     val snackBarBorderColorError = MaterialTheme.colorScheme.error
     val snackBarContainerColorError = MaterialTheme.colorScheme.errorContainer
 

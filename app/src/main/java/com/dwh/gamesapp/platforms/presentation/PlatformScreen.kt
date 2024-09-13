@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
-import com.dwh.gamesapp.core.presentation.composables.GameInformationCard
+import com.dwh.gamesapp.core.presentation.composables.GameInformationalMessageCard
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.core.domain.model.ScaleAndAlphaArgs
 import com.dwh.gamesapp.core.presentation.composables.GameCard
@@ -67,7 +67,7 @@ private fun PlatformView(
             onPlatformClick = onPlatformClick
         )
     } else {
-        GameInformationCard(
+        GameInformationalMessageCard(
             modifier = Modifier.fillMaxSize(),
             message = state.errorMessage,
             description = state.errorDescription

@@ -42,6 +42,10 @@
     <string name="profile_title">MY PROFILE</string>
     <string name="profile_btn_edit_profile">EDIT PROFILE</string>
     <string name="profile_btn_logout">LOGOUT</string>
+    <string name="profile_update_theme">Theme</string>
+    <string name="profile_modal_bottom_sheet_title">Choose your theme</string>
+    <string name="profile_modal_bottom_sheet_btn_accept">Accept</string>
+    <string name="profile_modal_bottom_sheet_btn_cancel">Cancel</string>
 
     <string name="edit_profile_title">EDIT PROFILE</string>
     <string name="edit_profile_btn_save">SAVE</string>

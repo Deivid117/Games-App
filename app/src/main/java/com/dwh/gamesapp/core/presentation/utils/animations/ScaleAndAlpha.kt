@@ -7,7 +7,7 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import com.dwh.gamesapp.core.domain.enums.State
+import com.dwh.gamesapp.core.domain.enums.StateValues
 import com.dwh.gamesapp.core.domain.model.ScaleAndAlphaArgs
 
 @Composable
@@ -15,18 +15,18 @@ fun scaleAndAlpha(
     args: ScaleAndAlphaArgs,
     animation: FiniteAnimationSpec<Float>,
 ): Pair<Float, Float> {
-    val transitionState = remember { MutableTransitionState(State.PLACING).apply { targetState = State.PLACED } }
-    val transition = updateTransition(transitionState, label = "")
+    val transitionStateValues = remember { MutableTransitionState(StateValues.PLACING).apply { targetState = StateValues.PLACED } }
+    val transition = updateTransition(transitionStateValues, label = "")
     val alpha by transition.animateFloat(transitionSpec = { animation }, label = "") { state ->
         when (state) {
-            State.PLACING -> args.fromAlpha
-            State.PLACED -> args.toAlpha
+            StateValues.PLACING -> args.fromAlpha
+            StateValues.PLACED -> args.toAlpha
         }
     }
     val scale by transition.animateFloat(transitionSpec = { animation }, label = "") { state ->
         when (state) {
-            State.PLACING -> args.fromScale
-            State.PLACED -> args.toScale
+            StateValues.PLACING -> args.fromScale
+            StateValues.PLACED -> args.toScale
         }
     }
     return alpha to scale

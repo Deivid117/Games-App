@@ -40,7 +40,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
-import com.dwh.gamesapp.core.presentation.composables.GameInformationCard
+import com.dwh.gamesapp.core.presentation.composables.GameInformationalMessageCard
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.home.presentation.utils.GameUiInfo
 import com.dwh.gamesapp.home.presentation.utils.LocalGameUiInfo
@@ -145,7 +145,7 @@ fun BestOfTheYearValidationResponse(
         is DataState.Error -> {
             val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: HomeScreenError", errorMsg)
-            GameInformationCard(
+            GameInformationalMessageCard(
                 message = "Ocurrió un error",
                 description = errorMsg
             )
@@ -172,7 +172,7 @@ fun NextWeekGamesValidationResponse(
         is DataState.Error -> {
             val errorMsg = (uiState as DataState.Error).errorMessage
             Log.e("ERROR: HomeScreenError", errorMsg)
-            GameInformationCard(
+            GameInformationalMessageCard(
                 message = "Ocurrió un error",
                 description = errorMsg
             )
@@ -203,7 +203,7 @@ fun BestOfTheYearContent(
             BestOfTheYearHorizontalList(bestOfTheYearGames, navController)
         }
     } else {
-        GameInformationCard(
+        GameInformationalMessageCard(
             message = "Sin información disponible",
             description = "No hay juegos por mostrar"
         )
@@ -223,7 +223,7 @@ fun NextWeekGamesContent(
             NextWeekGamesHorizontalList(nextWeekGames, navController)
         }
     } else {
-        GameInformationCard(
+        GameInformationalMessageCard(
             message = "Sin información disponible",
             description = "No hay juegos por mostrar"
         )

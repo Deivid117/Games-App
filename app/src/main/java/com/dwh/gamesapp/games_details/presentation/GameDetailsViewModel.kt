@@ -7,39 +7,38 @@ import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.a.domain.use_cases.favorit_games.IsFavoriteGameUseCase
 import com.dwh.gamesapp.a.domain.use_cases.favorit_games.RemoveFavoriteGameUseCase
 import com.dwh.gamesapp.a.domain.use_cases.game_details.AddFavoriteGameUseCase
-import com.dwh.gamesapp.core.data.Resource
 import com.dwh.gamesapp.core.presentation.state.DataState
-import com.dwh.gamesapp.games_details.domain.model.GameDetails
 import com.dwh.gamesapp.games_details.domain.use_cases.GetGameDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class GameDetailsViewModel @Inject constructor(
-    private val getGameDetailsUseCase: GetGameDetailsUseCase, // Arreglado
+    private val getGameDetailsUseCase: GetGameDetailsUseCase,
     private val addFavoriteGameUseCase: AddFavoriteGameUseCase,
     private val isFavoriteGameUseCase: IsFavoriteGameUseCase,
     private val removeFavoriteGameUseCase: RemoveFavoriteGameUseCase
 ): ViewModel() {
-
-    private var _uiState: MutableStateFlow<DataState<GameDetails?>> = MutableStateFlow(DataState.Loading)
-    val uiState: MutableStateFlow<DataState<GameDetails?>> get() = _uiState
+    private var _uiState: MutableStateFlow<GameDetailsState> = MutableStateFlow(GameDetailsState())
+    val uiState: MutableStateFlow<GameDetailsState> get() = _uiState
 
     fun getGameDetails(id: Int) = viewModelScope.launch {
-        getGameDetailsUseCase(id).collect { resource ->
-            _uiState.value = when(resource) {
-                is Resource.Error -> {
-                    Log.e(
-                        "ERROR: GAME_DETAILS",
-                        "Error code: ${resource.code} - Message: ${resource.message}"
+        getGameDetailsUseCase(id).collect { dataState ->
+            when (dataState) {
+                is DataState.Loading -> _uiState.update { it.copy(isLoading = true) }
+                is DataState.Success -> _uiState.update { it.copy(isLoading = false, gameDetails = dataState.data) }
+                is DataState.Error -> _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = dataState.errorMessage,
+                        errorDescription = dataState.errorDescription,
+                        errorCode = dataState.code
                     )
-                    DataState.Error(resource.message ?: "Error desconocido")
                 }
-                is Resource.Loading -> DataState.Loading
-                is Resource.Success -> DataState.Success(resource.data)
             }
         }
     }

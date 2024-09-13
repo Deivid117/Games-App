@@ -23,6 +23,10 @@ val top_bar_light = Color(0xFFA43075)
 
 val image_border = Color(0xFF531358)
 
+val light_snackbar_container_warning = Color(0xFFFFC775)
+val dark_snackbar_container_warning = Color(0xFFBD7100)
+val snackbar_border_warning = Color(0xFFFF9800)
+
 val md_theme_light_primary = Color(0xFF684FA3)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFE9DDFF)

@@ -44,11 +44,11 @@ fun Modifier.shimmerAnimation(
 ): Modifier = composed {
 
     val shimmerColors = listOf(
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 1.0f),
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
+        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 1.0f),
+        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
     )
 
     val transition = rememberInfiniteTransition(label = "")

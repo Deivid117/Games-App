@@ -12,9 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.platforms_details.domain.model.PlatformDetails
 import com.dwh.gamesapp.platforms.domain.model.PlatformGame
 import com.dwh.gamesapp.core.presentation.composables.GameBackgroundGradient
-import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
-import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
-import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
+import com.dwh.gamesapp.core.presentation.composables.details.DescriptionDetails
+import com.dwh.gamesapp.core.presentation.composables.details.GameAppBarParallaxEffect
+import com.dwh.gamesapp.core.presentation.composables.details.ScrollingTitleDetails
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
 import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
 import com.dwh.gamesapp.core.presentation.utils.Constants.headerHeight
@@ -62,7 +62,7 @@ fun PlatformDetailsViewWithParallaxEffect(
             .background(MaterialTheme.colorScheme.background.copy(.8f))
             .statusBarsPadding()
     ) {
-        CoverImageWithBackIconParallaxEffect(
+        GameAppBarParallaxEffect(
             scrollState = scrollState,
             imageUrl = platformDetails?.imageBackground ?: "",
             modifier = Modifier
@@ -70,7 +70,7 @@ fun PlatformDetailsViewWithParallaxEffect(
                 .height(headerHeight)
         ) { onNavigateBack() }
 
-        ScrollingTitleComposable(
+        ScrollingTitleDetails(
             scrollState = scrollState,
             title = platformDetails?.name ?: "N/A"
         )
@@ -102,7 +102,7 @@ private fun PlatformGameInformation(
     ) {
         Spacer(Modifier.height(headerHeight - 50.dp))
 
-        DescriptionComposable(description)
+        DescriptionDetails(description)
 
         Spacer(modifier = Modifier.height(15.dp))
 

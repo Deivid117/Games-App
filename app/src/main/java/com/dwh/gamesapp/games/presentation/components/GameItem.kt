@@ -31,12 +31,13 @@ import com.dwh.gamesapp.games.domain.model.Game
 
 @Composable
 fun GameItem(
+    modifier: Modifier,
     game: Game,
     metaCriticColor: Color,
     navigateToGameDetails: () -> Unit
 ) {
     Card(
-        modifier = Modifier.clickable { navigateToGameDetails() },
+        modifier = modifier.clickable { navigateToGameDetails() },
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background.copy(.8f))
     ) {
         Column {

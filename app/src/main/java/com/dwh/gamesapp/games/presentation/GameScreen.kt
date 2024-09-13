@@ -5,17 +5,24 @@ package com.dwh.gamesapp.games.presentation
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.contentColorFor
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.paging.compose.LazyPagingItems
+import com.dwh.gamesapp.R
 import com.dwh.gamesapp.games.domain.model.Game
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
+import com.dwh.gamesapp.core.presentation.theme.dark_snackbar_container_warning
+import com.dwh.gamesapp.core.presentation.theme.snackbar_border_warning
+import com.dwh.gamesapp.core.presentation.theme.light_snackbar_container_warning
+import com.dwh.gamesapp.core.presentation.utils.isDarkThemeEnabled
 import com.dwh.gamesapp.games.presentation.components.GameButtonToScrollToTop
 import com.dwh.gamesapp.games.presentation.components.VerticalStaggeredGridGames
 
@@ -37,7 +44,13 @@ fun GameScreen(
         navController = navController,
         modifier = Modifier.pullRefresh(pullRefreshState),
         isSnackBarVisible = state.isSnackBarVisible,
+        showSnackBarDismissAction = false,
         snackBarMessage = state.snackBarMessage,
+        lottieAnimationSnackBar = R.raw.error_not_found,
+        snackBarBorderColor = snackbar_border_warning,
+        snackBarContainerColor =
+            if (isDarkThemeEnabled()) dark_snackbar_container_warning
+            else light_snackbar_container_warning,
         floatingActionButton = {
             GameButtonToScrollToTop(
                 listState = listState,
@@ -56,6 +69,8 @@ fun GameScreen(
         PullRefreshIndicator(
             modifier = Modifier.align(Alignment.TopCenter),
             refreshing = state.isRefreshing,
+            backgroundColor = MaterialTheme.colorScheme.onSecondary,
+            contentColor = MaterialTheme.colorScheme.onBackground,
             state = pullRefreshState
         )
     }

@@ -11,4 +11,8 @@ interface DataStoreRepository {
     suspend fun saveUserSession(loggedIn: Boolean)
 
     fun isUserLoggedIn(): Flow<Boolean>
+
+    suspend fun saveFavoriteTheme(theme: String)
+
+    fun getFavoriteTheme(): Flow<String>
 }

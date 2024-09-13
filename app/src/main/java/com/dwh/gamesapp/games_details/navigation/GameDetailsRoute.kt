@@ -3,7 +3,10 @@ package com.dwh.gamesapp.games_details.navigation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -35,7 +38,19 @@ fun NavGraphBuilder.gameDetailsGraph(navController: NavController) {
     ) { backStackEntry ->
         val gameId = backStackEntry.arguments?.getString("gameId", "0")
         val viewModel = hiltViewModel<GameDetailsViewModel>()
+        val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-        GameDetailsScreen(navController, gameId, viewModel)
+        LaunchedEffect(Unit) {
+            if (!gameId.isNullOrEmpty()) {
+                viewModel.getGameDetails(gameId.toInt())
+                //viewModel.isMyFavoriteGame(gameId.toInt())
+            }
+        }
+
+        GameDetailsScreen(
+            viewModel = viewModel,
+            state = state,
+            onNavigateBack = { navController.navigateUp() }
+        )
     }
 }

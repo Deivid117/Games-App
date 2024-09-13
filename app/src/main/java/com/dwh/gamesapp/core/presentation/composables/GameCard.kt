@@ -64,7 +64,7 @@ fun GameCard(
                 Modifier.padding(horizontal = 8.dp, vertical = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                OutlinedTextComposable(
+                OutlinedText(
                     modifier = Modifier.fillMaxWidth(),
                     text = name,
                     style = MaterialTheme.typography.titleLarge,
@@ -96,7 +96,7 @@ private fun PopularGamesRow(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        OutlinedTextComposable(text = "Popular items")
-        OutlinedTextComposable(text = gameCount)
+        OutlinedText(text = "Popular items")
+        OutlinedText(text = gameCount)
     }
 }

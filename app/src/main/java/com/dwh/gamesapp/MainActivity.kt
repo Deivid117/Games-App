@@ -11,15 +11,19 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.dwh.gamesapp.core.presentation.theme.MarvelAppTheme
+import com.dwh.gamesapp.core.presentation.theme.GameAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import com.dwh.gamesapp.core.presentation.navigation.Navigation
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -28,8 +32,11 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            MarvelAppTheme {
-                val navController = rememberNavController()
+            val viewModel = hiltViewModel<MainViewModel>()
+            val state by viewModel.uiState.collectAsStateWithLifecycle()
+            val navController = rememberNavController()
+
+            GameAppTheme(appTheme = state.favoriteThemeValues) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

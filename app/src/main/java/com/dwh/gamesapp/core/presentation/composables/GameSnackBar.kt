@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.dwh.gamesapp.core.presentation.utils.isDarkThemeEnabled
 
 @Composable
 fun GameSnackBar(
@@ -31,7 +32,7 @@ fun GameSnackBar(
     lottieBackgroundColor: Color,
     onDismiss: () -> Unit = {}
 ) {
-    val borderColor = if (!isSystemInDarkTheme()) borderColorSnackBar else Color.Transparent
+    val borderColor = if (!isDarkThemeEnabled()) borderColorSnackBar else Color.Transparent
 
     Snackbar(
         modifier = Modifier

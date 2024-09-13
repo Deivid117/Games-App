@@ -16,7 +16,7 @@ fun LifecycleOwnerListener() {
     val lifecycleOwner = LocalLifecycleOwner.current
     val coroutineScope = rememberCoroutineScope()
     val systemUi = rememberSystemUiController()
-    val isSystemDarkTheme = isSystemInDarkTheme()
+    val isSystemDarkTheme = isDarkThemeEnabled()
     val colorStatusBar = MaterialTheme.colorScheme.primary
 
     DisposableEffect(Unit) {

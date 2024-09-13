@@ -10,6 +10,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
 import com.dwh.gamesapp.core.presentation.composables.GameFloatingActionButton
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,7 @@ fun GameButtonToScrollToTop(
         Icon(
             imageVector = Icons.Filled.KeyboardArrowUp,
             contentDescription = "Arrow up icon",
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+            tint = MaterialTheme.colorScheme.onBackground
         )
     }
 }

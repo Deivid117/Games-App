@@ -13,9 +13,9 @@ import com.dwh.gamesapp.genres_details.domain.model.GenreDetails
 import com.dwh.gamesapp.genres.domain.model.GenreGame
 import com.dwh.gamesapp.core.presentation.composables.GameBackgroundGradient
 import com.dwh.gamesapp.core.presentation.composables.GameLoadingAnimation
-import com.dwh.gamesapp.core.presentation.composables.DescriptionComposable
-import com.dwh.gamesapp.core.presentation.composables.CoverImageWithBackIconParallaxEffect
-import com.dwh.gamesapp.core.presentation.composables.ScrollingTitleComposable
+import com.dwh.gamesapp.core.presentation.composables.details.DescriptionDetails
+import com.dwh.gamesapp.core.presentation.composables.details.GameAppBarParallaxEffect
+import com.dwh.gamesapp.core.presentation.composables.details.ScrollingTitleDetails
 import com.dwh.gamesapp.core.presentation.composables.PopularGameItemComposable
 import com.dwh.gamesapp.core.presentation.utils.Constants.headerHeight
 import com.dwh.gamesapp.core.presentation.utils.LifecycleOwnerListener
@@ -62,7 +62,7 @@ private fun GenreDetailsViewWithParallaxEffect(
             .background(MaterialTheme.colorScheme.background.copy(.8f))
             .statusBarsPadding()
     ) {
-        CoverImageWithBackIconParallaxEffect(
+        GameAppBarParallaxEffect(
             scrollState = scrollState,
             imageUrl = genreDetails?.imageBackground ?: "",
             modifier = Modifier
@@ -70,7 +70,7 @@ private fun GenreDetailsViewWithParallaxEffect(
                 .height(headerHeight)
         ) { onNavigateBack() }
 
-        ScrollingTitleComposable(
+        ScrollingTitleDetails(
             scrollState = scrollState,
             title = genreDetails?.name ?: "N/A"
         )
@@ -102,7 +102,7 @@ private fun GameGenreInformation(
     ) {
         Spacer(Modifier.height(headerHeight - 50.dp))
 
-        DescriptionComposable(description)
+        DescriptionDetails(description)
 
         Spacer(modifier = Modifier.height(15.dp))
 

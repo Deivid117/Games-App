@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 
 @Composable
-fun OutlinedTextComposable(
+fun OutlinedText(
     modifier: Modifier = Modifier,
     text: String,
     style: TextStyle = MaterialTheme.typography.labelLarge,
@@ -20,7 +20,7 @@ fun OutlinedTextComposable(
     textAlign: TextAlign = TextAlign.Left,
     textDecoration: TextDecoration = TextDecoration.None
 ) {
-    Box() {
+    Box {
         Text(
             modifier = modifier,
             text = text,

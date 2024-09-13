@@ -143,4 +143,7 @@ dependencies {
 
     // KOTLIN DATETIME
     implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.6.0"
+
+    // Extended icons
+    implementation "androidx.compose.material:material-icons-extended-android:1.7.1"
 }

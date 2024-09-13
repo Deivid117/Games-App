@@ -2,7 +2,9 @@ package com.dwh.gamesapp.profile.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dwh.gamesapp.core.domain.use_case.GetFavoriteThemeByPreferencesUseCase
 import com.dwh.gamesapp.core.domain.use_case.GetUserIdByPreferencesUseCase
+import com.dwh.gamesapp.core.domain.use_case.SaveFavoriteThemeFromPreferencesUseCase
 import com.dwh.gamesapp.core.domain.use_case.SaveUserIdUseCase
 import com.dwh.gamesapp.core.domain.use_case.SaveUserSessionFromPreferencesUseCase
 import com.dwh.gamesapp.core.presentation.state.DataState
@@ -21,8 +23,10 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getUserInformationUseCase: GetUserInformationUseCase,
     private val getUserIdByPreferencesUseCase: GetUserIdByPreferencesUseCase,
+    private val getFavoriteThemeByPreferencesUseCase: GetFavoriteThemeByPreferencesUseCase,
     private val saveUserIdFromPreferencesUseCase: SaveUserIdUseCase,
-    private val saveUseSessionFromPreferencesUseCase: SaveUserSessionFromPreferencesUseCase
+    private val saveUseSessionFromPreferencesUseCase: SaveUserSessionFromPreferencesUseCase,
+    private val saveFavoriteThemeFromPreferencesUseCase: SaveFavoriteThemeFromPreferencesUseCase
 ): ViewModel() {
 
     private var _uiState: MutableStateFlow<ProfileState> = MutableStateFlow(ProfileState())
@@ -31,6 +35,12 @@ class ProfileViewModel @Inject constructor(
     fun handleLogoutDialog(isVisible: Boolean) {
         _uiState.update { currentState ->
             currentState.copy(isVisibleLogoutDialog = isVisible)
+        }
+    }
+
+    fun handleThemeModalBottomSheet(isVisible: Boolean) {
+        _uiState.update { currentState ->
+            currentState.copy(isVisibleThemeModalBottomSheet = isVisible)
         }
     }
 
@@ -62,6 +72,17 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    fun setFavoriteTheme(theme: String) = viewModelScope.launch(Dispatchers.IO) {
+        saveFavoriteThemeFromPreferencesUseCase(theme)
+        _uiState.update { it.copy(isVisibleThemeModalBottomSheet = false) }
+    }
+
+    fun getFavoriteTheme() = viewModelScope.launch(Dispatchers.IO) {
+        getFavoriteThemeByPreferencesUseCase().collectLatest { theme ->
+            _uiState.update { it.copy(favoriteTheme = theme) }
         }
     }
 

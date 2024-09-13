@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.core.presentation.theme.top_bar_dark
 import com.dwh.gamesapp.core.presentation.theme.top_bar_light
+import com.dwh.gamesapp.core.presentation.utils.isDarkThemeEnabled
 import com.dwh.gamesapp.core.presentation.utils.shapes.OutwardRoundedShape
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +36,7 @@ fun GameTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     onBackClick: () -> Unit
 ) {
-    val topAppBarColor = if (isSystemInDarkTheme()) top_bar_dark else top_bar_light
+    val topAppBarColor = if (isDarkThemeEnabled()) top_bar_dark else top_bar_light
     val topAppBarBottom by remember {
         mutableFloatStateOf(headerHeightPx - toolbarHeightPx)
     }

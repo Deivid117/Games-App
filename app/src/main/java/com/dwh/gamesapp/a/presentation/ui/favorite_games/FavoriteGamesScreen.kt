@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -35,12 +34,13 @@ import coil.request.ImageRequest
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
 import com.dwh.gamesapp.core.presentation.composables.GameScaffold
-import com.dwh.gamesapp.core.presentation.composables.GameInformationCard
+import com.dwh.gamesapp.core.presentation.composables.GameInformationalMessageCard
 import com.dwh.gamesapp.core.presentation.theme.dark_green
 import com.dwh.gamesapp.core.presentation.theme.light_green
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesUiState
 import com.dwh.gamesapp.a.presentation.view_model.favorite_games.FavoriteGamesViewModel
 import com.dwh.gamesapp.core.presentation.navigation.Screens.*
+import com.dwh.gamesapp.core.presentation.utils.isDarkThemeEnabled
 
 @Composable
 fun FavoriteGamesScreen(
@@ -80,7 +80,7 @@ fun FavoriteGamesContent(games: List<FavoritGame>, navController: NavController)
     if(games.isNotEmpty()) {
         FavoriteGamesList(games, navController)
     } else {
-        GameInformationCard(
+        GameInformationalMessageCard(
             message = "Sin información disponible",
             description = "No se han encontrado juegos por el momento, inténtelo más tarde"
         )
@@ -89,7 +89,7 @@ fun FavoriteGamesContent(games: List<FavoritGame>, navController: NavController)
 
 @Composable
 fun FavoriteGamesList(games: List<FavoritGame>, navController: NavController) {
-    val metacriticColor = if(isSystemInDarkTheme()) light_green else dark_green
+    val metacriticColor = if(isDarkThemeEnabled()) light_green else dark_green
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
