@@ -12,11 +12,11 @@ import androidx.compose.ui.text.style.TextAlign
 @Composable
 fun DescriptionDetails(
     description: String?,
-    isHeaderVisible: Boolean = false
+    headerIsVisible: Boolean = false
 ) {
     val formattedDescription = Html.fromHtml(description ?: "", Html.FROM_HTML_MODE_LEGACY).toString()
 
-    if (isHeaderVisible) {
+    if (headerIsVisible) {
         Text(
             text = "About",
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),

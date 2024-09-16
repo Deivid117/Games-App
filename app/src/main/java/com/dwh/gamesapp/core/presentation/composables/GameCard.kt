@@ -53,6 +53,7 @@ fun GameCard(
                     },
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(imageBackground)
+                    .crossfade(500)
                     .build(),
                 contentDescription = "game cover",
                 placeholder = painterResource(id = R.drawable.image_controller_placeholder),

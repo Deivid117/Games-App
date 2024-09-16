@@ -27,7 +27,11 @@ fun GameInformationalMessageCard(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSecondary),
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
-            Column(Modifier.padding(20.dp)) {
+            Column(
+                modifier = Modifier.padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = message,

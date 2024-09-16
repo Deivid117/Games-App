@@ -1,8 +1,8 @@
-package com.dwh.gamesapp.a.data.database.dao
+package com.dwh.gamesapp.favorite_games.data.local.database.dao
 
 import androidx.room.*
-import com.dwh.gamesapp.a.data.database.entities.FavoriteGameEntity
-import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
+import com.dwh.gamesapp.favorite_games.data.local.database.entities.FavoriteGameEntity
+import com.dwh.gamesapp.favorite_games.domain.model.FavoriteGame
 
 @Dao
 interface FavoriteGamesDao {
@@ -13,8 +13,8 @@ interface FavoriteGamesDao {
     suspend fun getAllFavoriteGames(): List<FavoriteGameEntity>
 
     @Query("SELECT * FROM favorite_games_table WHERE id = :id")
-    suspend fun isMyFavoriteGame(id: Int): FavoritGame?
+    suspend fun isMyFavoriteGame(id: Int): FavoriteGame?
 
     @Query("DELETE FROM favorite_games_table WHERE id = :id")
-    suspend fun removeFromFavoriteGames(id: Int)
+    suspend fun deleteFavoriteGame(id: Int)
 }

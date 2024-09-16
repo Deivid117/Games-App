@@ -26,14 +26,14 @@ interface GameApiService {
     @GET("games/{id}")
     suspend fun getGameDetails(@Path("id") id: Int): Response<GameDetailsDTO>
 
-    // ARREGLADO
+    // ARREGLADO v2.0
     @GET("games")
     suspend fun getNextWeekGames(
         @Query("dates") dates: String,
         @Query("platforms") platforms: String
     ): Response<NextWeekGamesResultsDTO>
 
-    // ARREGLADO
+    // ARREGLADO v2.0
     @GET("games")
     suspend fun getBestOfTheYear(
         @Query("dates") dates: String,

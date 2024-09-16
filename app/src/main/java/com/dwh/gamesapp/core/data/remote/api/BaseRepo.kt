@@ -16,59 +16,6 @@ import retrofit2.Response
 import java.io.IOException
 
 abstract class BaseRepo {
-    suspend fun <T> safeApiCall2(apiToBeCalled: suspend () -> Response<T>): Flow<Resource<T>> {
-        return flow {
-            try {
-                val response = apiToBeCalled()
-                val body = apiToBeCalled().body()
-                if (response.isSuccessful && body != null) {
-                    emit(Resource.Success(data = body, code = response.code()))
-                } else {
-                    val errorResponse = convertErrorBody(response.errorBody())
-                    emit(
-                        Resource.Error(
-                            message = errorResponse?.error ?: "Inténtelo más tarde",
-                            code = response.code()
-                        )
-                    )
-                }
-            } catch (e: HttpException) {
-                emit(Resource.Error(message = e.message ?: "Error del servidor", code = e.code()))
-            } catch (e: IOException) {
-                emit(Resource.Error("Por favor, revisa tu conexión a internet", code = e.hashCode()))
-            } catch (e: Exception) {
-                emit(Resource.Error(message = e.message ?: "Error desconocido", code = e.hashCode()))
-            }
-        }
-    }
-
-    suspend fun <T> safeApiCall1(apiToBeCalled: suspend () -> Response<T>): Flow<DataState<T>> {
-        return flow {
-            emit(DataState.Loading)
-            try {
-                val response = apiToBeCalled()
-                val body = apiToBeCalled().body()
-                if (response.isSuccessful && body != null) {
-                    emit(DataState.Success(data = body, code = response.code()))
-                } else {
-                    val errorResponse = convertErrorBody(response.errorBody())
-                    emit(
-                        DataState.Error(
-                            errorMessage = errorResponse?.error ?: "Inténtelo más tarde",
-                            code = response.code()
-                        )
-                    )
-                }
-            } catch (e: HttpException) {
-                emit(DataState.Error(errorMessage = e.message ?: "Error del servidor", code = e.code()))
-            } catch (e: IOException) {
-                emit(DataState.Error("Por favor, revisa tu conexión a internet", code = e.hashCode()))
-            } catch (e: Exception) {
-                emit(DataState.Error(errorMessage = e.message ?: "Error desconocido", code = e.hashCode()))
-            }
-        }
-    }
-
     suspend fun <T> safeApiCall(apiToBeCalled: suspend () -> Response<T>): Flow<DataState<T>> = flow {
         emit(DataState.Loading)
 

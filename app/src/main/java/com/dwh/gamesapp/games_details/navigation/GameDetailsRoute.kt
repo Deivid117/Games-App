@@ -43,7 +43,7 @@ fun NavGraphBuilder.gameDetailsGraph(navController: NavController) {
         LaunchedEffect(Unit) {
             if (gameId != null) {
                 viewModel.getGameDetails(gameId.toInt())
-                //viewModel.isMyFavoriteGame(gameId.toInt())
+                viewModel.isMyFavoriteGame(gameId.toInt())
             }
         }
 

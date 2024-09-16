@@ -1,20 +1,15 @@
 package com.dwh.gamesapp.games.data.repository
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.dwh.gamesapp.a.data.database.entities.FavoriteGameEntity
-import com.dwh.gamesapp.a.domain.model.favorite_game.FavoritGame
-import com.dwh.gamesapp.a.domain.model.favorite_game.toDomain
 import com.dwh.gamesapp.core.data.local.database.GameDatabase
 import com.dwh.gamesapp.games.domain.model.Game
 import com.dwh.gamesapp.games.domain.repository.GamesRepository
 import com.dwh.gamesapp.core.data.remote.api.BaseRepo
 import com.dwh.gamesapp.games.data.local.database.mappers.mapToDomain
 import com.dwh.gamesapp.games.data.repository.remote_mediator.GameRemoteMediator
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -46,10 +41,10 @@ class GamesRepositoryImp @Inject constructor(
 
     // TODO arreglar todos estos métodos
     /** ADD FAVORITE GAME */
-    override suspend fun addFavoriteGame(favoriteGame: FavoritGame) {
+   /* override suspend fun addFavoriteGame(favoriteGame: FavoriteGame) {
     }
 
-    override suspend fun getAllFavoritesGames(): Flow<List<FavoritGame>> {
+    override suspend fun getAllFavoritesGames(): Flow<List<FavoriteGame>> {
         return flow {
             val favoritGamesFromDataBase: List<FavoriteGameEntity> =
                 favoriteGamesDao.getAllFavoriteGames()
@@ -70,5 +65,5 @@ class GamesRepositoryImp @Inject constructor(
 
     override suspend fun removeFromFavoriteGames(id: Int) {
         favoriteGamesDao.removeFromFavoriteGames(id)
-    }
+    }*/
 }

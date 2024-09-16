@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,7 +24,7 @@ class PlatformViewModel @Inject constructor(
     val uiState: StateFlow<PlatformState> get() = _uiState.asStateFlow()
 
     fun getPlatforms() = viewModelScope.launch(Dispatchers.IO) {
-        getPlatformsUseCase().collect { dataState ->
+        getPlatformsUseCase().collectLatest { dataState ->
             when (dataState) {
                 is DataState.Loading -> _uiState.update { it.copy(isLoading = true) }
                 is DataState.Success -> _uiState.update {

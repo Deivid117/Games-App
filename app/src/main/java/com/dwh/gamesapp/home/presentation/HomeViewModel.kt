@@ -1,19 +1,19 @@
 package com.dwh.gamesapp.home.presentation
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.home.domain.use_cases.GetNextWeekGamesUseCase
 import com.dwh.gamesapp.home.domain.use_cases.GetBestOfTheYearUseCase
 import com.dwh.gamesapp.core.presentation.state.DataState
-import com.dwh.gamesapp.core.data.Resource
-import com.dwh.gamesapp.home.domain.model.BestOfTheYearResults
-import com.dwh.gamesapp.home.domain.model.NextWeekGamesResults
 import com.dwh.gamesapp.core.presentation.utils.Constants
+import com.dwh.gamesapp.platforms.domain.use_cases.GetPlatformsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
@@ -25,50 +25,74 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getNextWeekGamesUseCase: GetNextWeekGamesUseCase,
-    private val getBestOfTheYearUseCase: GetBestOfTheYearUseCase,
-    application: Application
-) : AndroidViewModel(application) {
+    private val getBestOfTheYearUseCase: GetBestOfTheYearUseCase
+) : ViewModel() {
 
-    private var _uiStateNWG: MutableStateFlow<DataState<NextWeekGamesResults?>> =
-        MutableStateFlow(DataState.Loading)
-    val uiStateNWG: MutableStateFlow<DataState<NextWeekGamesResults?>> get() = _uiStateNWG
+    private var _uiState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
+    val uiState: StateFlow<HomeState> get() = _uiState.asStateFlow()
 
     fun getNextWeekGames() = viewModelScope.launch(Dispatchers.IO) {
-        getNextWeekGamesUseCase(getDateRange(), Constants.PLATFORMS).collect { resource ->
-            _uiStateNWG.value = when (resource) {
-                is Resource.Error -> {
-                    Log.e(
-                        "ERROR: NEXT_WEEK_GAMES",
-                        "Error code: ${resource.code} - Message: ${resource.message}"
+        getNextWeekGamesUseCase(
+            dates = getDateRange(),
+            platforms = Constants.PLATFORMS
+        ).collectLatest { dataState ->
+            when (dataState) {
+                is DataState.Loading -> _uiState.update { it.copy(isLoadingNWG = true, isErrorNWG = false) }
+                is DataState.Success -> _uiState.update {
+                    it.copy(
+                        isLoadingNWG = false,
+                        isErrorNWG = false,
+                        nextWeekGames = dataState.data
                     )
-                    DataState.Error(resource.message ?: "Error desconocido")
                 }
-                is Resource.Loading -> DataState.Loading
-                is Resource.Success -> DataState.Success(resource.data)
+                is DataState.Error -> _uiState.update {
+                    it.copy(
+                        isLoadingNWG = false,
+                        isErrorNWG = true,
+                        errorMessageNWG = dataState.errorMessage,
+                        errorDescriptionNWG = dataState.errorDescription,
+                        errorCodeNWG = dataState.code
+                    )
+                }
             }
         }
     }
 
-    private var _uiStateBOTY: MutableStateFlow<DataState<BestOfTheYearResults?>> =
-        MutableStateFlow(DataState.Loading)
-    val uiStateBOTY: MutableStateFlow<DataState<BestOfTheYearResults?>> get() = _uiStateBOTY
-
     fun getBestOfTheYear() = viewModelScope.launch(Dispatchers.IO) {
         val dateNow = Clock.System.todayIn(TimeZone.currentSystemDefault())
 
-        getBestOfTheYearUseCase("${dateNow.year}-01-01,${dateNow.year}-12-31", Constants.ORDERING).collect { resource ->
-            _uiStateBOTY.value = when (resource) {
-                is Resource.Loading -> DataState.Loading
-                is Resource.Error -> {
-                    Log.e(
-                        "ERROR: BEST_OF_THE_YEAR",
-                        "Error code: ${resource.code} - Message: ${resource.message}"
+        getBestOfTheYearUseCase(
+            dates = "${dateNow.year}-01-01,${dateNow.year}-12-31",
+            ordering = Constants.ORDERING
+        ).collectLatest { dataState ->
+            when (dataState) {
+                DataState.Loading -> _uiState.update { it.copy(isLoadingBOTY = true, isErrorBOTY = false) }
+                is DataState.Success -> _uiState.update {
+                    it.copy(
+                        isLoadingBOTY = false,
+                        isErrorBOTY = false,
+                        bestOfTheYear = dataState.data
                     )
-                    DataState.Error(resource.message ?: "Error desconocido")
                 }
-                is Resource.Success -> DataState.Success(resource.data)
+                is DataState.Error -> _uiState.update {
+                    it.copy(
+                        isLoadingBOTY = false,
+                        isErrorBOTY = true,
+                        errorMessageBOTY = dataState.errorMessage,
+                        errorDescriptionBOTY = dataState.errorDescription,
+                        errorCodeBOTY = dataState.code
+                    )
+                }
             }
         }
+    }
+
+    fun refreshNextWeekGames() = viewModelScope.launch(Dispatchers.IO) {
+        getNextWeekGames()
+    }
+
+    fun refreshBestOfTheYear() = viewModelScope.launch(Dispatchers.IO) {
+        getBestOfTheYear()
     }
 
     private fun getDateRange(): String {

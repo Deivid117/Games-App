@@ -68,6 +68,7 @@ fun GameAppBarParallaxEffect(
                 },
             model = ImageRequest.Builder(LocalContext.current)
                 .data(imageUrl)
+                .crossfade(500)
                 .build(),
             contentDescription = "game genre background image",
             placeholder = painterResource(id = R.drawable.image_controller_placeholder),
@@ -98,10 +99,9 @@ fun GameAppBarParallaxEffect(
 @SuppressLint("ComposableNaming")
 @Composable
 private fun setStatusBarColor(imageUrl: String) {
-    val context = LocalContext.current as ComponentActivity
 
+    val context = LocalContext.current as ComponentActivity
     val coroutineScope = rememberCoroutineScope()
-    //val systemUiController = rememberSystemUiController()
     var imageBitmap by remember { mutableStateOf(ImageBitmap(1, 1)) }
     val imageLoader = ImageLoader(LocalContext.current)
     val target = rememberCoilTarget { bitmap ->
@@ -109,15 +109,14 @@ private fun setStatusBarColor(imageUrl: String) {
         coroutineScope.launch {
             val (color, isLight) = bitmap
                 .computeDominantTopSectionColor()
-            //systemUiController.setStatusBarColor(color, isLight)
-            val statusBar = if (isLight) SystemBarStyle.light(
-                scrim = color.toArgb(),
-                darkScrim = Color.Transparent.toArgb()
-            ) else SystemBarStyle.dark(scrim = color.toArgb())
+            val statusBar =
+                if (isLight) SystemBarStyle.light(scrim = color.toArgb(), darkScrim = Color.Transparent.toArgb())
+                else SystemBarStyle.dark(scrim = color.toArgb())
             context.enableEdgeToEdge(statusBarStyle = statusBar)
         }
     }
     val imageRequest = rememberDefaultImageRequest(imageUrl = imageUrl, target = target)
+
     LaunchedEffect(imageUrl) {
         imageLoader.execute(imageRequest)
     }

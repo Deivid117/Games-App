@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.dwh.gamesapp.games.presentation
 

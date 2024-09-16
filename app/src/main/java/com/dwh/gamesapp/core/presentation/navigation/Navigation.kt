@@ -21,6 +21,8 @@ import com.dwh.gamesapp.edit_profile.presentation.EditProfileScreen
 import com.dwh.gamesapp.a.presentation.ui.welcome.WelcomeScreen
 import com.dwh.gamesapp.core.presentation.utils.Constants
 import com.dwh.gamesapp.edit_profile.navigation.editProfileGraph
+import com.dwh.gamesapp.favorite_games.navigation.favoriteGamesGraph
+import com.dwh.gamesapp.favorite_games.presentation.FavoriteGamesScreen
 import com.dwh.gamesapp.games.navigation.gameGraph
 import com.dwh.gamesapp.games_details.navigation.gameDetailsGraph
 import com.dwh.gamesapp.genres.navigation.genreGraph
@@ -109,17 +111,7 @@ fun Navigation(navController: NavController) {
         }
 
         // Juegos favoritos
-        /*composable(
-            route = FAVORITE_GAMES_SCREEN.name,
-            exitTransition = {
-                slideOutOfContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Down,
-                    animationSpec = tween(duration)
-                )
-            }
-        ) {
-            FavoriteGamesScreen(navController)
-        }*/
+        favoriteGamesGraph(navController)
 
     }
 }

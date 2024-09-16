@@ -2,7 +2,7 @@ package com.dwh.gamesapp.core.di
 
 import android.content.Context
 import com.dwh.gamesapp.core.data.local.database.GameDatabase
-import com.dwh.gamesapp.a.data.database.dao.FavoriteGamesDao
+import com.dwh.gamesapp.favorite_games.data.local.database.dao.FavoriteGamesDao
 import com.dwh.gamesapp.games.data.local.database.dao.GameDao
 import com.dwh.gamesapp.core.data.local.database.dao.UserDao
 import com.dwh.gamesapp.games.data.local.database.dao.RemoteKeyDao

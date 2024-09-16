@@ -11,10 +11,13 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.offset
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,9 +37,44 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.IntOffset
 import com.dwh.gamesapp.core.presentation.utils.keyboard.rememberIsKeyboardOpen
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
+
+fun Modifier.clickableSingle(
+    delay: Long = 450L,
+    enabled: Boolean = true,
+    onClickLabel: String? = null,
+    role: Role? = null,
+    onClick: () -> Unit,
+): Modifier = composed(
+    inspectorInfo = debugInspectorInfo {
+        name = "clickable"
+        properties["enabled"] = enabled
+        properties["onClickLabel"] = onClickLabel
+        properties["role"] = role
+        properties["onClick"] = onClick
+    }
+) {
+    var isEnabled by remember { mutableStateOf(enabled) }
+
+    LaunchedEffect(isEnabled) {
+        if (!isEnabled) delay(delay)
+        isEnabled = true
+    }
+
+    this@clickableSingle.clickable(
+        enabled = isEnabled,
+        onClickLabel = onClickLabel,
+        onClick = { onClick(); isEnabled = false },
+        role = role,
+        indication = rememberRipple(),
+        interactionSource = remember { MutableInteractionSource() }
+    )
+}
 
 fun Modifier.shimmerAnimation(
     widthOfShadowBrush: Int = 700,
