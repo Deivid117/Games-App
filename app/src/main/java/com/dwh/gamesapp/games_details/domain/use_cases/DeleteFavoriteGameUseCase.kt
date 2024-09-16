@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.favorite_games.domain.use_case
+package com.dwh.gamesapp.games_details.domain.use_cases
 
 import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.favorite_games.domain.repository.FavoriteGamesRepository

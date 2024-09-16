@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.presentation.ui.demo.store
+package com.dwh.gamesapp.demo_ignore.store
 
 data class Data(
     val value1: String = "",

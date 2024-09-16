@@ -16,14 +16,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteGamesViewModel @Inject constructor(
-    private val favoriteGamesUseCase: GetFavoriteGamesUseCase
+    private val getFavoriteGamesUseCase: GetFavoriteGamesUseCase
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<FavoriteGamesState> = MutableStateFlow(FavoriteGamesState())
     val uiState: StateFlow<FavoriteGamesState> get() = _uiState.asStateFlow()
 
     fun getAllFavoriteGames() = viewModelScope.launch(Dispatchers.IO) {
-        favoriteGamesUseCase().collectLatest { dataState ->
+        getFavoriteGamesUseCase().collectLatest { dataState ->
             when (dataState) {
                 is DataState.Loading -> _uiState.update { it.copy(isLoading = true) }
                 is DataState.Success -> _uiState.update {

@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.presentation.ui.welcome
+package com.dwh.gamesapp.welcome.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -10,7 +10,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.dwh.gamesapp.core.presentation.composables.GameBackgroundGradient
-import com.dwh.gamesapp.a.presentation.view_model.welcome.WelcomeViewModel
 import com.dwh.gamesapp.core.presentation.navigation.Screens.*
 import kotlinx.coroutines.delay
 

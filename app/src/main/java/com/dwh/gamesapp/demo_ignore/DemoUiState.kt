@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.presentation.ui.demo
+package com.dwh.gamesapp.demo_ignore
 
 sealed class DemoUiState {
     object Loading: DemoUiState()

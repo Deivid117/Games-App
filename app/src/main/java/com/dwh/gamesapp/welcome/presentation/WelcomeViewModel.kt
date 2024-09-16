@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.presentation.view_model.welcome
+package com.dwh.gamesapp.welcome.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

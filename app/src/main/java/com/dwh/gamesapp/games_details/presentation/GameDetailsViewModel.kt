@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.favorite_games.domain.model.FavoriteGame
-import com.dwh.gamesapp.favorite_games.domain.use_case.IsMyFavoriteGameUseCase
-import com.dwh.gamesapp.favorite_games.domain.use_case.DeleteFavoriteGameUseCase
-import com.dwh.gamesapp.a.domain.use_cases.game_details.InsertFavoriteGameUseCase
+import com.dwh.gamesapp.games_details.domain.use_cases.IsMyFavoriteGameUseCase
+import com.dwh.gamesapp.games_details.domain.use_cases.DeleteFavoriteGameUseCase
+import com.dwh.gamesapp.games_details.domain.use_cases.InsertFavoriteGameUseCase
 import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.games_details.domain.use_cases.GetGameDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.di
+package com.dwh.gamesapp.core.di
 
 import com.dwh.gamesapp.core.data.local.preferences.repository.DataStoreRepositoryImp
 import com.dwh.gamesapp.login.data.repository.LoginRepositoryImpl
@@ -14,5 +14,4 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
     @Binds
     abstract fun bindsDataStoreRepository(dataStoreRepositoryImp: DataStoreRepositoryImp): DataStoreRepository
-
 }

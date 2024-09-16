@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.presentation.ui.demo.store
+package com.dwh.gamesapp.demo_ignore.store
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text

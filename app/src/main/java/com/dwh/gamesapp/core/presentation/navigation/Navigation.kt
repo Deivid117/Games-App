@@ -2,7 +2,6 @@ package com.dwh.gamesapp.core.presentation.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
@@ -17,12 +16,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.dwh.gamesapp.edit_profile.presentation.EditProfileScreen
-import com.dwh.gamesapp.a.presentation.ui.welcome.WelcomeScreen
-import com.dwh.gamesapp.core.presentation.utils.Constants
+import com.dwh.gamesapp.welcome.presentation.WelcomeScreen
 import com.dwh.gamesapp.edit_profile.navigation.editProfileGraph
 import com.dwh.gamesapp.favorite_games.navigation.favoriteGamesGraph
-import com.dwh.gamesapp.favorite_games.presentation.FavoriteGamesScreen
 import com.dwh.gamesapp.games.navigation.gameGraph
 import com.dwh.gamesapp.games_details.navigation.gameDetailsGraph
 import com.dwh.gamesapp.genres.navigation.genreGraph

@@ -1,4 +1,4 @@
-package com.dwh.gamesapp.a.presentation.view_model.welcome
+package com.dwh.gamesapp.welcome.presentation
 
 data class WelcomeState(
     val isUserLoggedIn: Boolean = false
