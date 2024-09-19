@@ -7,6 +7,8 @@ import com.dwh.gamesapp.core.presentation.utils.Constants
 
 object PreferenceKeys {
     var USER_ID = longPreferencesKey("user_id")
-    var IS_USER_LOGGED_IN = booleanPreferencesKey("is_user_logged_in")
     var FAVORITE_THEME = stringPreferencesKey("favorite_theme")
+    var KEY_TOKEN = stringPreferencesKey("user_token")
+    var IS_USER_LOGGED_IN = booleanPreferencesKey("is_user_logged_in")
+    var IS_BIOMETRIC_ENABLED = booleanPreferencesKey("biometric_enabled")
 }

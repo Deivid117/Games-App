@@ -4,20 +4,11 @@ package com.dwh.gamesapp.profile.presentation
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Brightness4
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,9 +18,6 @@ import com.dwh.gamesapp.core.presentation.composables.GameScaffold
 import com.dwh.gamesapp.core.presentation.composables.GameFilledButton
 import com.dwh.gamesapp.core.presentation.composables.GameOutlinedButton
 import com.dwh.gamesapp.core.presentation.composables.GameTitleGradientText
-import com.dwh.gamesapp.core.presentation.theme.Dogica
-import com.dwh.gamesapp.core.presentation.theme.primary_gradient
-import com.dwh.gamesapp.core.presentation.theme.secondary_gradient
 import com.dwh.gamesapp.profile.presentation.components.ProfileUserAvatar
 import com.dwh.gamesapp.profile.presentation.components.ProfileUserInfo
 import com.dwh.gamesapp.profile.presentation.components.UpdateAppTheme

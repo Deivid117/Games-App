@@ -22,6 +22,7 @@ import com.dwh.gamesapp.login.presentation.components.LogInElevatedCardContent
 fun LoginScreen(
     viewModel: LoginViewModel,
     state: LoginState,
+    isBiometricAvailable: Boolean,
     navigateToSignUp: () -> Unit
 ) {
     /*val mediaPlayer = MediaPlayer.create(LocalContext.current, R.raw.contra_game_intro)
@@ -44,6 +45,7 @@ fun LoginScreen(
         LoginView(
             viewModel = viewModel,
             state = state,
+            isBiometricAvailable = isBiometricAvailable,
             navigateToSignUp = navigateToSignUp
         )
     }
@@ -53,6 +55,7 @@ fun LoginScreen(
 fun LoginView(
     viewModel: LoginViewModel,
     state: LoginState,
+    isBiometricAvailable: Boolean,
     navigateToSignUp: () -> Unit
 ) {
     LogInBackgroundContent()
@@ -65,9 +68,11 @@ fun LoginView(
             passwordError = state.passwordError,
             onEmailChanged = { viewModel.onEmailChanged(it) },
             onPasswordChanged = { viewModel.onPasswordChange(it) },
-            onClickLogin = { viewModel.loginUser(email = state.email, password = state.password) },
+            onClickLogin = { viewModel.loginUser(email = state.email, password = state.password, isBiometricAvailable) },
             anErrorOccurred = viewModel.validationEmptyFields() || state.formHasErrors,
+            showBiometricButton = state.showBiometricButton,
             onClickRememberUser = { viewModel.saveUserSessionFromPreferences(it) },
+            onClickLoginWithBiometrics = {viewModel.loginUserWithFingerPrintToken(it) },
             navigateToSignUp = navigateToSignUp
         )
     }

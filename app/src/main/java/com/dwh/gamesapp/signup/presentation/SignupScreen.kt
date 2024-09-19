@@ -35,6 +35,7 @@ import com.dwh.gamesapp.signup.presentation.components.SignUpForm
 fun SignupScreen(
     viewModel: SignupViewModel,
     state: SignupState,
+    isBiometricAvailable: Boolean,
     onNavigateBack: () -> Unit
 ) {
     GameScaffold(
@@ -50,10 +51,11 @@ fun SignupScreen(
         snackBarDuration = state.snackBarDuration,
         onDismissSnackBar = { viewModel.handleSnackBar(isVisible = false) }
     ) {
-        GameBackgroundGradient {
+        GameBackgroundGradient(isVisiblePullRefreshIndicator = false) {
             SignupView(
                 viewModel = viewModel,
                 state = state,
+                isBiometricAvailable = isBiometricAvailable,
                 onNavigateBack = onNavigateBack
             )
         }
@@ -64,6 +66,7 @@ fun SignupScreen(
 fun SignupView(
     viewModel: SignupViewModel,
     state: SignupState,
+    isBiometricAvailable: Boolean,
     onNavigateBack: () -> Unit
 ) {
     val snackBarContainerColor = if (isDarkThemeEnabled()) dark_green else light_green_background
@@ -157,7 +160,8 @@ fun SignupView(
                                 profileAvatarId = state.profileAvatarId
                             ),
                             snackBarContainerColor = snackBarContainerColorError,
-                            snackBarBorderColor = snackBarBorderColorError
+                            snackBarBorderColor = snackBarBorderColorError,
+                            isBiometricAvailable = isBiometricAvailable
                         )
                     }
 

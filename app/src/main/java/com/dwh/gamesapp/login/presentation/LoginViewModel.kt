@@ -1,14 +1,21 @@
 package com.dwh.gamesapp.login.presentation
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwh.gamesapp.R
+import com.dwh.gamesapp.core.domain.model.EncryptedData
+import com.dwh.gamesapp.core.domain.use_case.GetFingerPrintEncryptedUseCase
 import com.dwh.gamesapp.core.domain.use_case.SaveUserIdUseCase
 import com.dwh.gamesapp.core.domain.use_case.SaveUserSessionFromPreferencesUseCase
 import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.core.presentation.ui.UiText
 import com.dwh.gamesapp.core.presentation.utils.regex.RegexFunctions.isEmail
+import com.dwh.gamesapp.login.domain.use_case.IsBiometricEnabledUseCase
 import com.dwh.gamesapp.login.domain.use_case.LoginUserUseCase
+import com.dwh.gamesapp.login.domain.use_case.LoginUserWithFingerPrintTokenUseCase
+import com.dwh.gamesapp.login.domain.use_case.UpdateUserFingerPrintTokenUseCase
+import com.dwh.gamesapp.signup.domain.use_case.SaveBiometricEnabledFromPreferencesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,15 +29,70 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUserUseCase: LoginUserUseCase,
+    private val loginUserWithFingerPrintTokenUseCase: LoginUserWithFingerPrintTokenUseCase,
     private val saveUserIdFromPreferencesUseCase: SaveUserIdUseCase,
-    private val saveUseSessionFromPreferencesUseCase: SaveUserSessionFromPreferencesUseCase
+    private val saveUserSessionFromPreferencesUseCase: SaveUserSessionFromPreferencesUseCase,
+    private val isBiometricEnabledUseCase: IsBiometricEnabledUseCase,
+    private val saveBiometricEnabledFromPreferencesUseCase: SaveBiometricEnabledFromPreferencesUseCase,
+    private val updateUserFingerPrintTokenUseCase: UpdateUserFingerPrintTokenUseCase,
+    private val getFingerPrintEncryptedUseCase: GetFingerPrintEncryptedUseCase
 ) : ViewModel() {
 
     private var _uiState: MutableStateFlow<LoginState> = MutableStateFlow(LoginState())
     val uiState: StateFlow<LoginState> get() = _uiState.asStateFlow()
 
-    fun hideSnackBar() {
-        _uiState.update { it.copy(isSnackBarVisible = false) }
+    fun checkIfBiometricLoginEnabled() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val isBiometricEnabled = isBiometricEnabledUseCase()
+            if (isBiometricEnabled) {
+                _uiState.update { it.copy(isBiometricPromptVisible = true) }
+            }
+        }
+    }
+
+    fun getFingerPrintEncrypted(
+        context: Context,
+        filename: String,
+        prefKey: String,
+        mode: Int
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        val fingerPrintToken = getFingerPrintEncryptedUseCase(
+            context = context,
+            filename = filename,
+            mode = mode,
+            prefKey = prefKey
+        )
+        _uiState.update { it.copy(
+            fingerPrintToken = fingerPrintToken,
+            showBiometricButton = fingerPrintToken != null
+        ) }
+    }
+
+    fun loginUserWithFingerPrintToken(token: EncryptedData) = viewModelScope.launch(Dispatchers.IO) {
+        loginUserWithFingerPrintTokenUseCase(token).collectLatest { dataState ->
+            when (dataState) {
+                is DataState.Loading -> _uiState.update { it.copy(isLoadingUserWithToken = true) }
+                is DataState.Success -> {
+                    if (dataState.data != null) {
+                        saveUserIdFromPreferences(dataState.data.id)
+                        saveUserSessionFromPreferences(true)
+                        _uiState.update { it.copy(isLoadingUserWithToken = false, wasUserFound = true) }
+                    } else {
+                        _uiState.update {
+                            it.copy(isLoadingUserWithToken = false, wasUserFound = false, isSnackBarVisible = true)
+                        }
+                    }
+                }
+                is DataState.Error -> _uiState.update {
+                    it.copy(
+                        isLoadingUserWithToken = false,
+                        errorMessageUserWithToken = dataState.errorMessage,
+                        errorDescriptionUserWithToken = dataState.errorDescription,
+                        errorCodeUserWithToken = dataState.code
+                    )
+                }
+            }
+        }
     }
 
     fun onEmailChanged(email: String) {
@@ -62,6 +124,17 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun saveUserSessionFromPreferences(rememberUser: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        saveUserSessionFromPreferencesUseCase(rememberUser)
+    }
+
+    fun validationEmptyFields(): Boolean {
+        val hasErrors = uiState.value.run {
+            email.isEmpty() || password.isEmpty()
+        }
+        return hasErrors
+    }
+
     private fun formValidation(state: LoginState): Boolean {
         val emailError = validateEmail(state.email)
         val passwordError = validatePassword(state.password)
@@ -78,52 +151,72 @@ class LoginViewModel @Inject constructor(
         return hasErrors
     }
 
-    fun validationEmptyFields() : Boolean {
-        val hasErrors = uiState.value.run {
-            email.isEmpty() || password.isEmpty()
+    fun loginUser(email: String, password: String, isBiometricAvailable: Boolean) = viewModelScope.launch {
+        val hasErrors = formValidation(uiState.value)
+
+        if (!hasErrors) {
+            loginUserUseCase(email, password).collectLatest { dataState ->
+                when (dataState) {
+                    is DataState.Loading -> _uiState.update { it.copy(isLoadingUser = true) }
+                    is DataState.Success -> _uiState.update {
+                        if (dataState.data != null) {
+                            saveUserIdFromPreferences(dataState.data.id)
+                            validateBiometricsAndLogin(
+                                isBiometricAvailable = isBiometricAvailable,
+                                userIdFounded = dataState.data.id
+                            )
+                            it.copy(isLoadingUser = false)
+                        } else {
+                            it.copy(isLoadingUser = false, wasUserFound = false, isSnackBarVisible = true)
+                        }
+                    }
+                    is DataState.Error -> _uiState.update {
+                        it.copy(
+                            isLoadingUser = false,
+                            errorMessageUser = dataState.errorMessage,
+                            errorDescriptionUser = dataState.errorDescription,
+                            errorCodeUser = dataState.code
+                        )
+                    }
+                }
+            }
         }
-        return hasErrors
     }
 
     private fun saveUserIdFromPreferences(userId: Long) = viewModelScope.launch(Dispatchers.IO) {
         saveUserIdFromPreferencesUseCase(userId)
     }
 
-    fun saveUserSessionFromPreferences(rememberUser: Boolean) = viewModelScope.launch(Dispatchers.IO) {
-        saveUseSessionFromPreferencesUseCase(rememberUser)
+    private fun validateBiometricsAndLogin(isBiometricAvailable: Boolean, userIdFounded: Long) {
+        if (isBiometricAvailable) fingerPrintTokenIsNull(userIdFounded)
+        else _uiState.update { it.copy(wasUserFound = true) }
     }
 
-    fun loginUser(email: String, password: String) = viewModelScope.launch {
-        val hasErrors = formValidation(uiState.value)
+    private fun fingerPrintTokenIsNull(userIdFounded: Long) {
+        if (uiState.value.fingerPrintToken == null) {
+            _uiState.update { it.copy(isBiometricDialogVisible = true, userIdFounded = userIdFounded) }
+        } else _uiState.update { it.copy(wasUserFound = true) }
+    }
 
-        if (!hasErrors) {
-            loginUserUseCase(email, password).collectLatest { dataState ->
-                when (dataState) {
-                    is DataState.Loading -> _uiState.update { it.copy(isLoading = true) }
-                    is DataState.Success -> {
-                        if (dataState.data != null) {
-                            saveUserIdFromPreferences(dataState.data.id)
-                            _uiState.update { it.copy(isLoading = false, wasUserFound = true) }
-                        } else {
-                            _uiState.update {
-                                it.copy(
-                                    isLoading = false,
-                                    wasUserFound = false,
-                                    isSnackBarVisible = true
-                                )
-                            }
-                        }
-                    }
-                    is DataState.Error -> _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            errorMessage = dataState.errorMessage,
-                            errorDescription = dataState.errorDescription,
-                            errorCode = dataState.code
-                        )
-                    }
-                }
+    fun hideBiometricDialog() {
+        _uiState.update { it.copy(isBiometricDialogVisible = false) }
+    }
+
+    fun setBiometricEnabled(isEnabled: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        saveBiometricEnabledFromPreferencesUseCase(isEnabled)
+    }
+
+    fun updateUser(token: EncryptedData, userId: Long) = viewModelScope.launch(Dispatchers.IO) {
+        updateUserFingerPrintTokenUseCase(token, userId).collectLatest { dataState ->
+            when (dataState) {
+                is DataState.Loading -> _uiState.update { it.copy(isLoadingUpdateUser = true) }
+                is DataState.Success -> _uiState.update { it.copy(isLoadingUpdateUser = false, wasUserFound = true) }
+                is DataState.Error -> _uiState.update { it.copy(isLoadingUpdateUser = false) }
             }
         }
+    }
+
+    fun hideSnackBar() {
+        _uiState.update { it.copy(isSnackBarVisible = false) }
     }
 }

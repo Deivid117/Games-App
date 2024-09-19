@@ -7,9 +7,10 @@ import androidx.datastore.preferences.core.emptyPreferences
 import com.dwh.gamesapp.core.data.local.preferences.PreferenceKeys
 import com.dwh.gamesapp.core.domain.enums.ThemeValues
 import com.dwh.gamesapp.core.domain.preferences.repository.DataStoreRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-
 
 class DataStoreRepositoryImp(
     private val dataStore: DataStore<Preferences>
@@ -44,4 +45,20 @@ class DataStoreRepositoryImp(
     override fun getFavoriteTheme() = dataStore.data.catch {
         emit(emptyPreferences())
     }.map { value -> value[PreferenceKeys.FAVORITE_THEME] ?: ThemeValues.SYSTEM_DEFAULT.title }
+
+    override suspend fun setToken(token: String) {
+        dataStore.edit { preference ->
+            preference[PreferenceKeys.KEY_TOKEN] = token
+        }
+    }
+
+    override suspend fun setBiometricEnabled(isEnabled: Boolean) {
+        dataStore.edit { preference ->
+            preference[PreferenceKeys.IS_BIOMETRIC_ENABLED] = isEnabled
+        }
+    }
+
+    override suspend fun isBiometricEnabled(): Boolean {
+        return dataStore.data.first()[PreferenceKeys.IS_BIOMETRIC_ENABLED] ?: false
+    }
 }

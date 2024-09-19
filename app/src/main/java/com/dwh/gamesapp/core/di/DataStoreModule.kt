@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.dwh.gamesapp.core.data.local.preferences.repository.DataStoreRepositoryImp
+import com.dwh.gamesapp.core.presentation.utils.Constants.PREFERENCES_DATA_STORE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
 
-private const val PREFERENCES_DATA_STORE = "PreferencesDataStore"
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -64,30 +64,6 @@ fun Navigation(navController: NavController) {
             editProfileGraph(navController)
         }
 
-        /*composable(
-            route = Screens.EDIT_PROFILE_SCREEN.name,
-            enterTransition = {
-                when (initialState.destination.route) {
-                    Screens.PROFILE_SCREEN.name -> slideIntoContainer(
-                        animationSpec = tween(Constants.ANIMATION_DURATION),
-                        towards = AnimatedContentTransitionScope.SlideDirection.Right
-                    )
-
-                    else -> null
-                }
-            },
-            popExitTransition = {
-                fadeOut(
-                    animationSpec = tween(Constants.ANIMATION_DURATION)
-                ) + slideOutOfContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(Constants.ANIMATION_DURATION)
-                )
-            }
-        ) {
-            EditProfileScreen(navController)
-        }*/
-
         navigation(startDestination = NavigationScreens.Game.route, route = "Games") {
             gameGraph(navController)
 
@@ -106,19 +82,6 @@ fun Navigation(navController: NavController) {
             platformDetailsGraph(navController)
         }
 
-        // Juegos favoritos
         favoriteGamesGraph(navController)
-
     }
-}
-
-@Composable
-inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(
-    navController: NavController,
-): T {
-    val navGraphRoute = destination.parent?.route ?: return hiltViewModel()
-    val parentEntry = remember(this) {
-        navController.getBackStackEntry(navGraphRoute)
-    }
-    return hiltViewModel(parentEntry)
 }

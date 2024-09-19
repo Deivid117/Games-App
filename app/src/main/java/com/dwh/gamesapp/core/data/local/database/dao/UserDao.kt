@@ -1,6 +1,7 @@
 package com.dwh.gamesapp.core.data.local.database.dao
 
 import androidx.room.*
+import com.dwh.gamesapp.core.domain.model.EncryptedData
 import com.dwh.gamesapp.core.data.local.database.entities.UserEntity
 
 @Dao
@@ -10,6 +11,9 @@ interface UserDao {
 
     @Query("SELECT * FROM user_table WHERE email = :email AND password = :password")
     suspend fun loginUser(email: String, password: String): UserEntity?
+
+    @Query("SELECT * FROM user_table WHERE finger_print_token = :token")
+    suspend fun loginUserWithFingerPrintToken(token: EncryptedData): UserEntity?
 
     @Query("SELECT * FROM user_table WHERE email = :email OR name = :userName")
     suspend fun userAlreadyExists(email: String, userName: String): UserEntity?
@@ -25,4 +29,7 @@ interface UserDao {
         WHERE id = :id
     """)
     suspend fun updateUser(name: String, password: String, profileAvatarId: Long, id: Long)
+
+    @Query("UPDATE user_table SET finger_print_token = :token WHERE id = :id")
+    suspend fun updateUserFingerPrintToken(token: EncryptedData, id: Long)
 }

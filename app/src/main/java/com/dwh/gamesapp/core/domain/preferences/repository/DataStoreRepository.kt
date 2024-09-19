@@ -15,4 +15,10 @@ interface DataStoreRepository {
     suspend fun saveFavoriteTheme(theme: String)
 
     fun getFavoriteTheme(): Flow<String>
+
+    suspend fun setToken(token: String)
+
+    suspend fun setBiometricEnabled(isEnabled: Boolean)
+
+    suspend fun isBiometricEnabled(): Boolean
 }

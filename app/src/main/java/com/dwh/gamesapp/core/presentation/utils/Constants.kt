@@ -3,14 +3,9 @@ package com.dwh.gamesapp.core.presentation.utils
 import androidx.compose.ui.unit.dp
 
 object Constants {
-    const val USER_ID = "id"
-    const val USER_NAME = "name"
-    const val USER_EMAIL = "email"
-    const val USER_PASSWORD = "password"
-    const val USER_IS_LOGGED = "isLogged"
-    const val USER_IMAGE_ID = "imageId"
-    const val DATA_STORE_NAME = "GamesApp"
-    const val USER_SESSION = "userSession"
+    const val PREFERENCES_DATA_STORE = "PreferencesDataStore"
+    const val ENCRYPTED_FILE_NAME = "encrypted_data_store"
+    const val SECRET_KEY = "biometric_secret_key"
 
     const val PLATFORMS = "4,187,186,7,21"
     const val ORDERING = "-added"

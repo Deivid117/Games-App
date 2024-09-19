@@ -3,6 +3,7 @@ package com.dwh.gamesapp.core.data.local.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.dwh.gamesapp.core.domain.model.EncryptedData
 
 @Entity(tableName = "user_table")
 data class UserEntity(
@@ -11,5 +12,6 @@ data class UserEntity(
     @ColumnInfo("name") val name: String,
     @ColumnInfo("email") val email: String,
     @ColumnInfo("password") val password: String,
-    @ColumnInfo("profile_avatar_id") val profileAvatarId: Long = 0L
+    @ColumnInfo("profile_avatar_id") val profileAvatarId: Long = 0L,
+    @ColumnInfo("finger_print_token") val fingerPrintToken: EncryptedData? = null
 )

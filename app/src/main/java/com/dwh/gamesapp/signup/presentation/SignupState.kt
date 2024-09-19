@@ -3,6 +3,7 @@ package com.dwh.gamesapp.signup.presentation
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.ui.graphics.Color
 import com.dwh.gamesapp.R
+import com.dwh.gamesapp.core.domain.model.EncryptedData
 import com.dwh.gamesapp.core.presentation.ui.UiText
 
 data class SignupState(
@@ -10,12 +11,15 @@ data class SignupState(
     val isVisibleSuccessDialog: Boolean = false,
     val isVisibleAvatarsModalBottomSheet: Boolean = false,
     val isSnackBarVisible: Boolean = false,
+    val isBiometricDialogVisible: Boolean = false,
     val formHasErrors: Boolean = false,
     val snackBarMessage: UiText? = null,
     val snackBarContainerColor: Color = Color.White,
     val snackBarBorderColor: Color = Color.White,
     val lottieAnimationSnackBar: Int = R.raw.broken_heart,
+    val profileAvatarImage: Int = R.drawable.user,
     val snackBarDuration: SnackbarDuration = SnackbarDuration.Short,
+    val fingerPrintToken: EncryptedData? = null,
     val name: String = "",
     val email: String = "",
     val password: String = "",
@@ -26,7 +30,6 @@ data class SignupState(
     val confirmPasswordError: UiText? = null,
     val userId: Long = 0L,
     val profileAvatarId: Long = 0L,
-    val profileAvatarImage: Int = R.drawable.user,
     val errorCode: Int? = 0,
     val errorMessage: String = "",
     val errorDescription: String = ""

@@ -11,8 +11,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.dwh.gamesapp.core.presentation.navigation.NavigationScreens
 import com.dwh.gamesapp.core.presentation.navigation.Screens
-import com.dwh.gamesapp.core.presentation.navigation.sharedViewModel
 import com.dwh.gamesapp.core.presentation.utils.Constants
+import com.dwh.gamesapp.core.presentation.utils.sharedViewModel
 import com.dwh.gamesapp.platforms.presentation.PlatformScreen
 import com.dwh.gamesapp.platforms.presentation.PlatformViewModel
 

@@ -8,7 +8,8 @@ fun UserEntity.mapToDomain() = User(
     name = name,
     email = email,
     password = password,
-    profileAvatarId
+    profileAvatarId = profileAvatarId,
+    fingerPrintToken = fingerPrintToken
 )
 
 fun User.mapToDatabase() = UserEntity(
@@ -16,5 +17,6 @@ fun User.mapToDatabase() = UserEntity(
     name = name,
     email = email,
     password = password,
-    profileAvatarId
+    profileAvatarId = profileAvatarId,
+    fingerPrintToken = fingerPrintToken
 )

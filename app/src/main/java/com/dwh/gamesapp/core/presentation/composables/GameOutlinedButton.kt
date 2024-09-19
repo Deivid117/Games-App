@@ -9,9 +9,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.core.presentation.theme.Dogica
@@ -38,11 +44,11 @@ fun GameOutlinedButton(
     modifier: Modifier = Modifier,
     nameButton: String,
     anErrorOccurred: Boolean = false,
+    rightIcon: ImageVector? = null,
     buttonSound: Int = R.raw.crash_woah,
     onClick: () -> Unit
 ) {
     val mediaPlayer = MediaPlayer.create(LocalContext.current, buttonSound)
-
     val brushGradientColor = Brush.linearGradient(
         0.0f to primary_gradient,
         500.0f to secondary_gradient,
@@ -62,10 +68,10 @@ fun GameOutlinedButton(
         modifier = modifier
             .bounceClickEffect()
             .shake(shakeController)
-            .clickable(interactionSource = interactionSource, indication = null){
+            .clickable(interactionSource = interactionSource, indication = null) {
                 mediaPlayer.start()
                 onClick()
-                if(anErrorOccurred) {
+                if (anErrorOccurred) {
                     shakeController.shake(
                         ShakeConfig(iterations = 4, intensity = 2_000f, rotateY = 15f, translateX = 40f)
                     )
@@ -76,10 +82,19 @@ fun GameOutlinedButton(
             .padding(vertical = 10.dp, horizontal = 25.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = nameButton,
-            style = MaterialTheme.typography.titleSmall.copy(fontFamily = Dogica),
-            color = Color.Black
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = nameButton,
+                style = MaterialTheme.typography.titleSmall.copy(fontFamily = Dogica),
+                color = Color.Black,
+                textAlign = TextAlign.Center
+            )
+            if (rightIcon != null) {
+                Icon(imageVector = rightIcon, contentDescription = "button icon", tint = Color.Black)
+            }
+        }
     }
 }
