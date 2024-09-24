@@ -30,8 +30,8 @@ fun FavoriteGamesView(state: FavoriteGamesState, navigateToGameDetails: (Int) ->
         (!state.isLoading && state.favoriteGames.isEmpty()) -> {
             GameInformationalMessageCard(
                 modifier = Modifier.fillMaxSize(),
-                message = state.errorMessage,
-                description = state.errorDescription
+                message = state.errorMessage.ifEmpty { "Sin videojuegos favoritos" },
+                description = state.errorDescription.ifEmpty { "Aún no haz marcado algún videojuego como favorito" }
             )
         }
         else -> {

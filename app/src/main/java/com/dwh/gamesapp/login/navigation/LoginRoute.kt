@@ -97,7 +97,11 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
                 },
                 onDismiss = {
                     viewModel.hideBiometricDialog()
-                    navController.navigate(Screens.HOME_SCREEN.name)
+                    navController.navigate(Screens.HOME_SCREEN.name) {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }

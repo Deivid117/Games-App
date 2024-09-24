@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import com.dwh.gamesapp.core.presentation.navigation.NavigationScreens
 import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.utils.Constants
+import com.dwh.gamesapp.core.presentation.utils.DoubleBackPressHandler
 import com.dwh.gamesapp.favorite_games.presentation.FavoriteGamesScreen
 import com.dwh.gamesapp.favorite_games.presentation.FavoriteGamesViewModel
 
@@ -27,6 +28,8 @@ fun NavGraphBuilder.favoriteGamesGraph(navController: NavController) {
     ) {
         val viewModel = hiltViewModel<FavoriteGamesViewModel>()
         val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+        DoubleBackPressHandler()
 
         LaunchedEffect(key1 = viewModel) {
             viewModel.getAllFavoriteGames()

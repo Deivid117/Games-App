@@ -24,7 +24,7 @@ fun GameInformation(
     addToFavorites: () -> Unit,
     deleteFromFavorites: () -> Unit
 ) {
-    val iconColor = if (isMyFavoriteGame) Color.Red else MaterialTheme.colorScheme.onSurfaceVariant
+    val favoriteIconColor = if (isMyFavoriteGame) Color.Red else MaterialTheme.colorScheme.onSurfaceVariant
 
     Column(
         modifier = Modifier
@@ -42,7 +42,7 @@ fun GameInformation(
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        AddFavoritesIconButton(iconColor = iconColor) {
+        AddFavoritesIconButton(iconColor = favoriteIconColor) {
             if (isMyFavoriteGame) deleteFromFavorites()
             else addToFavorites()
         }

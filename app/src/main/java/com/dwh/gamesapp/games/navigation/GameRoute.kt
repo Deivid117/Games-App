@@ -13,6 +13,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.dwh.gamesapp.core.presentation.navigation.NavigationScreens
 import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.utils.Constants
+import com.dwh.gamesapp.core.presentation.utils.DoubleBackPressHandler
 import com.dwh.gamesapp.games.presentation.GameScreen
 import com.dwh.gamesapp.games.presentation.GameViewModel
 
@@ -29,6 +30,8 @@ fun NavGraphBuilder.gameGraph(navController: NavController) {
         val viewModel = hiltViewModel<GameViewModel>()
         val state by viewModel.uiState.collectAsStateWithLifecycle()
         val games = viewModel.pagingGames.collectAsLazyPagingItems()
+
+        DoubleBackPressHandler()
 
         LaunchedEffect(Unit) {
             viewModel.getGames()

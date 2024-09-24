@@ -16,6 +16,7 @@ import com.dwh.gamesapp.core.domain.enums.ThemeValues
 import com.dwh.gamesapp.core.presentation.navigation.NavigationScreens
 import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.utils.Constants
+import com.dwh.gamesapp.core.presentation.utils.DoubleBackPressHandler
 import com.dwh.gamesapp.profile.presentation.ProfileScreen
 import com.dwh.gamesapp.profile.presentation.ProfileViewModel
 import com.dwh.gamesapp.profile.presentation.components.LogoutDialog
@@ -35,6 +36,8 @@ fun NavGraphBuilder.profileGraph(navController: NavController) {
         )
         var themeSelected by remember { mutableIntStateOf(2) }
 
+        DoubleBackPressHandler()
+
         LaunchedEffect(state.userId) {
             viewModel.getUserId()
             viewModel.getUserInfo(state.userId)
@@ -50,7 +53,7 @@ fun NavGraphBuilder.profileGraph(navController: NavController) {
                 onAccept = {
                     viewModel.logoutUser()
                     navController.navigate(Screens.LOGIN_SCREEN.name) {
-                        popUpTo(route = Screens.PROFILE_SCREEN.name) {
+                        popUpTo(navController.graph.id) {
                             inclusive = true
                         }
                     }

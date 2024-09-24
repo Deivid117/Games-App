@@ -15,6 +15,7 @@ import androidx.navigation.compose.navigation
 import com.dwh.gamesapp.core.presentation.navigation.NavigationScreens
 import com.dwh.gamesapp.core.presentation.navigation.Screens
 import com.dwh.gamesapp.core.presentation.utils.Constants
+import com.dwh.gamesapp.core.presentation.utils.DoubleBackPressHandler
 import com.dwh.gamesapp.home.presentation.HomeScreen
 import com.dwh.gamesapp.home.presentation.HomeViewModel
 
@@ -27,6 +28,8 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
         ) {
             val viewModel = hiltViewModel<HomeViewModel>()
             val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+            DoubleBackPressHandler()
 
             LaunchedEffect(Unit) {
                 viewModel.getNextWeekGames()

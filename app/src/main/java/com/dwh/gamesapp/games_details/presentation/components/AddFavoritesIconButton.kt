@@ -1,5 +1,6 @@
 package com.dwh.gamesapp.games_details.presentation.components
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,14 +24,16 @@ fun AddFavoritesIconButton(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End
     ) {
-        IconButton(onClick = {}) {
-            Icon(
-                modifier = Modifier.clickableSingle(delay = 4000L) { onClickAction() }
-                    .size(40.dp),
-                painter = painterResource(id = R.drawable.ic_add_favorite),
-                contentDescription = "kirby add to favorites icon",
-                tint = iconColor
-            )
+        Crossfade(targetState = iconColor, label = "FavoriteIconCrossfade") { color ->
+            IconButton(onClick = {}) {
+                Icon(
+                    modifier = Modifier.clickableSingle(delay = 4000L) { onClickAction() }
+                        .size(40.dp),
+                    painter = painterResource(id = R.drawable.ic_add_favorite),
+                    contentDescription = "kirby add to favorites icon",
+                    tint = color
+                )
+            }
         }
     }
 }

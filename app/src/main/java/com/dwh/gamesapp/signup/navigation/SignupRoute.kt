@@ -100,7 +100,11 @@ fun NavGraphBuilder.registrationGraph(navController: NavController) {
         if (state.isVisibleSuccessDialog) {
             SuccessfulRegistrationDialog {
                 viewModel.handleSuccessDialog(false)
-                navController.navigate(Screens.HOME_SCREEN.name)
+                navController.navigate(Screens.HOME_SCREEN.name) {
+                    popUpTo(navController.graph.id) {
+                        inclusive = true
+                    }
+                }
             }
         }
 
