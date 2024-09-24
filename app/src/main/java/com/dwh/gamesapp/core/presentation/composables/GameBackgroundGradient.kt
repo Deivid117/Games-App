@@ -32,6 +32,7 @@ fun GameBackgroundGradient(
     paddingValues: PaddingValues = PaddingValues(0.dp),
     isRefreshing: Boolean = false,
     isVisiblePullRefreshIndicator: Boolean = true,
+    contentAlignment: Alignment = Alignment.TopStart,
     onRefresh: () -> Unit = {},
     content: @Composable() (BoxScope.() -> Unit) = {}
 ) {
@@ -47,7 +48,8 @@ fun GameBackgroundGradient(
         modifier = modifier
             .fillMaxSize()
             .pullRefresh(pullRefreshState)
-            .background(brush = brushGradientColor)
+            .background(brush = brushGradientColor),
+        contentAlignment = contentAlignment
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),

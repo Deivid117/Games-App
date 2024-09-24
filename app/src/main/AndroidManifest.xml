@@ -13,13 +13,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GameApp"
+        android:theme="@style/Theme.GameApp.Splash"
         tools:targetApi="31">
         <activity
             android:name=".main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.GameApp"
+            android:theme="@style/Theme.GameApp.Splash"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

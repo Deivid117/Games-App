@@ -13,15 +13,20 @@ val Dogica = FontFamily(
     Font(R.font.dogica, FontWeight.Normal),
     Font(R.font.dogicabold, FontWeight.Bold),
     Font(R.font.dogicapixel, FontWeight.Normal),
-    Font(R.font.dogicapixelbold, FontWeight.Bold),
+    Font(R.font.dogicapixelbold, FontWeight.Bold)
 )
 
 val SeogeTV = FontFamily(
     Font(R.font.segoe_tv_regular, FontWeight.Normal),
     Font(R.font.segoe_tv_italic, FontWeight.Normal, FontStyle.Italic),
     Font(R.font.segoe_tv_bold, FontWeight.Bold),
-    Font(R.font.segoe_tv_bold_it, FontWeight.SemiBold),
+    Font(R.font.segoe_tv_bold_it, FontWeight.SemiBold)
 )
+
+val GillSans = FontFamily(
+    Font(R.font.gill_sans_bold_italic, FontWeight.Bold, FontStyle.Italic)
+)
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     titleSmall = TextStyle(

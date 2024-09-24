@@ -49,7 +49,11 @@ fun NavGraphBuilder.profileGraph(navController: NavController) {
             LogoutDialog(
                 onAccept = {
                     viewModel.logoutUser()
-                    navController.navigate(Screens.LOGIN_SCREEN.name)
+                    navController.navigate(Screens.LOGIN_SCREEN.name) {
+                        popUpTo(route = Screens.PROFILE_SCREEN.name) {
+                            inclusive = true
+                        }
+                    }
                 },
                 onDismiss = { viewModel.handleLogoutDialog(false) })
         }

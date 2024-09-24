@@ -4,19 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.dwh.gamesapp.welcome.presentation.WelcomeScreen
 import com.dwh.gamesapp.edit_profile.navigation.editProfileGraph
 import com.dwh.gamesapp.favorite_games.navigation.favoriteGamesGraph
 import com.dwh.gamesapp.games.navigation.gameGraph
@@ -29,28 +21,20 @@ import com.dwh.gamesapp.platforms.navigation.platformGraph
 import com.dwh.gamesapp.platforms_details.navigation.platformDetailsGraph
 import com.dwh.gamesapp.profile.navigation.profileGraph
 import com.dwh.gamesapp.signup.navigation.registrationGraph
+import com.dwh.gamesapp.splash.navigation.splashGraph
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun Navigation(navController: NavController) {
     NavHost(
         navController = navController as NavHostController,
-        startDestination = NavigationScreens.Welcome.route,
+        startDestination = NavigationScreens.Splash.route,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None }
     ) {
-        composable(NavigationScreens.Welcome.route,
-            exitTransition = {
-                fadeOut(animationSpec = tween(1250))
-            },
-            enterTransition = { EnterTransition.None },
-            popEnterTransition = { EnterTransition.None },
-            popExitTransition = { ExitTransition.None }
-        ) {
-            WelcomeScreen(navController)
-        }
+        splashGraph(navController)
 
         loginGraph(navController)
 

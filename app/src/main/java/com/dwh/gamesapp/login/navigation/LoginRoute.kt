@@ -3,6 +3,8 @@ package com.dwh.gamesapp.login.navigation
 import android.content.Context
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,7 +30,10 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
     composable(
         route = NavigationScreens.Login.route,
         enterTransition = {
-            scaleIn(animationSpec = tween(1250))
+            slideIntoContainer(
+                animationSpec = tween(Constants.ANIMATION_DURATION),
+                towards = AnimatedContentTransitionScope.SlideDirection.Down,
+            )
             //zoomInFadeInEnterTransition()
 
             /*slideInHorizontally(initialOffsetX = { it },
@@ -48,18 +53,10 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
                 animationSpec = tween(Constants.ANIMATION_DURATION),
                 towards = AnimatedContentTransitionScope.SlideDirection.Right,
             )
-        }, popExitTransition = {
+        },
+        popExitTransition = {
             slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.Down)
-            //shrinkOut(animationSpec = tween(4000))
         }
-        /*popExitTransition = {
-            fadeOut(
-                animationSpec = tween(Constants.ANIMATION_DURATION)
-            ) + slideOutOfContainer(
-                animationSpec = tween(Constants.ANIMATION_DURATION),
-                towards = AnimatedContentTransitionScope.SlideDirection.Up
-            )
-        }*/
     ) {
         val viewModel = hiltViewModel<LoginViewModel>()
         val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -78,16 +75,16 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
             }
         }
 
-        LaunchedEffect(state.isBiometricPromptVisible) {
+        /*LaunchedEffect(state.isBiometricPromptVisible) {
             if (state.isBiometricPromptVisible) {
-                /*BiometricHelper.authenticateUser(
+                *//*BiometricHelper.authenticateUser(
                     context = context,
                     onSuccess = { _, encryptedToken ->
                         viewModel.loginUserWithFingerPrintToken(encryptedToken)
                     }
-                )*/
+                )*//*
             }
-        }
+        }*/
 
         if (state.isBiometricDialogVisible) {
             GameEnableBiometricDialog(

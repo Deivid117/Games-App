@@ -33,6 +33,8 @@ val dark_nav_item_background = Color(0xFFE6E1E6)
 val light_nav_bar_background = Color(0xFFEBE4EE)
 val dark_nav_bar_background = Color(0xFF343236)
 
+val name_app = Color(0xFF2e18e5)
+
 val md_theme_light_primary = Color(0xFF684FA3)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFE9DDFF)

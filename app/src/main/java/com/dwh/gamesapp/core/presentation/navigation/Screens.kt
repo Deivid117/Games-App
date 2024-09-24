@@ -1,7 +1,7 @@
 package com.dwh.gamesapp.core.presentation.navigation
 
 enum class Screens {
-    WELCOME,
+    SPLASH_SCREEN,
     LOGIN_SCREEN,
     SIGNUP_SCREEN,
     HOME_SCREEN,
@@ -17,7 +17,7 @@ enum class Screens {
 }
 
 sealed class NavigationScreens(val route: String) {
-    object Welcome : NavigationScreens(Screens.WELCOME.name)
+    object Splash : NavigationScreens(Screens.SPLASH_SCREEN.name)
     object Login : NavigationScreens(Screens.LOGIN_SCREEN.name)
     object Signup : NavigationScreens(Screens.SIGNUP_SCREEN.name)
     object Home : NavigationScreens(Screens.HOME_SCREEN.name)
