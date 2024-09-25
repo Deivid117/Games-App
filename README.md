@@ -121,7 +121,7 @@ https://rawg.io/apidocs
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/6bbcdcaf-ff00-4bf9-aaca-b429018608da" alt="Descripción de la imagen">
+  <img src="https://github.com/user-attachments/assets/468934e6-536e-4766-97a0-6dc87b77e1ac" alt="Descripción de la imagen">
 </p>
 
 <p align="center">
