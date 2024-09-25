@@ -96,7 +96,7 @@ fun HomeItemCard(
                 HorizontalDivider(
                     modifier = Modifier.fillMaxWidth(0.9f),
                     thickness = 3.dp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = Color.White
                 )
             }
         }

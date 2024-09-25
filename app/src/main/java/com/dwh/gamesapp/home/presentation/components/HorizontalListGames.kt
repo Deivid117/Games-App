@@ -78,7 +78,7 @@ fun GamesScrollBuffer(title: String) {
             .height(220.dp)
             .width(90f.dp),
         shape = RectangleShape,
-        colors = CardDefaults.cardColors(containerColor = Color.Black)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -93,7 +93,6 @@ fun GamesScrollBuffer(title: String) {
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
-                color = Color.White,
                 maxLines = 2
             )
         }
