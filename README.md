@@ -197,7 +197,9 @@ https://rawg.io/apidocs
 
 ## Video demostrativo :movie_camera:
 
-[![Watch the video](https://via.placeholder.com/150)](https://www.youtube.com/watch?v=VIDEO_ID)
+<a href="https://drive.google.com/file/d/1ev2-y-BYaefwfdCjdN_7uhFPHU8jVEYJ/view?usp=sharing">
+  <img src="https://github.com/user-attachments/assets/fc480428-e74a-44f5-99c7-c4dfc061a3e5" alt="Game app video"/>
+</a>
 
 ## Autor :man_technologist:
 
