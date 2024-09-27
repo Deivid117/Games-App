@@ -31,7 +31,7 @@ import com.dwh.gamesapp.games.domain.model.Game
 
 @Composable
 fun GameItem(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     game: Game,
     metaCriticColor: Color,
     navigateToGameDetails: () -> Unit

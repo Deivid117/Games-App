@@ -57,7 +57,8 @@ class GameRemoteMediator(
 
             val response = gameApiService.getGames(
                 page = page,
-                pageSize = state.config.pageSize
+                pageSize = state.config.pageSize,
+                search = ""
             )
 
             if (!response.isSuccessful) {

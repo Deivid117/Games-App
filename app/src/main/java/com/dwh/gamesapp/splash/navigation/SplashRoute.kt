@@ -44,7 +44,7 @@ fun NavGraphBuilder.splashGraph(navController: NavController) {
             isUserLoggedIn = state.isUserLoggedIn,
             navigateTo = {
                 navController.navigate(
-                    if (state.isUserLoggedIn) Screens.HOME_SCREEN.name
+                    if (state.isUserLoggedIn) Screens.GAME_SCREEN.name
                     else Screens.LOGIN_SCREEN.name
                 ) {
                     popUpTo(route = Screens.SPLASH_SCREEN.name) {

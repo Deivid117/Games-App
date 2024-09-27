@@ -1,7 +1,11 @@
 package com.dwh.gamesapp.core.presentation.composables
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -45,12 +49,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.R
 import com.dwh.gamesapp.core.presentation.theme.Dogica
 import com.dwh.gamesapp.core.presentation.theme.primary
 import com.dwh.gamesapp.core.presentation.theme.primary_gradient
 import com.dwh.gamesapp.core.presentation.theme.red_error
+import com.dwh.gamesapp.core.presentation.theme.secondary
 import com.dwh.gamesapp.core.presentation.theme.secondary_gradient
 import com.dwh.gamesapp.core.presentation.theme.tertiary_cursor
 import com.dwh.gamesapp.core.presentation.ui.UiText
@@ -90,8 +96,8 @@ fun GameTextField(
         start = Offset.Zero,
         end = Offset.Infinite
     )
-    val bringIntoViewRequester =  BringIntoViewRequester()
-    val  coroutineScope = rememberCoroutineScope()
+    val bringIntoViewRequester = BringIntoViewRequester()
+    val coroutineScope = rememberCoroutineScope()
     val animatedPadding by animateDpAsState(
         targetValue = if (isFocused) 10.dp else 0.dp,
         animationSpec = tween(durationMillis = 300),
@@ -118,7 +124,10 @@ fun GameTextField(
 
                 if (labelIcon != null) {
                     Icon(
-                        modifier = Modifier.size(20.dp).clip(CircleShape).clickable { onClickLabelIcon() },
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clip(CircleShape)
+                            .clickable { onClickLabelIcon() },
                         imageVector = ImageVector.vectorResource(id = labelIcon),
                         contentDescription = "information icon"
                     )
@@ -212,5 +221,106 @@ fun GameTextField(
                 }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GameSearchTextField(
+    modifier: Modifier = Modifier,
+    placeholder: String = "",
+    isExpanded: Boolean = false,
+    value: String,
+    onValueChange: (String) -> Unit,
+    leadingIcon: @Composable (() -> Unit) = {},
+    trailingIcon: @Composable (() -> Unit) = {},
+    onClickLeadingIcon: () -> Unit = {},
+    onClickTrailingIcon: () -> Unit = {},
+    enabled: Boolean = true,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+) {
+    var isFocused by remember { mutableStateOf(false) }
+    val padding by animateDpAsState(targetValue = if (isExpanded) 8.dp else 0.dp, label = "")
+    val textFieldBackgroundColor by animateColorAsState(
+        targetValue = if (isExpanded) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent, label = ""
+    )
+    val iconBackgroundColor by animateColorAsState(
+        targetValue = if (isExpanded) secondary else Color.White, label = ""
+    )
+    val bringIntoViewRequester = BringIntoViewRequester()
+    val coroutineScope = rememberCoroutineScope()
+
+    Box(
+        modifier = Modifier
+            .bringIntoViewRequester(bringIntoViewRequester)
+            .onFocusEvent { focusState ->
+                if (focusState.isFocused || focusState.hasFocus) {
+                    coroutineScope.launch {
+                        delay(250)
+                        bringIntoViewRequester.bringIntoView()
+                    }
+                }
+            }
+    ) {
+        BasicTextField(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(color = textFieldBackgroundColor, shape = CircleShape)
+                .clearFocusOnKeyboardDismiss()
+                .onFocusChanged { isFocused = it.isFocused },
+            value = value,
+            onValueChange = { onValueChange(it) },
+            textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
+            cursorBrush = SolidColor(tertiary_cursor),
+            singleLine = true,
+            enabled = enabled,
+            keyboardActions = keyboardActions,
+            keyboardOptions = keyboardOptions,
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min)
+                        .padding(padding),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .background(color = iconBackgroundColor, shape = CircleShape)
+                            .clickable { onClickLeadingIcon() }
+                            .padding(3.dp)
+                    ) { leadingIcon() }
+
+                    Box(modifier = Modifier.weight(1f)) {
+                        if (value.isBlank() && !isFocused) {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                text = placeholder,
+                                color = MaterialTheme.colorScheme.outline,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
+                        innerTextField()
+                    }
+
+                    AnimatedVisibility(
+                        visible = value.isNotEmpty(),
+                        enter = fadeIn(animationSpec = tween(300)),
+                        exit = fadeOut(animationSpec = tween(300))
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .clickable { onClickTrailingIcon() }
+                                .padding(3.dp)
+                        ) { trailingIcon() }
+                    }
+                }
+            }
+        )
     }
 }

@@ -8,18 +8,21 @@ import com.dwh.gamesapp.core.data.local.database.GameDatabase
 import com.dwh.gamesapp.games.domain.model.Game
 import com.dwh.gamesapp.games.domain.repository.GamesRepository
 import com.dwh.gamesapp.core.data.remote.api.BaseRepo
+import com.dwh.gamesapp.core.data.remote.api.GameApiService
+import com.dwh.gamesapp.core.presentation.state.DataState
 import com.dwh.gamesapp.games.data.local.database.mappers.mapToDomain
+import com.dwh.gamesapp.games.data.remote.mappers.mapToDomain
 import com.dwh.gamesapp.games.data.repository.remote_mediator.GameRemoteMediator
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class GamesRepositoryImp @Inject constructor(
     gameDatabase: GameDatabase,
-    private val gameRemoteMediator: GameRemoteMediator
+    private val gameRemoteMediator: GameRemoteMediator,
+    private val gameApiService: GameApiService
 ) : GamesRepository, BaseRepo() {
 
     private val gameDao = gameDatabase.gameDao()
-    private val favoriteGamesDao = gameDatabase.favoriteGameDao()
 
     companion object {
         const val NETWORK_PAGE_SIZE = 20
@@ -39,31 +42,12 @@ class GamesRepositoryImp @Inject constructor(
         ).flow
     }
 
-    // TODO arreglar todos estos métodos
-    /** ADD FAVORITE GAME */
-   /* override suspend fun addFavoriteGame(favoriteGame: FavoriteGame) {
-    }
-
-    override suspend fun getAllFavoritesGames(): Flow<List<FavoriteGame>> {
-        return flow {
-            val favoritGamesFromDataBase: List<FavoriteGameEntity> =
-                favoriteGamesDao.getAllFavoriteGames()
-            if (favoritGamesFromDataBase.isNotEmpty()) {
-                emit(favoritGamesFromDataBase.map { it.toDomain() })
-                Log.i("AllGames", "ROOM_RESPONSE: Obtuviste la información de la bd")
-            } else {
-                Log.i("AllGames", "ROOM_RESPONSE: La base de datos está vacía")
-                throw Exception("ERROR, no hay datos por parte de la base de datos")
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    override suspend fun isMyFavoriteGame(id: Int): Boolean {
-        val game = favoriteGamesDao.isMyFavoriteGame(id)
-        return game != null
-    }
-
-    override suspend fun removeFromFavoriteGames(id: Int) {
-        favoriteGamesDao.removeFromFavoriteGames(id)
-    }*/
+    override suspend fun searchGames(search: String): Flow<DataState<List<Game>>> =
+        safeApiCall { gameApiService.getGames(
+            page = 1,
+            pageSize = 100,
+            search = search
+        ) }.map { resultDTODataState ->
+            resultDTODataState.mapper { gameDTO -> gameDTO.results.map { it.mapToDomain() } }
+        }
 }

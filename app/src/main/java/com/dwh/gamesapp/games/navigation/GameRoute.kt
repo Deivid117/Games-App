@@ -37,11 +37,15 @@ fun NavGraphBuilder.gameGraph(navController: NavController) {
             viewModel.getGames()
         }
 
+        LaunchedEffect(state.searchText) {
+            if (state.searchText.isEmpty()) viewModel.clearValues()
+        }
+
         GameScreen(
             navController = navController,
             viewModel = viewModel,
             state = state,
-            games = games,
+            paginatedGames = games,
             navigateToGameDetails = { navController.navigate("${Screens.GAME_DETAILS_SCREEN.name}/${it}") }
         )
     }

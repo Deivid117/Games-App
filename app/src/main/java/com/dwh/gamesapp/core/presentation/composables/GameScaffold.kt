@@ -2,6 +2,8 @@ package com.dwh.gamesapp.core.presentation.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -28,6 +30,7 @@ fun GameScaffold(
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController(),
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
+    listState: LazyStaggeredGridState = rememberLazyStaggeredGridState(),
     isTopAppBarVisible: Boolean = false,
     isBottomBarVisible: Boolean = true,
     isSnackBarVisible: Boolean = false,
@@ -36,6 +39,7 @@ fun GameScaffold(
     showSnackBarDismissAction: Boolean = false,
     isRefreshing: Boolean = false,
     isVisiblePullRefreshIndicator: Boolean = true,
+    showSearchBar: Boolean = false,
     lottieAnimationSnackBar: Int = R.raw.broken_heart,
     snackBarContainerColor: Color = MaterialTheme.colorScheme.errorContainer,
     snackBarBorderColor: Color = MaterialTheme.colorScheme.error,
@@ -43,6 +47,10 @@ fun GameScaffold(
     snackBarDuration: SnackbarDuration = SnackbarDuration.Short,
     topAppBarTitle: String = "",
     snackBarMessage: String = "",
+    searchText: String = "",
+    onSearchText: (String) -> Unit = {},
+    onClickSearchGames: (String) -> Unit = {},
+    onClickClearTextField: () -> Unit = {},
     onBackClick: () -> Unit = {},
     onDismissSnackBar: () -> Unit = {},
     onRefresh: () -> Unit = {},
@@ -65,6 +73,12 @@ fun GameScaffold(
                     title = topAppBarTitle,
                     showTopAppBarColor = showTopAppBarColor,
                     scrollBehavior = scrollBehavior,
+                    showSearchBar = showSearchBar,
+                    listState = listState,
+                    searchText = searchText,
+                    onSearchText = { onSearchText(it) },
+                    onClickSearchGames = { onClickSearchGames(it) },
+                    onClickClearTextField = { onClickClearTextField() },
                     onBackClick = { onBackClick() }
                 )
             }
