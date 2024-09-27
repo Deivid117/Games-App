@@ -90,9 +90,55 @@ Elige el tema que más te guste, podrás elegir entre configurar el tema claro :
 * **ROOM**: Biblioteca de persistencia local de datos de Android basada en SQLite. Proporciona una capa de abstracción que facilita el acceso a la base de datos, integrándose de manera sencilla con coroutines y LiveData.
 * **Lottie**: Biblioteca para Android que permite reproducir animaciones de alta calidad exportadas desde After Effects en formato JSON.
 
-## Estructura del proyecto
+## Estructura del proyecto :hammer_and_wrench:
 
-## Requisitos
+El proyecto está basado en los principios de Clean Architecture y sigue el patrón MVVM (Model-View-ViewModel), lo que asegura una clara separación de responsabilidades y facilita la escalabilidad y el mantenimiento del código. Cada feature se organiza de manera modular, facilitando su desarrollo, prueba y mantenimiento.
+
+### Capas del proyecto
+
+* **Capa de Datos (Data)**: Aquí se encuentra la implementación de la lógica de persistencia y la interacción con APIs externas. Esta capa es responsable de proporcionar datos a la capa de dominio.
+  * ***Database***: Aquí se encuentran las implementaciones de los datos de origen con ROOM para el almacenamiento local.
+    * **DAO**: Es la interfaz que define los métodos de las entities para interactuar con la base de datos.
+    * **Entities**: Objetos que representan los datos tal como se reciben de la base de datos.
+    * **Mappers**: Aquí se encuentran las funciones que se encargan de transformar modelos de database en modelos de dominio.
+  * ***Remote***: Aquí se encuentran las implementaciones de los datos de origen con Retrofit para las llamadas a la API.
+    * **Mappers**: Aquí se encuentran las funciones que se encargan de transformar modelos dto en modelos de dominio.
+    * **Modelos DTO**: Objetos que representan los datos tal como se reciben de la API.
+  * ***Repositorios***: Implementan las interfaces de los repositorios definidos en la capa de dominio, y se encargan de obtener datos de diferentes fuentes (API o base de datos local).
+
+* **Capa de DI**: Es responsable de proporcionar las dependencias que las diferentes clases necesitan para funcionar, sin que estos tengan que crearlas por sí mismos. En lugar de instanciar las dependencias directamente, las clases reciben (o inyectan) sus dependencias desde fuera, lo que promueve el principio de inversión de dependencias.
+
+* **Capa de Dominio (Domain)**: Esta capa es independiente de cualquier detalle de implementación. Contiene las reglas de negocio y las entidades del sistema.
+  * ***Repositorios***: Interfaces que definen los métodos necesarios para interactuar con los datos del sistema. Estas interfaces no conocen detalles específicos de dónde provienen los datos o cómo se almacenan.
+  * ***UseCases***: Definen las acciones que la aplicación puede realizar, como autenticar un usuario, obtener una lista de juegos, etc.
+  * ***Modelos***: Representan los objetos de negocio del sistema (por ejemplo, User, Game, etc.).
+
+* **Capa de Presentación (Presentation)**: Esta capa contiene la lógica relacionada con la UI y es donde se maneja la interacción del usuario.
+
+  * ***ViewModels***: Siguiendo el patrón MVVM, los ViewModels son responsables de preparar los datos para ser mostrados en la UI y manejar las interacciones de los usuarios.
+  * ***Composables***: Esta es la capa donde se definen las interfaces de usuario utilizando Jetpack Compose. Los Composables reciben los datos del ViewModel y reaccionan a los cambios de estado.
+  * ***State***: Utiliza StateFlow o LiveData para observar cambios en los datos.
+
+* **Navegación**: Define la ruta de cada feature, así como también la forma en que navega hacia otras pantallas de acuerdo a las interacciones del usuario. Inicializa el ViewModel y los State.
+
+### Organización modular por features
+
+* **Core**: Contiene todos los archivos que se comparten entre todos los módulos o la lógica para las llamadas a la API, ROOM, inyección de dependencias, Data Store, etc.
+* **Splash**: Se encarga de mostrar las animaciones del splash screen y recuperar si el usuario ya ha iniciado sesión o no.
+* **Login**: Responsable de permitir que el usuario inicie sesión en la app, así como también de validar sus credenciales o permitirle usar biométricos si se encuentran disponibles.
+* **Signup**: Aquí el usuario se da de alta en la app, valida los datos ingresados e igualmente permite activar los datos biométricos.
+* **Home**: La entrada principal a la aplicación, en ella podrá encontrar los juegos más recientes o mejores calificados, así como también acceder a la información de las plataformas o géneros.
+* **Platforms**: Se encarga de mostrar un listado de plataformas, permitiendo navegar a los detalles de cada una.
+  * **Platforms_Details**: Proporciona información detallada acerca de una plataforma en específico.
+* **Genres**: Se encarga de mostrar un listado de géneros, permitiendo navegar a los detalles de cada uno.
+  * **Genres_Details**: Proporciona información detallada acerca de un género en específico.
+* **Games**: Se encarga de mostrar un listado de juegos, permitiendo navegar a los detalles de cada uno.
+  * **Games_Details**: Proporciona información detallada acerca de un juego en específico, permitiendo incluso marcarlo como favorito.
+* **Favorite_Games**: Se encarga de mostrar el listado de juegos que han sido marcados como favoritos por el usuario.
+* **Profile**: Muestra la información de la cuenta del usuario. Desde aquí es posible cerrar sesión.
+  * **Edit_Profile**: Permite al usuario editar su información y validar los datos.
+
+## Requisitos :bookmark_tabs:
 
 1. Android Studio Jellyfish | 2023.3.1 o superior
 2. Gradle Version 7.5
@@ -100,7 +146,7 @@ Elige el tema que más te guste, podrás elegir entre configurar el tema claro :
 4. Android API 24 o superior (Android 7+)
 5. API Key
 
-## Instalación
+## Instalación :arrow_down:
 
 1. Clona el repositorio:
    ```
@@ -113,7 +159,7 @@ https://rawg.io/apidocs
 
 4. Ejecuta el proyecto :rocket:
 
-## Capturas
+## Capturas :camera:
 
 ### Modo Claro :sun_with_face:
 <p align="center">
@@ -149,15 +195,16 @@ https://rawg.io/apidocs
   <img src="https://github.com/user-attachments/assets/1764f1af-50ca-456b-9c4f-e5de87dc7d92" alt="Descripción de la imagen">
 </p>
 
-## Video demostrativo
+## Video demostrativo :movie_camera:
 
-## Licencia
-
-![License](https://img.shields.io/badge/License-MIT-green)
+<a href="https://drive.google.com/file/d/1ev2-y-BYaefwfdCjdN_7uhFPHU8jVEYJ/view?usp=sharing">
+  <img src="https://github.com/user-attachments/assets/fc480428-e74a-44f5-99c7-c4dfc061a3e5" alt="Game app video"/>
+</a>
 
 ## Autor :man_technologist:
 
-*David Huerta* :copyright:	2024<br>
+*David Huerta* :copyright:	2024
+
 email :email:: deivid.was.here117@gmail.com<br>
 linkedin :man_office_worker:: [Perfil LinkedIn](https://www.linkedin.com/in/david-de-jes%C3%BAs-ju%C3%A1rez-huerta-159695241/)
 
