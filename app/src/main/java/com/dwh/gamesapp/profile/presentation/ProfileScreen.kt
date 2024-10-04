@@ -52,7 +52,7 @@ private fun ProfileView(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
-            .padding(bottom = 30.dp)
+            .padding(bottom = 50.dp)
     ) {
         ProfileUserAvatar(state.user.profileAvatarId) { viewModel.setUserProfileAvatar(it) }
 
@@ -62,7 +62,7 @@ private fun ProfileView(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 15.dp, vertical = 20.dp)
-                    .padding(bottom = 20.dp),
+                    .navigationBarsPadding(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {

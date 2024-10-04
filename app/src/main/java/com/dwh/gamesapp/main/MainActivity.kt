@@ -33,8 +33,6 @@ class MainActivity : FragmentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
-        //WindowCompat.setDecorFitsSystemWindows(window, false)
-
         enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT))
 
         installSplashScreen().setKeepOnScreenCondition {
@@ -42,6 +40,8 @@ class MainActivity : FragmentActivity() {
         }
 
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
             val state by viewModel.uiState.collectAsStateWithLifecycle()

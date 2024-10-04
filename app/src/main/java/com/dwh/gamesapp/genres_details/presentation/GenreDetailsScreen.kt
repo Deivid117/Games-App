@@ -68,6 +68,7 @@ private fun GenreDetailsViewWithParallaxEffect(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background.copy(.8f))
             .statusBarsPadding()
+            .navigationBarsPadding()
     ) {
         GameAppBarParallaxEffect(
             scrollState = scrollState,

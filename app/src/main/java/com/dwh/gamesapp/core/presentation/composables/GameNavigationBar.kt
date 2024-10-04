@@ -45,7 +45,8 @@ fun GameNavigationBar(navController: NavController) {
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(horizontal = 5.dp)
-            .padding(bottom = 5.dp),
+            .padding(bottom = 5.dp)
+            .navigationBarsPadding(),
         shape = RoundedCornerShape(50.dp),
         colors = CardDefaults.cardColors(containerColor = navigationBarBackgroundColor)
     ) {

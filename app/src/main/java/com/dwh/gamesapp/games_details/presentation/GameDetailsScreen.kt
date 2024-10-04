@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dwh.gamesapp.games_details.domain.model.GameDetails
 import com.dwh.gamesapp.core.presentation.composables.GameBackgroundGradient
@@ -57,7 +56,7 @@ fun GameDetailsScreen(
                     )
                 }
                 else -> {
-                    GameDetailsView(
+                    GameDetailsViewWithParallaxEffect(
                         viewModel = viewModel,
                         gameDetails = state.gameDetails,
                         isMyFavoriteGame = state.isMyFavoriteGame,
@@ -71,7 +70,7 @@ fun GameDetailsScreen(
 }
 
 @Composable
-private fun GameDetailsView(
+private fun GameDetailsViewWithParallaxEffect(
     viewModel: GameDetailsViewModel,
     gameDetails: GameDetails?,
     isMyFavoriteGame: Boolean,
@@ -86,6 +85,7 @@ private fun GameDetailsView(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background.copy(.8f))
             .statusBarsPadding()
+            .navigationBarsPadding()
     ) {
         GameAppBarParallaxEffect(
             scrollState = scrollState,

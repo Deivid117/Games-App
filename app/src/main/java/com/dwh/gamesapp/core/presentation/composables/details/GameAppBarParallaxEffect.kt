@@ -83,11 +83,11 @@ fun GameAppBarParallaxEffect(
         ) {
             Icon(
                 modifier = Modifier
+                    .clip(CircleShape)
                     .clickable { onNavigateBack() }
                     .background(MaterialTheme.colorScheme.background, CircleShape)
                     .padding(5.dp)
-                    .size(24.dp)
-                    .clip(CircleShape),
+                    .size(24.dp),
                 painter = painterResource(id = R.drawable.ic_back),
                 contentDescription = "left back icon",
                 tint = MaterialTheme.colorScheme.onBackground

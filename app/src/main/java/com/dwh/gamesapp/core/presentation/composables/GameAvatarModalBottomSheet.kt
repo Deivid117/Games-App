@@ -31,7 +31,7 @@ fun GameAvatarModalBottomSheet(
     var selectedAvatarId by remember { mutableLongStateOf(0L) }
     var selectedAvatarImage by remember { mutableIntStateOf(R.drawable.user) }
     val scope = rememberCoroutineScope()
-    val bottomSheetState = rememberModalBottomSheetState()
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val avatars = listOf(
         Avatars.Avatar1,
         Avatars.Avatar2,

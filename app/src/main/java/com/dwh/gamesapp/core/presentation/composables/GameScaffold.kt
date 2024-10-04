@@ -2,6 +2,8 @@ package com.dwh.gamesapp.core.presentation.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -110,7 +112,7 @@ fun GameScaffold(
                     onRefresh = onRefresh,
                     content = content
                 )
-            else Box { content() }
+            else Box(modifier = Modifier.fillMaxSize()/*.padding(innerPadding)*/) { content() }
         }
     )
 }
